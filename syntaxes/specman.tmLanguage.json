@@ -2,9 +2,34 @@
   "name": "specman",
   "scopeName": "source.specman",
   "patterns": [
+    {
+      "match": "\\b(package)\\s+(.*)(;)",
+      "captures": {
+        "1": {"name": "entity.name.namespace.specman" },
+        "2": {"name": "entity.name.specman" },
+        "3": {"name": "punctuation.terminator.specman" }
+      }
+    },
+    { "include": "#imports" },
+    { "include": "#structs" },
+    { "include": "#macros" },
+    { "include": "#templates" },
+    { "include": "#code" },
     { "include": "#keywords" }
   ],
   "repository": {
+    "imports": {
+      "match": "\\b(import)\\s+(.*)(;)",
+      "captures": {
+        "1": {"name": "keyword.control.import.specman" },
+        "2": {"name": "entity.name.filename.specman" },
+        "3": {"name": "punctuation.terminator.specman" }
+      }
+    },
+    "structs": {},
+    "macros": {},
+    "templates": {},
+    "code": {},
     "keywords": {      
       "patterns": [
         {
