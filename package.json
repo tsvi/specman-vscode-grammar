@@ -29,7 +29,7 @@
             {
                 "language": "specman",
                 "scopeName": "source.specman",
-                "path": "./syntaxes/specman.tmGrammar.json"
+                "path": "./syntaxes/specman.tmLanguage.json"
             }
         ]
     },
