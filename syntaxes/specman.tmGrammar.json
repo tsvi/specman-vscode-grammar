@@ -1,0 +1,16 @@
+{
+  "name": "Specman",
+  "file_extensions": [
+    "e"
+  ],
+  "scope": "text.specman",
+  "contexts": {
+    "main": [
+      {
+        "match": "^(<')",
+        "scope": "punctuation.section.comment.begin.specman",
+        "push": "specmanCode.tmGrammar.json"
+      }
+    ]
+  }
+}

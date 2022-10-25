@@ -1,0 +1,40 @@
+{
+    "name": "specman",
+    "displayName": "Specman Syntax Highlighter",
+    "description": "Syntax highlighting for Specman (e) verification language",
+    "version": "0.1.0",
+    "publisher": "",
+    "engines": {
+        "vscode": "^1.13.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "specman",
+                "aliases": [
+                    "Specman",
+                    "Specman (e)",
+                    "specman"
+                ],
+                "extensions": [
+                    ".e"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "specman",
+                "scopeName": "source.specman",
+                "path": "./syntaxes/specman.tmGrammar.json"
+            }
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Specman-Language/vscode-grammar.git"
+    }
+}
