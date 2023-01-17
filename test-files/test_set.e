@@ -1,6 +1,9 @@
+// SYNTAX TEST "source.specman" "Sets and Enums"
+
 Sets and Enums
 <'
 type c_t: [FOO, BAR, LOO, HEDGE, BROKEN];
+// <--- keyword.declaration.specman
 
 struct connections_s {
    !a: set;
