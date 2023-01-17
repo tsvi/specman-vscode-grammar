@@ -2,6 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Generate language file",
+      "group": "build",
+      "type": "shell",
+      "command": "./build.py"
+    },
+    {
       "label": "Run tests",
       "type": "shell",
       "command": "vscode-tmgrammar-test -c 'test-files/test*.e'",
@@ -11,7 +17,8 @@
         "panel": "new"
       },
       "problemMatcher": {
-        "fileLocation": "relative",
+        "owner": "tmLanguage.json",
+        "fileLocation": "autoDetect",
         "pattern": [
           {
             "regexp": "^(ERROR)\\s([^:]+):(\\d+):(\\d+):(\\d+)\\s(.*)$",

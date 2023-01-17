@@ -1,0 +1,55 @@
+# This file holds variables to generate specman.tmLanguage.json
+
+scalar_types: int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric
+built_in_types: ({{scalar_types}}|string|real|set|untyped|rdv_semaphore|semaphore|locker|external_pointer|any_buffer_port|any_unit|any_struct|any_sequence|objection_kind)
+built_in_constants: TRUE|FALSE|NULL|UNDEF|MAX_INT|MIN_INT|MAX_LONGINT|MIN_LONGINT|MAX_UINT|MAX_LONGUINT|SN_M_E|SN_M_LOG2E|SN_M_LOG10E|SN_M_LN2|SN_M_LN10|SN_M_PI|SN_M_TWO_PI|SN_M_PI_2|SN_M_PI_4|SN_M_1_PI|SN_M_2_PI|SN_M_2_SQRTPI|SN_M_SQRT2|SN_M_SQRT1_2
+
+# Tags in comment.line that will be highlighted
+comment_tags: 'TODO:?|DEBUG:?|FIXME:?|BAUSTELLE:?|TBD:?'
+
+# Pre-defined functions
+string_functions: hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper
+arithmetic_functions: abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up
+real_number_functions: dist_uniform|dist_normal|rdist_uniform|rdist_normal
+bitwise_functions: bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor
+output_functions: messagef|message|appendf|append|dut_errorf|dut_error|out|outf
+unit_functions: get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit
+conversion_functions: pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale
+misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range
+built_in_functions: assert|warning|error|fatal|{{string_functions}}|{{arithmetic_functions}}|{{bitwise_functions}}|{{real_number_functions}}|{{output_functions}}|{{unit_functions}}|{{conversion_functions}}|{{misc_functions}}
+
+# Pre-defined functions that dont need parentheses
+built_in_functions_optional_parens: assert|print|start
+
+# Functions called in member-function-style
+list_pseudo_methods: add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists
+set_pseudo_methods: union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above
+any_struct_member_functions: check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun
+any_unit_member_functions: agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style
+built_in_member_functions: pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string
+
+# The following should include all keywords which are invalid as a user defined name
+# Note; the keywords should be enclosed with \b but this is not supported in negative-look-behind in ST3 Build < 3200
+built_in_variables: it|me|index|result
+invalid_names: keep| if| if|static|const|{{struct_access}}
+
+# Re-usable patterns
+singletons: sys|global|utils|message_manager|tf_domain_manager|rf_manager
+struct_access: package|protected|private
+concurrency_actions: first\s+of|all\s+of
+scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
+scalar_width_modifier: \\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\)
+# Valid name that can also be a hierarchical reference
+valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?
+# Simple valid identifier
+valid_id: ([a-zA-Z](?:[a-zA-Z0-9_]+)?
+# Valid identifier that includes ' for things like TRUE'has_checker; no negative look-ahead because we use it in repetition
+valid_determinant: (?:[a-zA-Z](?:[a-zA-Z0-9_\']+)?)
+# 'list of' or 'list(key: field) of' and multi-dimensional lists ('list of list of ...'); note: includes trailing white-space
+valid_list_decl: (?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+)
+valid_type: (?:{{valid_list_decl}})*(?:{{valid_id}}\\s*)(?=(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?)
+valid_type_no_modifier: (?:{{valid_list_decl}})*(?:{{valid_id}}\s*)
+# A compound type or list of compound type as used in a field declaration; covers when-inheritance;
+valid_struct_type: (?:{{valid_list_decl}})*(?:\b{{valid_determinant}}\s+)*?({{valid_determinant}})
+valid_scalar_type: (?:{{valid_list_decl}})*\b({{scalar_types}})(?=(?:{{scalar_range_modifier}})?\s*(?:{{scalar_width_modifier}})?)
+list_length_expr: (?:\[\s*[a-zA-Z0-9_]+\s*\]\s*)+

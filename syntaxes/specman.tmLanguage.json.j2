@@ -1,0 +1,19 @@
+{
+  "name": "specman",
+  "scopeName": "source.specman",
+  "patterns": [
+    { "include": "#scalar-type-definition"}
+  ],
+  "repository": {
+    "scalar-type-definition" : {
+      "match": "\b(type|extend)\b\\s+{{valid_id}}\\s*(:)\\s*{{valid_type}}(\\s*;)?",
+      "captures": {
+        "1": {"name": "keyword.declaration.specman"},
+        "2": {"name": "storage.type.specman"},
+        "3": {"name": "punctuation.separator.type.specman"},
+        "4": {"name": "storage.type.specman"},
+        "5": {"name": "punctuation.terminator.specman"}
+      }
+    }
+  }
+}
