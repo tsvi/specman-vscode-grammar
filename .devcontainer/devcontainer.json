@@ -1,0 +1,14 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+{
+	"name": "Grammar development",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {}
+	},
+
+	"postCreateCommand": "bash -i -c 'nvm install --lts && npm install -g vscode-tmgrammar-test'",
+    "settings": {
+		"terminal.integrated.defaultProfile.linux": "bash"
+    }
+}

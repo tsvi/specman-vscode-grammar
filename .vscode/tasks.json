@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run tests",
+      "type": "shell",
+      "command": "vscode-tmgrammar-test -c 'test-files/test*.e'",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": {
+        "fileLocation": "relative",
+        "pattern": [
+          {
+            "regexp": "^(ERROR)\\s([^:]+):(\\d+):(\\d+):(\\d+)\\s(.*)$",
+            "severity": 1,
+            "file": 2,
+            "line": 3,
+            "column": 4,
+            "endColumn": 5,
+            "message": 6
+          }
+        ]
+      }
+    }
+  ]
+}
