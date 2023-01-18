@@ -10,7 +10,7 @@
     {
       "label": "Run tests",
       "type": "shell",
-      "command": "vscode-tmgrammar-test -c 'test-files/test*.e'",
+      "command": "vscode-tmgrammar-test -c 'tests/test*.e'",
       "group": "test",
       "presentation": {
         "reveal": "always",
