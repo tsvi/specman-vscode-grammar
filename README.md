@@ -9,11 +9,11 @@ This code is currently under development. Feel free to contribute.
 
 The easiest way to do that is by using VS Code with devcontainers.
 Otherwise, please check that you have the following tools:
-    - node
-    - python3
-    - vscode-grammar-test (`npm install -g vscode-grammar-test`)
-    - jinja-cli (`pip install jinja-cli`)
-    - pre-commit (`pip install pre-commit`)
+- node
+- python3
+- vscode-grammar-test (`npm install -g vscode-grammar-test`)
+- jinja-cli (`pip install jinja-cli`)
+- pre-commit (`pip install pre-commit`)
 
 To update the language edit the `specman.tmLanguage.json.j2`/`variables.yaml` files.
 
