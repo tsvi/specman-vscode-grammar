@@ -2,9 +2,31 @@
   "name": "specman",
   "scopeName": "source.specman",
   "patterns": [
-    { "include": "#scalar-type-definition"}
+    {"include": "#body_declaration" },
+    {"include": "#out_of_body" } 
   ],
   "repository": {
+    "body_declaration": {
+      "patterns": [
+        {
+          "begin": "<\\'",
+          "beginCaptures": {
+            "0": { "name": "punctuation.section.begin.body.specman" }
+          },
+          "end": "\\'>",
+          "endCaptures": {
+            "0": { "name": "punctuation.section.end.body.specman" }
+          },
+          "patterns": [
+            { "include": "#scalar-type-definition" }
+          ]
+        }
+      ]
+    },
+    "out_of_body":{
+      "name": "comment.block",
+      "match": ".*"
+    },
     "scalar-type-definition" : {
       "patterns": [
         {

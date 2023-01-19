@@ -1,8 +1,10 @@
-// SYNTAX TEST "source.specman" "test_set.e"
 // SYNTAX TEST "source.specman" "Sets and Enums"
 
 Sets and Enums
+// <------------ comment.block
 <'
+// <- punctuation.section.begin.body.specman
+
 type c_t: [FOO, BAR, LOO, HEDGE, BROKEN];
 // <--- keyword.declaration.specman
 
