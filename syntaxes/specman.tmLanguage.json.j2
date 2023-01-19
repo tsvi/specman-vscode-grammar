@@ -39,12 +39,41 @@
           }
         },
         {
-          "match": "\\b(type|extend)\\b\\s+{{valid_id}}\\s*(:)\\s*(\\[\\s*)",
-          "captures": {
+          "contentName": "meta.type.enum.specman",
+          "begin": "\\b(type|extend)\\b\\s+{{valid_id}}\\s*(:)\\s*(\\[\\s*)",
+          "beginCaptures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "storage.type.enum.specman"},
             "3": {"name": "punctuation.separator.type.specman"},
             "4": {"name": "punctuation.brackets.begin.specman"}
+          },
+          "patterns": [
+            { "include": "#enum-values-declaration"}
+          ],
+          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(\\s*;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.brackets.end.specman"},
+            "2": {"name": "meta.width-modifier.specman"},
+            "3": {"name": "keyword.operator.width-modifier.specman"},
+            "4": {"name": "punctuation.terminator.specman"}
+          }
+        }
+      ]
+    },
+    "enum-values-declaration": {
+      "patterns": [
+        {
+          "match": "(\\s*,)",
+          "captures": {
+            "1": {"name": "punctuation.separator.specman"}
+          }
+        },
+        {
+          "match": "(\\s*,)?(?:\\s*{{valid_id}}\\s*)(=\\s*)?",
+          "captures": {
+            "1": {"name": "punctuation.separator.specman"},
+            "2": {"name": "constant.other.enum.specman"},
+            "3": {"name": "keyword.operator.assignment.specman"}
           }
         }
       ]

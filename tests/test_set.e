@@ -7,6 +7,15 @@ Sets and Enums
 
 type c_t: [FOO, BAR, LOO, HEDGE, BROKEN];
 // <--- keyword.declaration.specman
+//   ^^^ storage.type.enum.specman
+//      ^ punctuation.separator.type.specman
+//        ^ punctuation.brackets.begin.specman
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.enum.specman
+//         ^^^  ^^^  ^^^  ^^^^^  ^^^^^^ constant.other.enum.specman
+//            ^    ^    ^      ^ punctuation.separator.specman
+//                                     ^ punctuation.brackets.end.specman
+//                                      ^ punctuation.terminator.specman
+
 
 struct connections_s {
    !a: set;
