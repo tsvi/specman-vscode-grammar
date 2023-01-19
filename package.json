@@ -3,7 +3,7 @@
     "displayName": "Specman Syntax Highlighter",
     "description": "Syntax highlighting for Specman (e) verification language",
     "version": "0.1.0",
-    "publisher": "Tsvi Mostovicz",
+    "publisher": "TsviMostovicz",
     "engines": {
         "vscode": "^1.13.0"
     },
