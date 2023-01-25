@@ -18,6 +18,7 @@
             "0": { "name": "punctuation.section.end.body.specman" }
           },
           "patterns": [
+            { "include": "#package" },
             { "include": "#comment" },
             { "include": "#scalar-type-definition" }
           ]
@@ -27,6 +28,14 @@
     "out_of_body": {
       "name": "comment.block",
       "match": ".*"
+    },
+    "package": {
+      "match": "\\b(package)\\s+(.*)(;)",
+      "captures": {
+        "1": {"name": "entity.name.namespace.specman"},
+        "2": {"name": "entity.name.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
+      }
     },
     "comment": {
       "name": "punctuation.section.comment.specman",

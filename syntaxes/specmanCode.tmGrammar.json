@@ -4,14 +4,7 @@
   "hidden": true,
   "contexts": {
     "main": [
-      {
-        "match": "\\b(package)\\s+(.*)(;)",
-        "captures": {
-          "1": "entity.name.namespace.specman",
-          "2": "entity.name.specman",
-          "3": "punctuation.terminator.specman"
-        }
-      },
+
       {
         "include": "imports"
       },

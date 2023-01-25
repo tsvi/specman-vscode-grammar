@@ -3,6 +3,9 @@
 <'
 
 package singleagent;
+// <------ entity.name.namespace.specman
+//      ^^^^^^^^^^^ entity.name.specman
+//                 ^ punctuation.terminator.specman
 
 package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'exp>:uint) {
   size: uint;
