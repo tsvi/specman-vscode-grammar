@@ -5,9 +5,6 @@
   "contexts": {
     "main": [
       {
-        "include": "structs"
-      },
-      {
         "include": "macros"
       },
       {
@@ -836,111 +833,10 @@
         }
       }
     ],
-    "structs": [
-      {
-        "match": "(?=^\\s*(?:struct|unit)\\s+{{valid_id}}(?:\\s+(like)\\s+{{valid_id}})?\\s*(?:of\\s+\\(\\s*{{valid_id}}\\s*\\))?\\s*(?:implementing\\s+{{valid_id}}(?:\\s*(,)\\s*{{valid_id}})*)?\\s*\\{)",
-        "push": "struct-declaration"
-      },
-      {
-        "match": "(?=^\\s*extend(?:\\s+({{valid_determinant}}))+\\s+(?:{{valid_id}}\\s*)?\\{)",
-        "push": "struct-declaration"
-      },
-      {
-        "match": "(?=^(?:package\\s*)?interface\\s+{{valid_id}}(?:\\s+like\\s+)?)",
-        "push": "struct-declaration"
-      }
-    ],
     "when-inheritance": [
       {
         "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",
         "push": "struct-declaration"
-      }
-    ],
-    "struct-declaration": [
-      {
-        "meta_scope": "meta.class.declaration.specman"
-      },
-      {
-        "match": "\\b(struct|unit)\\s+{{valid_id}}(?:\\s+(like)\\s+{{valid_id}})?\\s*(?:of\\s+\\(\\s*{{valid_id}}\\s*\\))?\\s*(?:(implementing)\\s+{{valid_id}}(?:\\s*,\\s*{{valid_id}})*)?\\s*(\\{)",
-        "captures": {
-          "1": "keyword.declaration.class.specman",
-          "2": "entity.name.class.specman",
-          "3": "keyword.declaration.like.specman",
-          "4": "entity.other.inherited-class.specman",
-          "5": "entity.other.template.specman",
-          "6": "keyword.declaration.interface.specman",
-          "7": "storage.type.interface.specman",
-          "8": "storage.type.interface.specman",
-          "9": "punctuation.section.class.begin.specman"
-        },
-        "set": [
-          {
-            "meta_content_scope": "meta.class.body.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)",
-            "pop": true,
-            "captures": {
-              "1": "punctuation.section.class.end.specman",
-              "2": "punctuation.terminator.specman"
-            }
-          },
-          {
-            "include": "code"
-          }
-        ]
-      },
-      {
-        "match": "(\\bextend|\\bwhen)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
-        "captures": {
-          "1": "keyword.declaration.class.specman",
-          "2": "entity.name.class.specman",
-          "3": "punctuation.section.class.begin.specman"
-        },
-        "set": [
-          {
-            "meta_content_scope": "meta.class.body.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)",
-            "pop": true,
-            "captures": {
-              "1": "punctuation.section.class.end.specman",
-              "2": "punctuation.terminator.specman"
-            }
-          },
-          {
-            "include": "code"
-          }
-        ]
-      },
-      {
-        "match": "(\\bpackage\\s*)?(\\binterface)(?:\\s+{{valid_id}})(?:\\s+(like)\\s+{{valid_id}}(?:\\s*,\\s*{{valid_id}})*)?\\s*(\\{)",
-        "captures": {
-          "1": "entity.name.namespace.specman",
-          "2": "keyword.declaration.interface.specman",
-          "3": "entity.name.interface.specman",
-          "4": "keyword.declaration.like.specman",
-          "5": "storage.type.interface.specman",
-          "6": "storage.type.interface.specman",
-          "7": "punctuation.section.interface.begin.specman"
-        },
-        "set": [
-          {
-            "meta_content_scope": "meta.interface.body.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)",
-            "pop": true,
-            "captures": {
-              "1": "punctuation.section.interface.end.specman",
-              "2": "punctuation.terminator.specman"
-            }
-          },
-          {
-            "include": "code"
-          }
-        ]
       }
     ],
     "templates": [
