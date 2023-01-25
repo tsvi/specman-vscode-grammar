@@ -823,16 +823,6 @@
         }
       }
     ],
-    "macros": [
-      {
-        "match": "^\\s*(\\bdefine\\b)\\s+(?:{{valid_name}}\\b)",
-        "scope": "meta.preprocessor.macro.specman",
-        "captures": {
-          "1": "keyword.control.define.specman",
-          "2": "constant.other.specman"
-        }
-      }
-    ],
     "when-inheritance": [
       {
         "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",

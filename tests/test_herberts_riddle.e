@@ -5,6 +5,8 @@ Axial sum of numbers must be the same for all axis.
 <'
 
 define N 16;
+// <----- keyword.control.define.specman
+//     ^ constant.other.specman
 
 define j0 (ring_turns[0]+j) % N;
 define j1 (ring_turns[1]+j) % N;

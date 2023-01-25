@@ -39,7 +39,7 @@ struct_access: package|protected|private
 concurrency_actions: first\s+of|all\s+of
 scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
 # Valid name that can also be a hierarchical reference
-valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?
+valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)
 # Simple valid identifier
 valid_id: ([a-zA-Z](?:[a-zA-Z0-9_]+)?)
 # Valid identifier that includes ' for things like TRUE'has_checker; no negative look-ahead because we use it in repetition
