@@ -1,24 +1,5 @@
 {
-  "name": "SpecmanCode",
-  "scope": "source.specman",
-  "hidden": true,
   "contexts": {
-    "main": [
-      {
-        "include": "macros"
-      },
-      {
-        "include": "templates"
-      },
-      {
-        "include": "code"
-      }
-    ],
-    "prototype": [
-      {
-        "include": "comments"
-      }
-    ],
     "code": [
       {
         "meta_content_scope": "meta.class.body.specman"
@@ -240,47 +221,6 @@
       },
       {
         "include": "stray-brackets"
-      }
-    ],
-    "comments": [
-      {
-        "match": "(//|--)",
-        "scope": "punctuation.section.comment.specman",
-        "push": "comment-contents"
-      },
-      {
-        "match": "(^'>)",
-        "scope": "punctuation.section.comment.begin.specman",
-        "push": "comment-multiline"
-      }
-    ],
-    "comment-contents": [
-      {
-        "meta_scope": "comment.line.specman"
-      },
-      {
-        "meta_include_prototype": false
-      },
-      {
-        "match": "\\b{{comment_tags}}",
-        "scope": "invalid"
-      },
-      {
-        "match": "\\n",
-        "pop": true
-      }
-    ],
-    "comment-multiline": [
-      {
-        "meta_content_scope": "text.specman"
-      },
-      {
-        "meta_include_prototype": false
-      },
-      {
-        "match": "(^<')",
-        "scope": "punctuation.section.comment.end.specman",
-        "pop": true
       }
     ],
     "string": [
