@@ -3,8 +3,15 @@
 
 
 import mod2.e;
+// <----- keyword.control.import.specman
+//     ^^^^^^ entity.name.filename.specman
+//           ^ punctuation.terminator.specman
+
 #ifdef optional_syntax then {
    import mod1.e;
+// ^^^^^^ keyword.control.import.specman
+//        ^^^^^^ entity.name.filename.specman
+//              ^ punctuation.terminator.specman
 };
 
 extend sys {

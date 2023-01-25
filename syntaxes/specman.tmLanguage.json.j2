@@ -20,6 +20,7 @@
           "patterns": [
             { "include": "#package" },
             { "include": "#comment" },
+            { "include": "#imports" },
             { "include": "#scalar-type-definition" }
           ]
         }
@@ -40,6 +41,14 @@
     "comment": {
       "name": "punctuation.section.comment.specman",
       "match": "(//|--)"
+    },
+    "imports": {
+      "match": "\\b(import)\\s+(.*)(;)",
+      "captures": {
+        "1": {"name": "keyword.control.import.specman"},
+        "2": {"name": "entity.name.filename.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
+      }
     },
     "scalar-type-definition": {
       "patterns": [

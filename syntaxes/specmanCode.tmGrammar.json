@@ -4,10 +4,6 @@
   "hidden": true,
   "contexts": {
     "main": [
-
-      {
-        "include": "imports"
-      },
       {
         "include": "structs"
       },
@@ -117,16 +113,6 @@
       },
       {
         "include": "built-in-function-calls"
-      }
-    ],
-    "imports": [
-      {
-        "match": "\\b(import)\\s+(.*)(;)",
-        "captures": {
-          "1": "keyword.control.import.specman",
-          "2": "entity.name.filename.specman",
-          "3": "punctuation.terminator.specman"
-        }
       }
     ],
     "stray-brackets": [

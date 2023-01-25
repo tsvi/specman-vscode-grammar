@@ -2,6 +2,9 @@
 <'
 
 import if_to_ternary;
+// <----- keyword.control.import.specman
+//     ^^^^^^^^^^^^^ entity.name.filename.specman
+//                  ^ punctuation.terminator.specman
 
 extend sys {
     number : uint;
