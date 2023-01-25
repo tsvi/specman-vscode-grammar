@@ -39,8 +39,11 @@
       }
     },
     "comment": {
-      "name": "punctuation.section.comment.specman",
-      "match": "(//|--)"
+      "match": "(//|--)(.*)",
+      "captures": {
+        "1": {"name": "punctuation.section.comment.specman"},
+        "2": {"name": "comment.block"}
+      }
     },
     "imports": {
       "match": "\\b(import)\\s+(.*)(;)",
