@@ -769,28 +769,6 @@
         "push": "struct-declaration"
       }
     ],
-    "templates": [
-      {
-        "match": "(?=^\\s*(?:package\\s+)?template\\s+(?:extend\\s+)?\\b(?:struct|unit|interface|numeric_type)\\b)",
-        "push": "template-declaration"
-      }
-    ],
-    "template-declaration": [
-      {
-        "meta_scope": "meta.class.declaration.template.specman"
-      },
-      {
-        "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:{{valid_id}}\\s+)\\bof\\b\\s+",
-        "captures": {
-          "1": "entity.name.namespace.specman",
-          "2": "keyword.declaration.template.specman",
-          "3": "keyword.declaration.specman",
-          "4": "keyword.declaration.class.specman",
-          "5": "entity.name.class.template.specman"
-        },
-        "pop": true
-      }
-    ],
     "template-params": [
       {
         "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",

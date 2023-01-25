@@ -1,7 +1,7 @@
 // SYNTAX TEST "source.specman" "Sets and Enums"
 
 Sets and Enums
-// <------------ comment.block
+// <------------ comment.block.specman
 <'
 // <- punctuation.section.begin.body.specman
 

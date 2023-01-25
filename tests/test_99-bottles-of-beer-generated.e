@@ -11,6 +11,7 @@ for each in bla {
 // 99 Bottles of beer
 // <- punctuation.section.comment.specman
 // By Thorsten Dworzak
+// ^^^^^^^^^^^^^^^^^^^ comment.line.specman
 
 extend sys  {
    lyrics: list of string;

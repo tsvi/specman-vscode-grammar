@@ -8,6 +8,10 @@ package singleagent;
 //                 ^ punctuation.terminator.specman
 
 package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'exp>:uint) {
+// <------ entity.name.namespace.specman
+//      ^^^^^^^^ keyword.declaration.template.specman
+//               ^^^^^^ keyword.declaration.class.specman
+..                      ^^^^^^ entity.name.class.template.specman
   size: uint;
   data1: <data'type>(bits: <data_size'exp>);
   data2: <data'type>(bits: <data_size'exp>);

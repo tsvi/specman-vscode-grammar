@@ -23,13 +23,14 @@
             { "include": "#imports" },
             { "include": "#structs" },            
             { "include": "#macros" },
-            { "include": "#scalar-type-definition" }
+            { "include": "#templates"},
+            { "include": "#code"}
           ]
         }
       ]
     },
     "out_of_body": {
-      "name": "comment.block",
+      "name": "comment.block.specman",
       "match": ".*"
     },
     "package": {
@@ -44,7 +45,7 @@
       "match": "(//|--)(.*)",
       "captures": {
         "1": {"name": "punctuation.section.comment.specman"},
-        "2": {"name": "comment.block"}
+        "2": {"name": "comment.line.specman"}
       }
     },
     "imports": {
@@ -123,6 +124,17 @@
       "captures": {
         "1": {"name": "keyword.control.define.specman"},
         "2": {"name": "constant.other.specman"}
+      }
+    },
+    "templates": {
+      "name": "meta.class.declaration.template.specman",
+      "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b\\s+",
+      "captures": {
+        "1": {"name": "entity.name.namespace.specman"},
+        "2": {"name": "keyword.declaration.template.specman"},
+        "3": {"name": "keyword.declaration.specman"},
+        "4": {"name": "keyword.declaration.class.specman"},
+        "5": {"name": "entity.name.class.template.specman"}
       }
     },
     "code": {
