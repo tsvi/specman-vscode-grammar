@@ -18,16 +18,21 @@
             "0": { "name": "punctuation.section.end.body.specman" }
           },
           "patterns": [
+            { "include": "#comment" },
             { "include": "#scalar-type-definition" }
           ]
         }
       ]
     },
-    "out_of_body":{
+    "out_of_body": {
       "name": "comment.block",
       "match": ".*"
     },
-    "scalar-type-definition" : {
+    "comment": {
+      "name": "punctuation.section.comment.specman",
+      "match": "(//|--)"
+    },
+    "scalar-type-definition": {
       "patterns": [
         {
           "match": "\\b(type|extend)\\b\\s+{{valid_id}}\\s*(:)\\s*{{valid_type}}",

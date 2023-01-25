@@ -18,16 +18,21 @@
             "0": { "name": "punctuation.section.end.body.specman" }
           },
           "patterns": [
+            { "include": "#comment" },
             { "include": "#scalar-type-definition" }
           ]
         }
       ]
     },
-    "out_of_body":{
+    "out_of_body": {
       "name": "comment.block",
       "match": ".*"
     },
-    "scalar-type-definition" : {
+    "comment": {
+      "name": "punctuation.section.comment.specman",
+      "match": "(//|--)"
+    },
+    "scalar-type-definition": {
       "patterns": [
         {
           "match": "\\b(type|extend)\\b\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+))*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(?=(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)",
