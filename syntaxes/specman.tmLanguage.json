@@ -3,7 +3,7 @@
   "scopeName": "source.specman",
   "patterns": [
     {"include": "#body_declaration" },
-    {"include": "#out_of_body" } 
+    {"include": "#out_of_body" }
   ],
   "repository": {
     "body_declaration": {
@@ -21,7 +21,7 @@
             { "include": "#package" },
             { "include": "#comment" },
             { "include": "#imports" },
-            { "include": "#structs" },            
+            { "include": "#structs" },
             { "include": "#macros" },
             { "include": "#templates"},
             { "include": "#code"}
@@ -138,7 +138,89 @@
       }
     },
     "code": {
+      "include": "#member-declaration",
       "include": "#scalar-type-definition"
+    },
+    "member-declaration": {
+      "patterns": [
+        {
+          "match": "(package|protected|private\\s+)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\blist\\s+of\\s*)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s",
+          "captures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "variable.other.member.specman"},
+            "3": {"name": "punctuation.separator.type.specman"},
+            "4": {"name": "storage.modifier.specman"},
+            "5": {"name": "storage.modifier.direction.specman"},
+            "6": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": "(package|protected|private\\s+)?(static\\s+)?(const\\s+)?([!|~]\\s*)?(%\\s*)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)(?:\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+))*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)\\s*)(;|=)",
+          "captures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "storage.modifier.static.specman"},
+            "3": {"name": "storage.modifier.const.specman"},
+            "4": {"name": "punctuation.definition.variable.generation.specman"},
+            "5": {"name": "punctuation.definition.variable.physical.specman"},
+            "6": {"name": "variable.other.member.specman"},
+            "7": {"name": "punctuation.separator.type.specman"},
+            "8": {"name": "storage.type.specman"},
+            "9": {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
+          "match": "(package|protected|private\\s+)?(static\\s+)?(const\\s+)?([!|~]\\s*)?(%\\s*)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)(?:\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+))*\\b(int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?=(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)\\s*)",
+          "captures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "storage.modifier.static.specman"},
+            "3": {"name": "storage.modifier.const.specman"},
+            "4": {"name": "punctuation.definition.variable.generation.specman"},
+            "5": {"name": "punctuation.definition.variable.physical.specman"},
+            "6": {"name": "variable.other.member.specman"},
+            "7": {"name": "punctuation.separator.type.specman"},
+            "8": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": "(package|protected|private\\s+)?(static\\s+)?(const\\s+)?([!|~]\\s*)?(%\\s*)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:(?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+))*(?:\\b(?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)\\s+)*?((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))(?:\\s+(\\bis\\s+instance\\b))?\\s*(;|=)",
+          "captures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "storage.modifier.static.specman"},
+            "3": {"name": "storage.modifier.const.specman"},
+            "4": {"name": "punctuation.definition.variable.generation.specman"},
+            "5": {"name": "punctuation.definition.variable.physical.specman"},
+            "6": {"name": "variable.other.member.specman"},
+            "7": {"name": "punctuation.separator.type.specman"},
+            "8": {"name": "storage.type.class.specman"},
+            "9": {"name": "storage.modifier.specman"},
+            "10": {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
+          "match": "(package|protected|private\\s+)?(static\\s+)?(const\\s+)?([!~]\\s*)?(%\\s*)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\[\\s*)",
+          "captures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "storage.modifier.static.specman"},
+            "3": {"name": "storage.modifier.const.specman"},
+            "4": {"name": "punctuation.definition.variable.generation.specman"},
+            "5": {"name": "punctuation.definition.variable.physical.specman"},
+            "6": {"name": "variable.other.member.enum.specman"},
+            "7": {"name": "punctutation.separator.type.specman"},
+            "8": {"name": "punctuation.brackets.begin.specman"}
+          }
+          
+        },
+        {
+          "match": "(static\\s+)?(event)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?))(?:\\s+(is)\\s+(only)*)?",
+          "captures": {
+            "1": {"name": "storage.modifier.static.specman"},
+            "2": {"name": "storage.type.specman"},
+            "3": {"name": "variable.other.member.event.specman"},
+            "4": {"name": "keyword.other.event.specman"},
+            "5": {"name": "keyword.modifier.event.specman"}
+          }
+        }
+      ]
     },
     "scalar-type-definition": {
       "patterns": [
