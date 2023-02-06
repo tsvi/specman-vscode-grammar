@@ -2,7 +2,7 @@
     "name": "specman",
     "displayName": "Specman Syntax Highlighter",
     "description": "Syntax highlighting for Specman (e) verification language",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "publisher": "TsviMostovicz",
     "engines": {
         "vscode": "^1.13.0"
