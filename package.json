@@ -35,6 +35,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Specman-Language/vscode-grammar.git"
+        "url": "https://github.com/tsvi/specman-vscode-grammar.git"
     }
 }
