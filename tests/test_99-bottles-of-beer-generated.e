@@ -15,6 +15,11 @@ for each in bla {
 
 extend sys  {
    lyrics: list of string;
+// ^^^^^^ variable.other.member.specman
+//       ^ punctuation.separator.type.specman
+//         ^^^^^^^^^^^^^^ storage.type.specman
+//                       ^ punctuation.terminator.specman
+
    keep lyrics.size() == 200;
    keep beer_c is for each (o) using index (n) in lyrics  {
       n==0                   => it == appendf("Go to the store and buy some more, 99 bottles of beer on the wall.");

@@ -3,6 +3,12 @@
 
 struct s {
     %f1: uint(bits: 16);
+//  ^ punctuation.definition.variable.physical.specman
+//   ^^ variable.other.member.specman
+//     ^ punctuation.separator.type.specman
+// FIXME      ========= storage.type.specman
+// FIXME               = punctuation.terminator.specman
+
     %f2: uint(bits: 8);
     
     do_pack(options: pack_options, l: *list of bit) is {

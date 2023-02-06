@@ -23,6 +23,11 @@ extend sys {
    -- The rings itself are starting with the innermost ring.
 
    !rings_outer: list of list of int = {
+// ^ punctuation.definition.variable.generation.specman
+//  ^^^^^^^^^^^ variable.other.member.specman
+//             ^ punctuation.separator.type.specman
+//               ^^^^^^^^^^^^^^^^^^^ storage.type.specman
+//                                   ^ punctuation.terminator.specman
       {13;-1; 3;-1; 3;-1; 6;-1;10;-1;10;-1;10;-1; 6;-1};
       {22;-1; 2;-1;17;-1;15;-1;14;-1; 5;-1;10;-1; 2;-1};
       {17;-1; 2;-1; 2;-1;10;-1;15;-1; 6;-1; 9;-1;16;-1};
@@ -39,6 +44,9 @@ extend sys {
    };
 
    ring_turns: list of int[0..N-1];
+// ^^^^^^^^^^ variable.other.member.specman
+//           ^ punctuation.separator.type.specman
+//             ^^^^^^^^^^^^^^^^^^^ storage.type.specman
    keep ring_turns.size() == 4;
    keep ring_turns[3] == 0;
 

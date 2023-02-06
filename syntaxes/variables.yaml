@@ -41,14 +41,16 @@ scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
 # Valid name that can also be a hierarchical reference
 valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)
 # Simple valid identifier
-valid_id: ([a-zA-Z](?:[a-zA-Z0-9_]+)?)
+valid_id: "[a-zA-Z](?:[a-zA-Z0-9_]+)?"
 # Valid identifier that includes ' for things like TRUE'has_checker; no negative look-ahead because we use it in repetition
 valid_determinant: (?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)
 # 'list of' or 'list(key: field) of' and multi-dimensional lists ('list of list of ...'); note: includes trailing white-space
-valid_list_decl: (?:list(?:\\s*\\(\\s*key\\s*\\:\\s*[a-zA-Z](?:[a-zA-Z0-9_]*\\s*\\)))?\\s+of\\s+)
-valid_type: (?:{{valid_list_decl}})*(?:{{valid_id}}\\s*)(?=(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?)
-valid_type_no_modifier: (?:{{valid_list_decl}})*(?:{{valid_id}}\\s*)
+
+# [static] [!][%] list-name: [list of...] list(key: key-field) of type[= init-value]
+valid_list_decl: (?:list(?:\\s*key\\s*:\\s*{{valid_id}})?\\s+of\\s+)
+valid_type: (?:{{valid_list_decl}})*(?:{{valid_id}}\\s*)(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?
+valid_type_no_modifier: (?:{{valid_list_decl}})*(?:{{valid_id}})
 # A compound type or list of compound type as used in a field declaration; covers when-inheritance;
 valid_struct_type: (?:{{valid_list_decl}})*(?:\\b{{valid_determinant}}\\s+)*?({{valid_determinant}})
-valid_scalar_type: (?:{{valid_list_decl}})*\\b({{scalar_types}})(?=(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?)
+valid_scalar_type: (?:{{valid_list_decl}})*\\b(?:{{scalar_types}})(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?
 list_length_expr: (?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+
