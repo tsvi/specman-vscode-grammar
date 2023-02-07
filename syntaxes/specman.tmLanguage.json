@@ -141,7 +141,8 @@
       "patterns": [
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition"},
-        { "include": "#priority-scopes"}
+        { "include": "#priority-scopes"},
+        { "include": "#scalar-types" }
       ]
     },
     "member-declaration": {
@@ -281,10 +282,7 @@
         { "include": "#literals" },
         { "include": "#template-params" },
         { "include": "#operators" },
-        { "include": "#built-in-variables" },
-        { "include": "type-casting" },
-        { "include": "preprocessor" },
-        { "include": "built-in-function-calls" }
+        { "include": "#built-in-variables" }
       ]
     },
     "literals" : {
@@ -469,6 +467,16 @@
           "match": "\\b(it|me|index|result)\\b",
           "captures": {
             "1": {"name": "variable.language.specman"}
+          }
+        }
+      ]
+    },
+    "scalar-types": {
+      "patterns": [
+        {
+          "match": "\\s*(?:\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)\\b",
+          "captures": {
+            "1": {"name": "storage.type.specman"}
           }
         }
       ]

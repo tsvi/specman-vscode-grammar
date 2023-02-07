@@ -5,9 +5,6 @@
         "meta_content_scope": "meta.class.body.specman"
       },
       {
-        "include": "scalar-types"
-      },
-      {
         "include": "when-inheritance"
       },
       {
@@ -209,14 +206,6 @@
         "match": "\"",
         "scope": "punctuation.definition.string.end.specman",
         "pop": true
-      }
-    ],
-    "scalar-types": [
-      {
-        "match": "\\s*(?:\\b{{valid_scalar_type}})\\b",
-        "captures": {
-          "1": "storage.type.specman"
-        }
       }
     ],
     "type-casting": [

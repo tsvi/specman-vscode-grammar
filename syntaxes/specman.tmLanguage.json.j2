@@ -141,7 +141,8 @@
       "patterns": [
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition"},
-        { "include": "#priority-scopes"}
+        { "include": "#priority-scopes"},
+        { "include": "#scalar-types" }
       ]
     },
     "member-declaration": {
@@ -281,10 +282,10 @@
         { "include": "#literals" },
         { "include": "#template-params" },
         { "include": "#operators" },
-        { "include": "#built-in-variables" },
-        { "include": "type-casting" },
-        { "include": "preprocessor" },
-        { "include": "built-in-function-calls" }
+        { "include": "#built-in-variables" }{#,
+        TODO { "include": "type-casting" },
+        TODO { "include": "preprocessor" },
+        TODO { "include": "built-in-function-calls" }#}
       ]
     },
     "literals" : {
@@ -469,6 +470,16 @@
           "match": "\\b({{built_in_variables}})\\b",
           "captures": {
             "1": {"name": "variable.language.specman"}
+          }
+        }
+      ]
+    },
+    "scalar-types": {
+      "patterns": [
+        {
+          "match": "\\s*(?:\\b{{valid_scalar_type}})\\b",
+          "captures": {
+            "1": {"name": "storage.type.specman"}
           }
         }
       ]
