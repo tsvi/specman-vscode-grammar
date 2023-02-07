@@ -5,9 +5,6 @@
         "meta_content_scope": "meta.class.body.specman"
       },
       {
-        "include": "priority-scopes"
-      },
-      {
         "include": "scalar-types"
       },
       {
@@ -65,29 +62,6 @@
       },
       {
         "include": "default-scopes"
-      }
-    ],
-    "priority-scopes": [
-      {
-        "include": "literals"
-      },
-      {
-        "include": "template-params"
-      },
-      {
-        "include": "operators"
-      },
-      {
-        "include": "built-in-variables"
-      },
-      {
-        "include": "type-casting"
-      },
-      {
-        "include": "preprocessor"
-      },
-      {
-        "include": "built-in-function-calls"
       }
     ],
     "stray-brackets": [
@@ -235,105 +209,6 @@
         "match": "\"",
         "scope": "punctuation.definition.string.end.specman",
         "pop": true
-      }
-    ],
-    "literals": [
-      {
-        "match": "\\b((?:\\d+)(')(?:[oO])[0-7xXzZuUlLhHwWnN]([0-7xXzZuUlLhHwWnN_]+)?)\\b",
-        "captures": {
-          "1": "constant.numeric.mvl.octal.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)(')(?:[dD])[0-9xXzZuUlLhHwWnN]([0-9xXzZuUlLhHwWnN_]+)?)\\b",
-        "captures": {
-          "1": "constant.numeric.mvl.decimal.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)(')(?:[hHxX])[0-9a-fA-FxXzZuUlLhHwWnN]([0-9a-fA-FxXzZuUlLhHwWnN_]+)?)\\b",
-        "captures": {
-          "1": "constant.numeric.mvl.hex.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)(')(?:[bB])[0-1xXzZuUlLhHwWnN]([0-1xXzZuUlLhHwWnN_]+)?)\\b",
-        "captures": {
-          "1": "constant.numeric.mvl.binary.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b(-?([0-9_]+[kKmM]?))\\b",
-        "scope": "constant.numeric.unsized.integer.specman"
-      },
-      {
-        "match": "\\b(0(?:[bB])\\s*[0-1_xXzZ?]+)\\b",
-        "captures": {
-          "1": "constant.numeric.unsized.binary.specman"
-        }
-      },
-      {
-        "match": "\\b(0(?:[xX])\\s*[0-9a-fA-F_xXzZ?]+)\\b",
-        "captures": {
-          "1": "constant.numeric.unsized.hex.specman"
-        }
-      },
-      {
-        "match": "\\b(0(?:[oO])\\s*[0-9a-fA-F_xXzZ?]+)\\b",
-        "captures": {
-          "1": "constant.numeric.unsized.octal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)?(')(?:[dD])\\s*[0-9_]+)\\b",
-        "captures": {
-          "1": "constant.numeric.sized.integer.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)?(')(?:[bB])\\s*[0-1_]+)\\b",
-        "captures": {
-          "1": "constant.numeric.sized.binary.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)?(')(?:[hHxX])\\s*[0-9a-fA-F_]+)\\b",
-        "captures": {
-          "1": "constant.numeric.sized.hex.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b((?:\\d+)?(')(?:[oO])\\s*[0-7_]+)\\b",
-        "captures": {
-          "1": "constant.numeric.sized.octal.specman",
-          "2": "punctuation.separator.literal.specman"
-        }
-      },
-      {
-        "match": "\\b([0-9][\\.0-9_]*(?:[eE][\\+\\-]?[0-9][0-9_]*))\\b",
-        "captures": {
-          "1": "constant.numeric.real.specman"
-        }
-      },
-      {
-        "match": "\\b({{built_in_constants}})\\b",
-        "scope": "constant.language.specman"
-      },
-      {
-        "match": "\"",
-        "scope": "punctuation.definition.string.begin.specman",
-        "push": "string"
-      },
-      {
-        "match": "0c\"[a-zA-Z]\"",
-        "scope": "constant.character.literal.specman"
       }
     ],
     "operators": [
@@ -764,39 +639,6 @@
       {
         "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",
         "push": "struct-declaration"
-      }
-    ],
-    "template-params": [
-      {
-        "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",
-        "captures": {
-          "1": "punctuation.separator.specman",
-          "2": "variable.parameter.template.specman",
-          "3": "keyword.declaration.specman",
-          "4": "punctuation.separator.specman",
-          "5": "punctuation.separator.specman",
-          "6": "storage.type.specman"
-        }
-      },
-      {
-        "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
-        "captures": {
-          "1": "punctuation.separator.specman",
-          "2": "variable.parameter.template.specman",
-          "3": "keyword.declaration.specman",
-          "4": "punctuation.separator.specman",
-          "5": "punctuation.separator.specman",
-          "6": "storage.type.category.specman"
-        }
-      },
-      {
-        "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(?:{{valid_id}}\\s*)(>)",
-        "captures": {
-          "1": "punctuation.separator.specman",
-          "2": "variable.parameter.template.specman",
-          "3": "keyword.declaration.specman",
-          "4": "punctuation.separator.specman"
-        }
       }
     ],
     "constraint-def": [
