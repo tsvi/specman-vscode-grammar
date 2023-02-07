@@ -280,7 +280,7 @@
       "patterns": [
         { "include": "#literals" },
         { "include": "#template-params" },
-        { "include": "operators" },
+        { "include": "#operators" },
         { "include": "built-in-variables" },
         { "include": "type-casting" },
         { "include": "preprocessor" },
@@ -420,6 +420,46 @@
             "3": {"name": "keyword.declaration.specman"},
             "4": {"name": "punctuation.separator.specman"}
           }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.word.specman",
+          "match": "\\b(and|or|not|now|in|in_table)\\b"
+        },
+        {
+          "name": "keyword.operator.boolean.specman",
+          "match": "(&&|\\|\\||!)"
+        },
+        {
+          "name": "keyword.operator.logical.specman",
+          "match": "(=>)"
+        },
+        {
+          "name": "keyword.operator.assignment.specman",
+          "match": "(=|\\+=|-=|\\*=|:=)"
+        },
+        {
+          "name": "keyword.operator.comparison.specman",
+          "match": "(==|!=|>|<|===|!===|>=|<=)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.specman",
+          "match": "(-|\\+|\\*|/)"
+        },
+        {
+          "name": "keyword.operator.bitwise.specman",
+          "match": "(&|\\||~|!|\\^)"
+        },
+        {
+          "name": "keyword.operator.width-modifier.specman",
+          "match": "\\bbits\\b|\\bbytes\\b"
+        },
+        {
+          "name": "keyword.operator.accessor.event.specman",
+          "match": "\\@"
         }
       ]
     }

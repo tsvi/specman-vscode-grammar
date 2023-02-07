@@ -211,44 +211,6 @@
         "pop": true
       }
     ],
-    "operators": [
-      {
-        "scope": "keyword.operator.word.specman",
-        "match": "\\b(and|or|not|now|in|in_table|)\\b"
-      },
-      {
-        "scope": "keyword.operator.boolean.specman",
-        "match": "(&&|\\|\\||!)"
-      },
-      {
-        "scope": "keyword.operator.logical.specman",
-        "match": "(=>)"
-      },
-      {
-        "scope": "keyword.operator.assignment.specman",
-        "match": "(=|\\+=|-=|\\*=|:=)"
-      },
-      {
-        "scope": "keyword.operator.comparison.specman",
-        "match": "(==|!=|>|<|===|!===|>=|<=)"
-      },
-      {
-        "scope": "keyword.operator.arithmetic.specman",
-        "match": "(-|\\+|\\*|/)"
-      },
-      {
-        "scope": "keyword.operator.bitwise.specman",
-        "match": "(&|\\||~|!|\\^)"
-      },
-      {
-        "scope": "keyword.operator.width-modifier.specman",
-        "match": "\\bbits\\b|\\bbytes\\b"
-      },
-      {
-        "scope": "keyword.operator.accessor.event.specman",
-        "match": "\\@"
-      }
-    ],
     "scalar-types": [
       {
         "match": "\\s*(?:\\b{{valid_scalar_type}})\\b",
