@@ -142,7 +142,15 @@
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition"},
         { "include": "#priority-scopes"},
-        { "include": "#scalar-types" }
+        { "include": "#scalar-types" },
+        
+        { "include": "#scalar-type-definition" },
+        { "include": "#checks" },
+        { "include": "#constraint-def" },
+        
+        
+        
+        { "include": "#default-scopes" }
       ]
     },
     "member-declaration": {
@@ -480,6 +488,158 @@
           }
         }
       ]
-    }
+    },
+    "checks": {
+      "patterns": [
+        {
+          "match": "(\\bcheck\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+)?(\\bthat\\b)?\\s+",
+          "captures": {
+            "1": {"name": "keyword.statement.specman"},
+            "2": {"name": "entity.name.label.specman"},
+            "3": {"name": "keyword.other.specman"}
+          }
+        }
+      ]
+    },
+    "constraint-def": {
+      "patterns": [
+        {
+          "match": "(\\bkeep\\b)\\s+(?:\\s*([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\.(reset_soft)",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "variable.other.specman"},
+            "3":  {"name": "keyword.modifier.constraint.specman"}
+          }
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.modifier.constraint.specman"},
+            "5":  {"name": "keyword.control.specman"},
+            "6":  {"name": "variable.other.specman"},
+            "7":  {"name": "variable.other.specman"},
+            "8":  {"name": "keyword.control.specman"},
+            "9":  {"name": "variable.other.specman"}
+          }
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(all\\s+of\\b)(?=\\s*\\{)",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.control.constraint.specman"}
+          }
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?=.*\\s*(=>))",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.modifier.constraint.specman"}
+          }
+          
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\s*)(\\bbefore\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(;)",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.modifier.constraint.specman"},
+            "5":  {"name": "variable.other.specman"},
+            "6":  {"name": "keyword.other.constraint.specman"},
+            "7":  {"name": "variable.other.specman"},
+            "8":  {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s+(==)\\s+(\\bselect\\b)",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.modifier.constraint.specman"},
+            "5":  {"name": "variable.other.specman"},
+            "6":  {"name": "keyword.operator.assignment.specman"},
+            "7":  {"name": "keyword.other.constraint.specman"}
+          }
+        },
+        {
+          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*",
+          "captures": {
+            "1":  {"name": "keyword.other.constraint.specman"},
+            "2":  {"name": "entity.name.label.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"},
+            "4":  {"name": "keyword.modifier.constraint.specman"}
+          }
+          
+        }
+      ]
+    },
+    "default-scopes": {
+      "patterns": [
+        {
+          "name": "keyword.other.specman",
+          "match": "\\b(soft|compute|new)\\b"
+        },
+        {
+          "name": "keyword.other.statement.specman",
+          "match": "\\b(keep|export|extend|template|on|expect|routine|specman|radix|ignore|illegal|traceable|untraceable|cover|using|count_only|trace_only|at_least|transition|item|ranges|cross|text|call|task|within)\\b"
+        },
+        {
+          "name": "support.function.builtin.specman meta.function-call.builtin.specman",
+          "match": "\\b(initialize|delayed|exit|finish|post_generate|pre_generate|wave_setup|setup|setup_test|finalize|finalize_test|extract_test|run_test|get_timescale|is_gui|print_stack_trace|simulator_exists|simulator_save|sn_plusargs_exists|sn_plusarg_value|pre_save|pre_restore|post_restore|remap_tick_access|set_config|lock|unlock|release|swap|value|stop_run|get_config|get_indices|exec)\\b"
+        },
+        {
+          "name": "keyword.control.specman",
+          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return|keeping)\\b"
+        },
+        {
+          "name": "keyword.other.packing.specman",
+          "match": "\\b(packing|low|high|network)\\b"
+        },
+        {
+          "name": "keyword.conditional.specman",
+          "match": "\\b(choose|matches|if|then|else|try|case|casex|casez|default)\\b"
+        },
+        {
+          "name": "keyword.other.temporal.specman",
+          "match": "\\b(cycle|sample|event|forever|wait|change|negedge|rise|fall|delay|sync|sim|true|detach|eventually|emit)\\b"
+        },
+        {
+          "name": "keyword.other.define.specman",
+          "match": "\\b(define|as|computed|verilog|vhdl|variable)\\b"
+        },
+        {
+          "name": "keyword.other.singleton.specman",
+          "match": "\\b(sys|global|utils|message_manager|tf_domain_manager|rf_manager)\\b"
+        },
+        {
+          "name": "keyword.other.file.specman",
+          "match": "\\b(files|load|ntv|source_ref|script|read|write)\\b"
+        },
+        {
+          "name": "keyword.other.fsm.specman",
+          "match": "\\b(initial|idle|others|posedge|clock|cycles)\\b"
+        },
+        {
+          "name": "storage.modifier.specman",
+          "match": "\\b(is\\s+instance|list\\s+of|attribute|::)\\b"
+        },
+        {
+          "name": "keyword.declaration.specman",
+          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python)\\b"
+        },
+        {
+          "name": "punctuation.terminator.specman",
+          "match": "\\s*;"
+        }
+      ]
+    }    
   }
 }
