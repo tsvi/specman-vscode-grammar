@@ -764,14 +764,6 @@
         "scope": "meta.function-call.new.specman keyword.other.new.specman"
       }
     ],
-    "built-in-variables": [
-      {
-        "match": "\\b({{built_in_variables}})\\b",
-        "captures": {
-          "1": "variable.language.specman"
-        }
-      }
-    ],
     "code-blocks": [
       {
         "match": "(\\bon\\b)\\s*{{valid_name}}\\s*(\\{)",

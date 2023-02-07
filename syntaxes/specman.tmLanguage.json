@@ -281,7 +281,7 @@
         { "include": "#literals" },
         { "include": "#template-params" },
         { "include": "#operators" },
-        { "include": "built-in-variables" },
+        { "include": "#built-in-variables" },
         { "include": "type-casting" },
         { "include": "preprocessor" },
         { "include": "built-in-function-calls" }
@@ -460,6 +460,16 @@
         {
           "name": "keyword.operator.accessor.event.specman",
           "match": "\\@"
+        }
+      ]
+    },
+    "built-in-variables": {
+      "patterns": [
+        {
+          "match": "\\b(it|me|index|result)\\b",
+          "captures": {
+            "1": {"name": "variable.language.specman"}
+          }
         }
       ]
     }
