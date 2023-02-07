@@ -4,6 +4,11 @@
     "description": "Syntax highlighting for Specman (e) verification language",
     "version": "0.2.3",
     "publisher": "TsviMostovicz",
+    "extensionKind": [
+        "workspace",
+        "ui"
+    ],
+    "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.13.0"
     },
