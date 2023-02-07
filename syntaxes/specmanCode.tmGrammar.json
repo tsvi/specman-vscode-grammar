@@ -238,60 +238,6 @@
         }
       }
     ],
-    "scalar-type-definition": [
-      {
-        "match": "\\b(type|extend)\\b\\s+{{valid_id}}\\s*(:)\\s*{{valid_type}}(\\s*;)?",
-        "captures": {
-          "1": "keyword.declaration.specman",
-          "2": "storage.type.specman",
-          "3": "punctuation.separator.type.specman",
-          "4": "storage.type.specman",
-          "5": "punctuation.terminator.specman"
-        }
-      },
-      {
-        "match": "\\b(type|extend)\\b\\s+{{valid_id}}\\s*(:)\\s*(\\[\\s*)",
-        "captures": {
-          "1": "keyword.declaration.specman",
-          "2": "storage.type.enum.specman",
-          "3": "punctuation.separator.type.specman",
-          "4": "punctuation.brackets.begin.specman"
-        },
-        "push": "enum-values-declaration"
-      }
-    ],
-    "enum-values-declaration": [
-      {
-        "meta_content_scope": "meta.type.enum.specman"
-      },
-      {
-        "match": "(\\s*,)",
-        "captures": {
-          "1": "punctuation.separator.specman"
-        }
-      },
-      {
-        "match": "(\\s*,)?(?:\\s*{{valid_id}}\\s*)(=\\s*)?",
-        "captures": {
-          "1": "punctuation.separator.specman",
-          "2": "constant.other.enum.specman",
-          "3": "keyword.operator.assignment.specman"
-        }
-      },
-      {
-        "match": "(\\]\\s*)(?={{scalar_width_modifier}})?",
-        "captures": {
-          "1": "punctuation.brackets.end.specman"
-        },
-        "pop": true
-      },
-      {
-        "include": "literals"
-      },
-      {
-        "include": "operators"
-      }
-    ],
     "built-in-function-calls": [
       {
         "match": "\\s+({{built_in_functions_optional_parens}})\\b(?=\\s*(\\()?)",

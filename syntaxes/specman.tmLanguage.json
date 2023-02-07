@@ -140,7 +140,6 @@
     "code": {
       "patterns": [
         { "include": "#member-declaration"},
-        { "include": "#scalar-type-definition"},
         { "include": "#priority-scopes"},
         { "include": "#scalar-types" },
         
@@ -282,7 +281,9 @@
             "2": {"name": "constant.other.enum.specman"},
             "3": {"name": "keyword.operator.assignment.specman"}
           }
-        }
+        },
+        { "include": "#literals" },
+        { "include": "#operators" }        
       ]
     },
     "priority-scopes": {
