@@ -13,5 +13,5 @@ repos:
     -   id: run-build-script
         name: Run build script
         language: system
-        entry: ./build.py; git add syntaxes/specman.tmLanguage.json
-        files: syntaxes/specman.tmLanguage.json.j2
+        entry: ./build.py --validate
+        files: \.j2$
