@@ -1,37 +1,5 @@
 {
   "contexts": {
-    "actions": [
-      {
-        "meta_content_scope": "meta.actions.specman"
-      },
-      {
-        "include": "priority-scopes"
-      },
-      {
-        "include": "inline-generation"
-      },
-      {
-        "include": "struct-allocation"
-      },
-      {
-        "include": "variable-declaration"
-      },
-      {
-        "include": "checks"
-      },
-      {
-        "include": "function-calls"
-      },
-      {
-        "include": "code-blocks"
-      },
-      {
-        "include": "stray-brackets-actions"
-      },
-      {
-        "include": "default-scopes"
-      }
-    ],
     "stray-brackets": [
       {
         "match": "\\)|\\]|\\}",
@@ -580,55 +548,6 @@
       {
         "match": "\\bnew\\b",
         "scope": "meta.function-call.new.specman keyword.other.new.specman"
-      }
-    ],
-    "code-blocks": [
-      {
-        "match": "(\\bon\\b)\\s*{{valid_name}}\\s*(\\{)",
-        "captures": {
-          "1": "keyword.control.specman",
-          "2": "variable.other.specman",
-          "3": "punctuation.section.block.begin.specman"
-        },
-        "push": [
-          {
-            "meta_content_scope": "meta.code_block.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)?",
-            "captures": {
-              "1": "punctuation.section.block.end.specman",
-              "2": "punctuation.terminator.specman"
-            },
-            "pop": true
-          },
-          {
-            "include": "actions"
-          }
-        ]
-      },
-      {
-        "match": "(\\b{{concurrency_actions}}\\b)?\\s*\\{",
-        "captures": {
-          "1": "keyword.control.specman"
-        },
-        "scope": "punctuation.section.block.begin.specman",
-        "push": [
-          {
-            "meta_content_scope": "meta.code_block.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)?",
-            "captures": {
-              "1": "punctuation.section.block.end.specman",
-              "2": "punctuation.terminator.specman"
-            },
-            "pop": true
-          },
-          {
-            "include": "actions"
-          }
-        ]
       }
     ],
     "list-literals": [

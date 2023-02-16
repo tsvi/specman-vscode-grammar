@@ -36,7 +36,7 @@ invalid_names: keep| if| if|static|const|{{struct_access}}
 # Re-usable patterns
 singletons: sys|global|utils|message_manager|tf_domain_manager|rf_manager
 struct_access: package|protected|private
-concurrency_actions: first\s+of|all\s+of
+concurrency_actions: first\\s+of|all\\s+of
 scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
 # Valid name that can also be a hierarchical reference
 valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)

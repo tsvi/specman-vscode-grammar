@@ -5,6 +5,7 @@ repos:
     rev: v3.2.0
     hooks:
     -   id: trailing-whitespace
+        exclude: specman.tmLanguage.json$
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
@@ -13,5 +14,7 @@ repos:
     -   id: run-build-script
         name: Run build script
         language: system
-        entry: ./build.py --validate
-        files: \.j2$
+        entry: ./build.py
+        pass_filenames: false
+        args: ["--validate"]
+        types: [jinja]

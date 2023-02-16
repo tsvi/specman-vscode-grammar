@@ -147,7 +147,7 @@
         { "include": "#scalar-type-definition" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
-        {# TODO { "include": "#code-blocks" }, #}
+        { "include": "#code-blocks" },
         {# TODO { "include": "#methods"}, #}
         {# TODO { "include": "#stray-brackets-code"}, #}
         { "include": "#default-scopes" }
@@ -284,7 +284,7 @@
           }
         },
         { "include": "#literals" },
-        { "include": "#operators" }        
+        { "include": "#operators" }
       ]
     },
     "priority-scopes": {
@@ -645,6 +645,53 @@
           "match": "\\s*;"
         }
       ]
-    }    
+    },
+    "code-blocks": {
+      "patterns": [
+        {
+          "begin": "(\\bon\\b)\\s*{{valid_name}}\\s*(\\{)",
+          "beginCaptures": {
+            "1": "keyword.control.specman",
+            "2": "variable.other.specman",
+            "3": "punctuation.section.block.begin.specman"
+          },
+          "contentName": "meta.code_block.specman",
+          "end": "(\\})\\s*(;)?",
+          "endCaptures": {
+              "1": "punctuation.section.block.end.specman",
+              "2": "punctuation.terminator.specman"
+          },
+          "patterns": [{"include": "#actions"}]
+        },
+        {
+          "begin": "(\\b{{concurrency_actions}}\\b)?\\s*\\{",
+          "beginCaptures": {
+            "1": "keyword.control.specman"
+          },
+          "name": "punctuation.section.block.begin.specman",
+          "contentName": "meta.code_block.specman",
+          "end": "(\\})\\s*(;)?",
+          "endCaptures": {
+            "1": "punctuation.section.block.end.specman",
+            "2": "punctuation.terminator.specman"
+          },
+          "patterns": [{"include": "#actions"}]
+        }
+      ]
+    },
+    "actions": {
+      "name": "meta.actions.specman",
+      "patterns" : [
+        { "include": "#priority-scopes" },
+        {# TODO { "include": "#inline-generation" }, #}
+        {# TODO { "include": "#struct-allocation" }, #}
+        {# TODO { "include": "#variable-declaration" }, #}
+        { "include": "#checks" },
+        {# TODO { "include": "#function-calls" }, #}
+        { "include": "#code-blocks" },
+        {# TODO { "include": "#stray-brackets-actions" }, #}
+        { "include": "#default-scopes" }
+      ]
+    }
   }
 }

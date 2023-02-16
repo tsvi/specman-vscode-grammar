@@ -147,7 +147,7 @@
         { "include": "#scalar-type-definition" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
-        
+        { "include": "#code-blocks" },
         
         
         { "include": "#default-scopes" }
@@ -284,7 +284,7 @@
           }
         },
         { "include": "#literals" },
-        { "include": "#operators" }        
+        { "include": "#operators" }
       ]
     },
     "priority-scopes": {
@@ -642,6 +642,53 @@
           "match": "\\s*;"
         }
       ]
-    }    
+    },
+    "code-blocks": {
+      "patterns": [
+        {
+          "begin": "(\\bon\\b)\\s*([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\s*(\\{)",
+          "beginCaptures": {
+            "1": "keyword.control.specman",
+            "2": "variable.other.specman",
+            "3": "punctuation.section.block.begin.specman"
+          },
+          "contentName": "meta.code_block.specman",
+          "end": "(\\})\\s*(;)?",
+          "endCaptures": {
+              "1": "punctuation.section.block.end.specman",
+              "2": "punctuation.terminator.specman"
+          },
+          "patterns": [{"include": "#actions"}]
+        },
+        {
+          "begin": "(\\bfirst\\s+of|all\\s+of\\b)?\\s*\\{",
+          "beginCaptures": {
+            "1": "keyword.control.specman"
+          },
+          "name": "punctuation.section.block.begin.specman",
+          "contentName": "meta.code_block.specman",
+          "end": "(\\})\\s*(;)?",
+          "endCaptures": {
+            "1": "punctuation.section.block.end.specman",
+            "2": "punctuation.terminator.specman"
+          },
+          "patterns": [{"include": "#actions"}]
+        }
+      ]
+    },
+    "actions": {
+      "name": "meta.actions.specman",
+      "patterns" : [
+        { "include": "#priority-scopes" },
+        
+        
+        
+        { "include": "#checks" },
+        
+        { "include": "#code-blocks" },
+        
+        { "include": "#default-scopes" }
+      ]
+    }
   }
 }
