@@ -8,8 +8,12 @@
 		"ghcr.io/devcontainers/features/python:1": {}
 	},
 
-	"postCreateCommand": "bash -i -c 'nvm install --lts && npm install -g vscode-tmgrammar-test && pip install jinja-cli'",
-    "settings": {
-		"terminal.integrated.defaultProfile.linux": "bash"
-    }
+	"postCreateCommand": "bash -i -c 'nvm install --lts && npm install -g vscode-tmgrammar-test @vscode/vsce && pip install jinja-cli pre-commit && pre-commit install'",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash"
+    		}
+		}
+	}
 }
