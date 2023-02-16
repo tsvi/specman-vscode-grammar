@@ -3,9 +3,18 @@
   "tasks": [
     {
       "label": "Generate language file",
-      "group": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "type": "shell",
       "command": "./build.py"
+    },
+    {
+      "label": "Update local extenstion",
+      "group": "build",
+      "type": "shell",
+      "command": "vsce package -o specman-dev.vsix; code --install-extension specman-dev.vsix "
     },
     {
       "label": "Run tests",
