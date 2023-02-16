@@ -219,8 +219,8 @@
             "6": {"name": "variable.other.member.enum.specman"},
             "7": {"name": "punctutation.separator.type.specman"},
             "8": {"name": "punctuation.brackets.begin.specman"}
-          }
-          {# TODO "patterns": [{"include": "enum-values-declaration"} #}
+          },
+          "patterns": [{"include": "#enum-values-declaration"}]
         },
         {
           "match": "(?:(static)\\s+)?(event)\\s+({{valid_id}})(?:\\s+(is)\\s+(only)*)?",
@@ -293,9 +293,9 @@
         { "include": "#template-params" },
         { "include": "#operators" },
         { "include": "#built-in-variables" }{#,
-        TODO { "include": "type-casting" },
-        TODO { "include": "preprocessor" },
-        TODO { "include": "built-in-function-calls" }#}
+        TODO { "include": "#type-casting" },
+        TODO { "include": "#preprocessor" },
+        TODO { "include": "#built-in-function-calls" }#}
       ]
     },
     "literals" : {
@@ -391,7 +391,7 @@
         {
           "match": "\"",
           "name": "punctuation.definition.string.begin.specman"
-          {# TODO "push": "string" #}
+          {# TODO "push": "#string" #}
         },
         {
           "match": "0c\"[a-zA-Z]\"",
@@ -684,8 +684,8 @@
       "patterns" : [
         { "include": "#priority-scopes" },
         { "include": "#inline-generation" },
-        {# TODO { "include": "#struct-allocation" }, #}
-        {# TODO { "include": "#variable-declaration" }, #}
+        { "include": "#struct-allocation" },
+        { "include": "#variable-declaration" },
         { "include": "#checks" },
         {# TODO { "include": "#function-calls" }, #}
         { "include": "#code-blocks" },
@@ -717,6 +717,41 @@
         "2": {"name":  "punctuation.terminator.specman"}
       },
       "pattern": [{ "include": "#code"}]
+    },
+    "struct-allocation": {
+      "match": "\\bnew\\b",
+      "name": "meta.function-call.new.specman keyword.other.new.specman"
+    },
+    "variable-declaration": {
+      "patterns": [
+        {
+          "match": "\\b(var|item)\\b\\s*(?:{{valid_id}}\\s*)(:)\\s*{{valid_type}}",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "punctuation.separator.type.specman"},
+            "4": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:)\\s*(\\[\\s*)",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "punctuation.separator.type.specman"},
+            "4": {"name": "punctuation.brackets.begin.specman"}
+          },
+          "patterns": {"include": "#enum-values-declaration"}
+        },
+        {
+          "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:=\\s*)",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "keyword.operator.assignment.specman"}
+          }
+        }
+      ]
     }
   }
 }

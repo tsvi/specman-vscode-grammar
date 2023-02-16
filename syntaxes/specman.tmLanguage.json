@@ -219,8 +219,8 @@
             "6": {"name": "variable.other.member.enum.specman"},
             "7": {"name": "punctutation.separator.type.specman"},
             "8": {"name": "punctuation.brackets.begin.specman"}
-          }
-          
+          },
+          "patterns": [{"include": "#enum-values-declaration"}]
         },
         {
           "match": "(?:(static)\\s+)?(event)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s+(is)\\s+(only)*)?",
@@ -681,8 +681,8 @@
       "patterns" : [
         { "include": "#priority-scopes" },
         { "include": "#inline-generation" },
-        
-        
+        { "include": "#struct-allocation" },
+        { "include": "#variable-declaration" },
         { "include": "#checks" },
         
         { "include": "#code-blocks" },
@@ -714,6 +714,41 @@
         "2": {"name":  "punctuation.terminator.specman"}
       },
       "pattern": [{ "include": "#code"}]
+    },
+    "struct-allocation": {
+      "match": "\\bnew\\b",
+      "name": "meta.function-call.new.specman keyword.other.new.specman"
+    },
+    "variable-declaration": {
+      "patterns": [
+        {
+          "match": "\\b(var|item)\\b\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "punctuation.separator.type.specman"},
+            "4": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": "(\\bvar\\b)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:)\\s*(\\[\\s*)",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "punctuation.separator.type.specman"},
+            "4": {"name": "punctuation.brackets.begin.specman"}
+          },
+          "patterns": {"include": "#enum-values-declaration"}
+        },
+        {
+          "match": "(\\bvar\\b)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:=\\s*)",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "keyword.operator.assignment.specman"}
+          }
+        }
+      ]
     }
   }
 }

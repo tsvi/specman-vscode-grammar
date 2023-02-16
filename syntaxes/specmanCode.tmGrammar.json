@@ -442,35 +442,6 @@
         ]
       }
     ],
-    "variable-declaration": [
-      {
-        "match": "\\b(var|item)\\b\\s*(?:{{valid_id}}\\s*)(:)\\s*{{valid_type}}",
-        "captures": {
-          "1": "keyword.declaration.specman",
-          "2": "variable.other.specman",
-          "3": "punctuation.separator.type.specman",
-          "4": "storage.type.specman"
-        }
-      },
-      {
-        "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:)\\s*(\\[\\s*)",
-        "captures": {
-          "1": "keyword.declaration.specman",
-          "2": "variable.other.specman",
-          "3": "punctuation.separator.type.specman",
-          "4": "punctuation.brackets.begin.specman"
-        },
-        "push": "enum-values-declaration"
-      },
-      {
-        "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:=\\s*)",
-        "captures": {
-          "1": "keyword.declaration.specman",
-          "2": "variable.other.specman",
-          "3": "keyword.operator.assignment.specman"
-        }
-      }
-    ],
     "when-inheritance": [
       {
         "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",
@@ -499,12 +470,6 @@
         "match": ";",
         "scope": "punctuation.terminator.specman",
         "pop": true
-      }
-    ],
-    "struct-allocation": [
-      {
-        "match": "\\bnew\\b",
-        "scope": "meta.function-call.new.specman keyword.other.new.specman"
       }
     ],
     "list-literals": [
