@@ -501,49 +501,6 @@
         "pop": true
       }
     ],
-    "inline-generation": [
-      {
-        "match": "\\s+(gen)\\s+(?:{{valid_type_no_modifier}})",
-        "captures": {
-          "1": "keyword.other.gen.specman",
-          "2": "variable.other.specman"
-        },
-        "push": "inline-generation-constraint"
-      }
-    ],
-    "inline-generation-constraint": [
-      {
-        "meta_content_scope": "meta.constraint.specman"
-      },
-      {
-        "match": ";",
-        "scope": "punctuation.terminator.specman",
-        "pop": true
-      },
-      {
-        "match": "(\\bkeeping\\b)(\\s*\\{)",
-        "captures": {
-          "1": "keyword.other.constraint.specman",
-          "2": "punctuation.section.constraint_block.begin.specman"
-        },
-        "set": [
-          {
-            "meta_content_scope": "meta.inline-generation.specman"
-          },
-          {
-            "match": "(\\})\\s*(;)",
-            "pop": true,
-            "captures": {
-              "1": "punctuation.section.constraint_block.end.specman",
-              "2": "punctuation.terminator.specman"
-            }
-          },
-          {
-            "include": "code"
-          }
-        ]
-      }
-    ],
     "struct-allocation": [
       {
         "match": "\\bnew\\b",

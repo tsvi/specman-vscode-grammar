@@ -648,29 +648,29 @@
         {
           "begin": "(\\bon\\b)\\s*([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\s*(\\{)",
           "beginCaptures": {
-            "1": "keyword.control.specman",
-            "2": "variable.other.specman",
-            "3": "punctuation.section.block.begin.specman"
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "punctuation.section.block.begin.specman"}
           },
           "contentName": "meta.code_block.specman",
           "end": "(\\})\\s*(;)?",
           "endCaptures": {
-              "1": "punctuation.section.block.end.specman",
-              "2": "punctuation.terminator.specman"
+            "1": {"name": "punctuation.section.block.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
           },
           "patterns": [{"include": "#actions"}]
         },
         {
           "begin": "(\\bfirst\\s+of|all\\s+of\\b)?\\s*\\{",
           "beginCaptures": {
-            "1": "keyword.control.specman"
+            "1":  {"name": "keyword.control.specman"}
           },
           "name": "punctuation.section.block.begin.specman",
           "contentName": "meta.code_block.specman",
           "end": "(\\})\\s*(;)?",
           "endCaptures": {
-            "1": "punctuation.section.block.end.specman",
-            "2": "punctuation.terminator.specman"
+            "1": {"name": "punctuation.section.block.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
           },
           "patterns": [{"include": "#actions"}]
         }
@@ -680,7 +680,7 @@
       "name": "meta.actions.specman",
       "patterns" : [
         { "include": "#priority-scopes" },
-        
+        { "include": "#inline-generation" },
         
         
         { "include": "#checks" },
@@ -689,6 +689,31 @@
         
         { "include": "#default-scopes" }
       ]
+    },
+    "inline-generation": {
+      "begin": "\\s+(gen)\\s+(?:(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?))",
+      "beginCaptures": {
+        "1": {"name": "keyword.other.gen.specman"},
+        "2": {"name": "variable.other.specman"}
+      },
+      "pattern": [{"include": "#inline-generation-constraint"}],
+      "end": ";",
+      "endCaptures": "punctuation.terminator.specman"
+    },
+    "inline-generation-constraint": {
+      "name": "meta.constraint.specman",
+      "begin": "(\\bkeeping\\b)(\\s*\\{)",
+      "beginCaptures": {
+        "1": {"name": "keyword.other.constraint.specman"},
+        "2": {"name": "punctuation.section.constraint_block.begin.specman"}
+      },
+      "contentName": "meta.inline-generation.specman",
+      "end": "(\\})\\s*(;)",
+      "endCaptures": {
+        "1": {"name":  "punctuation.section.constraint_block.end.specman"},
+        "2": {"name":  "punctuation.terminator.specman"}
+      },
+      "pattern": [{ "include": "#code"}]
     }
   }
 }
