@@ -2,7 +2,7 @@
     "name": "specman",
     "displayName": "Specman Syntax Highlighter",
     "description": "Syntax highlighting for Specman (e) verification language",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "publisher": "TsviMostovicz",
     "extensionKind": [
         "workspace",
