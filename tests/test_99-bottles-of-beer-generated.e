@@ -19,6 +19,9 @@ extend sys  {
 //       ^ punctuation.separator.type.specman
 //         ^^^^^^^^^^^^^^ storage.type.specman
 //                       ^ punctuation.terminator.specman
+// Some comment
+// <- punctuation.section.comment.specman
+
 
    keep lyrics.size() == 200;
    keep beer_c is for each (o) using index (n) in lyrics  {
