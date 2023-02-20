@@ -294,8 +294,8 @@
         { "include": "#operators" },
         { "include": "#built-in-variables" },
         
-        { "include": "#preprocessor" }
-        
+        { "include": "#preprocessor" },
+        { "include": "#built-in-function-calls" }
       ]
     },
     "literals" : {
@@ -818,6 +818,62 @@
       "endCaptures": {
         "1": {"name": "punctuation.terminator.specman"}
       }
+    },
+    "built-in-function-calls": {
+      "patterns": [
+        {
+          "begin": "\\s+(assert|print|start)\\b(?=\\s*(\\()?)",
+          "beginCaptures": {
+            "1": {"name": "support.function.builtin.specman"}
+          },
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(?=\\()",
+          "patterns": [
+            {
+              "match": "\\s*([;,])",
+              "name": "punctuation.terminator.specman"
+            },
+            { "include": "#actions"}
+          ]
+        },
+        {
+          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range)\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "name": "meta.function-call.builtin.specman"
+          
+        },
+        {
+          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "name": "meta.function-call.builtin.specman"
+          
+        },
+        {
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
+          "captures": {
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "variable.other.specman"},
+            "4": {"name": "keyword.control.specman"},
+            "5": {"name": "variable.other.specman"}
+          }
+        },
+        {
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+",
+          "captures": {
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "variable.other.specman"},
+            "4": {"name": "keyword.control.specman"}
+          }
+        }
+      ]
     }
   }
 }

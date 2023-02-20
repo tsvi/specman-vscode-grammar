@@ -16,12 +16,13 @@ struct C {
 
 extend sys {
     Cs : list of C;
-    
+
     keep Cs.size() in [10..20];
-    
+
     run() is also {
+// FIXME support.function.builtin.specman
         var c : list of FOO C;
-        
+
         c = Cs.all(it is a FOO C).as_a(list of FOO C);
     };
 };

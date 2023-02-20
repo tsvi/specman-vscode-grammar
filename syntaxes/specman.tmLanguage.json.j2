@@ -294,8 +294,8 @@
         { "include": "#operators" },
         { "include": "#built-in-variables" },
         {# TODO { "include": "#type-casting" },#}
-        { "include": "#preprocessor" }{# ,#}
-        {# TODO { "include": "#built-in-function-calls" }#}
+        { "include": "#preprocessor" },
+        { "include": "#built-in-function-calls" }
       ]
     },
     "literals" : {
@@ -818,6 +818,62 @@
       "endCaptures": {
         "1": {"name": "punctuation.terminator.specman"}
       }
+    },
+    "built-in-function-calls": {
+      "patterns": [
+        {
+          "begin": "\\s+({{built_in_functions_optional_parens}})\\b(?=\\s*(\\()?)",
+          "beginCaptures": {
+            "1": {"name": "support.function.builtin.specman"}
+          },
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(?=\\()",
+          "patterns": [
+            {
+              "match": "\\s*([;,])",
+              "name": "punctuation.terminator.specman"
+            },
+            { "include": "#actions"}
+          ]
+        },
+        {
+          "match": "({{built_in_functions}})\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "name": "meta.function-call.builtin.specman"
+          {#TODO "patterns": [ { "include": "#function-call-parameters" } ] #}
+        },
+        {
+          "match": "\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}}|{{any_struct_member_functions}}|{{any_unit_member_functions}})\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "name": "meta.function-call.builtin.specman"
+          {#TODO "patterns": [ { "include": "#function-call-parameters" } ] #}
+        },
+        {
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})(?=\\s*\\{)",
+          "captures": {
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "variable.other.specman"},
+            "4": {"name": "keyword.control.specman"},
+            "5": {"name": "variable.other.specman"}
+          }
+        },
+        {
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+",
+          "captures": {
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "variable.other.specman"},
+            "4": {"name": "keyword.control.specman"}
+          }
+        }
+      ]
     }
   }
 }

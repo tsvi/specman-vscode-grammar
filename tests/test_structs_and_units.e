@@ -8,6 +8,7 @@ extend sys {
    foo: BLUE'det foo_u is instance;
 
    setup() is also {
+// ^^^^^ support.function.builtin.specman
       print me;
    };
 };
