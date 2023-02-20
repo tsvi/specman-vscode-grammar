@@ -542,8 +542,8 @@
             "2":  {"name": "entity.name.label.specman"},
             "3":  {"name": "keyword.other.constraint.specman"},
             "4":  {"name": "keyword.modifier.constraint.specman"}
-          }
-          {# TODO "push": "constraint-expression" #}
+          },
+          "patterns": [{"include": "#constraint-expression"}]
         },
         {
           "match": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?:{{valid_name}}\\s*)(\\bbefore\\b)\\s*(?:{{valid_name}})(;)",
@@ -577,8 +577,8 @@
             "2":  {"name": "entity.name.label.specman"},
             "3":  {"name": "keyword.other.constraint.specman"},
             "4":  {"name": "keyword.modifier.constraint.specman"}
-          }
-          {# TODO "push": "constraint-expression" #}
+          },
+          "patterns": [{"include": "#constraint-expression" }]
         }
       ]
     },
@@ -801,6 +801,22 @@
       "end": "(\")",
       "endCaptures": {
         "1": {"name": "punctuation.definition.string.end.specman"}
+      }
+    },
+    "constraint-expression": {
+      "name": "meta.constraint-expression.specman",
+      "begin": "(=>\\s+)(all\\s+of\\b)?(?=\\s*\\{)",
+      "beginCaptures": {
+        "1": {"name": "keyword.operator.logical.specman"},
+        "2": {"name": "keyword.control.constraint.specman"}
+      },
+      "patterns": [
+        { "include": "#priority-scopes" }
+        {#TODO { "include": "#list-literals" } #}
+      ],
+      "end": "(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.terminator.specman"}
       }
     }
   }

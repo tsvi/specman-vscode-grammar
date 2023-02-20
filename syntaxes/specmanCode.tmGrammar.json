@@ -431,30 +431,6 @@
         "push": "struct-declaration"
       }
     ],
-    "constraint-expression": [
-      {
-        "meta_scope": "meta.constraint-expression.specman"
-      },
-      {
-        "match": "(=>\\s+)(all\\s+of\\b)?(?=\\s*\\{)",
-        "captures": {
-          "1": "keyword.operator.logical.specman",
-          "2": "keyword.control.constraint.specman"
-        },
-        "pop": true
-      },
-      {
-        "include": "priority-scopes"
-      },
-      {
-        "include": "list-literals"
-      },
-      {
-        "match": ";",
-        "scope": "punctuation.terminator.specman",
-        "pop": true
-      }
-    ],
     "list-literals": [
       {
         "match": "(\\{)",
