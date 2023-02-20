@@ -130,23 +130,6 @@
         "include": "stray-brackets"
       }
     ],
-    "string": [
-      {
-        "meta_scope": "string.quoted.double.specman"
-      },
-      {
-        "meta_include_prototype": false
-      },
-      {
-        "match": "\\\\n|\\\\t|\\\\f|\\\\\"|\\\\\\\\|\\\\r",
-        "scope": "constant.character.escape.specman"
-      },
-      {
-        "match": "\"",
-        "scope": "punctuation.definition.string.end.specman",
-        "pop": true
-      }
-    ],
     "type-casting": [
       {
         "match": "\\.(as_a)\\s*(\\()",

@@ -4,6 +4,10 @@
 unit ifx_irq_source {
    on state_change$ {
       messagef(IFX_IRQ, HIGH, "(%s) : \"string-within-string\"", trans.state, name, trans);
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  string.quoted.double.specman
+//                                    ^^                    ^^  constant.character.escape.specman
+//                            ^                                 punctuation.definition.string.begin.specman
+//                                                            ^ punctuation.definition.string.end.specman
       messagef(IFX_IRQ, HIGH, "Raw IRQ %s change dected (%s): %s", trans.state, name, trans);
       chg_raw$.write(trans);
    };
