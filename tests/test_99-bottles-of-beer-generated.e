@@ -9,22 +9,36 @@ for each in bla {
 <'
 
 // 99 Bottles of beer
-// <- punctuation.section.comment.specman
+// <- comment.line.specman punctuation.definition.comment.specman
 // By Thorsten Dworzak
 // ^^^^^^^^^^^^^^^^^^^ comment.line.specman
 
 extend sys  {
+// <----- keyword.declaration.class.specman
+//     ^^^ entity.name.class.specman
+//          ^ punctuation.section.class.begin.specman
+// <----------- meta.class.declaration.specman
    lyrics: list of string;
 // ^^^^^^ variable.other.member.specman
 //       ^ punctuation.separator.type.specman
 //         ^^^^^^^^^^^^^^ storage.type.specman
 //                       ^ punctuation.terminator.specman
 // Some comment
-// <- punctuation.section.comment.specman
+// <- punctuation.definition.comment.specman
 
 
    keep lyrics.size() == 200;
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class.declaration.specman
+// ^^^^ keyword.other.constraint.specman
+//      ^^^^^^ variable.other.specman
+//             ^^^^ support.function.builtin.specman
+//                    ^^ keyword.operator.comparison.specman
+//                       ^^^ constant.numeric.unsigned.integer
+
    keep beer_c is for each (o) using index (n) in lyrics  {
+// ^^^^ keyword.other.constraint.specman
+//      ^^^^^^ variable.other.specman
+
       n==0                   => it == appendf("Go to the store and buy some more, 99 bottles of beer on the wall.");
       ((n%2==1) and (n!= 0)) => it == appendf("%s bottle%s of beer on the wall, %s bottle%s of beer.",
                                                   (n==1 ? "No more":(n/2).as_a(string)),
