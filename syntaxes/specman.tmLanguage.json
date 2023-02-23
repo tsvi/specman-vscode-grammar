@@ -143,13 +143,12 @@
         { "include": "#member-declaration"},
         { "include": "#priority-scopes"},
         { "include": "#scalar-types" },
-        
+        { "include": "#when-inheritance" },
         { "include": "#scalar-type-definition" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
         { "include": "#code-blocks" },
-        
-        
+        { "include": "#methods"},
         { "include": "#default-scopes" }
       ]
     },
@@ -293,7 +292,7 @@
         { "include": "#template-params" },
         { "include": "#operators" },
         { "include": "#built-in-variables" },
-        
+        { "include": "#type-casting" },
         { "include": "#preprocessor" },
         { "include": "#built-in-function-calls" }
       ]
@@ -683,9 +682,8 @@
         { "include": "#struct-allocation" },
         { "include": "#variable-declaration" },
         { "include": "#checks" },
-        
+        { "include": "#function-calls" },
         { "include": "#code-blocks" },
-        
         { "include": "#default-scopes" }
       ]
     },
@@ -761,7 +759,6 @@
             "4": {"name": "keyword.control.import.specman"},
             "5": {"name": "punctuation.section.block.begin.specman"}
           },
-          
           "end": "\\}",
           "endCaptures": "punctuation.section.block.end.specman",
           "patterns": [
@@ -811,8 +808,8 @@
         "2": {"name": "keyword.control.constraint.specman"}
       },
       "patterns": [
-        { "include": "#priority-scopes" }
-        
+        { "include": "#priority-scopes" },
+        { "include": "#list-literals" }
       ],
       "end": "(;)",
       "endCaptures": {
@@ -842,8 +839,8 @@
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman"
-          
+          "name": "meta.function-call.builtin.specman",
+          "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
           "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
@@ -851,8 +848,8 @@
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman"
-          
+          "name": "meta.function-call.builtin.specman",
+          "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
           "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
@@ -872,6 +869,208 @@
             "3": {"name": "variable.other.specman"},
             "4": {"name": "keyword.control.specman"}
           }
+        }
+      ]
+    },
+    "type-casting": {
+      "patterns": [
+        {
+          "begin": "\\.(as_a)\\s*(\\()",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.type-casting.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "contentName": "meta.type-casting.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": "punctuation.section.parens.end.specman"
+          },
+          "patterns": [
+            {
+              "begin": "(\\()",
+              "beginCaptures": {
+                "1": {"name": "punctuation.section.parens.begin.specman"}
+              },
+              "end": "(\\))",
+              "endCaptures": {
+                "1": {"name": "punctuation.section.parens.end.specman"}
+              },
+              "patterns": [
+                { "include": "#literals" },
+                { "include": "#operators" }
+              ]
+            },
+            {
+              "match": "(?:\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b)",
+              "name": "storage.type.specman"
+            },
+            { "include": "#literals"  },
+            { "include": "#operators" }
+          ]
+        },
+        {
+          "match": "\\btype\\b",
+          "name": "keyword.other.constraint.specman"
+        },
+        {
+          "match": "(\\bis\\s+(?:\\bnot\\b)?\\s*a)(?:\\s+((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))+",
+          "captures": {
+            "1": {"name": "keyword.other.type-casting.specman"},
+            "2": {"name": "storage.type.specman"}
+          }
+        }
+      ]
+    },
+    "function-calls": {
+      "match": "(?=\\b([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\b\\s*\\()",
+      "patterns": [{"include": "#function-consume"}]
+    },
+    "function-consume": {
+      "name": "meta.function-call.specman",
+      "patterns": [
+        {
+          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above)\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "patterns": [{"include": "#function-call-parameters"}]
+        },
+        {
+          "match": "\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(\\()",
+          "captures": {
+            "1": {"name": "variable.function.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "patterns": [{"include": "#function-call-parameters"}]
+        }
+      ]
+    },
+    "function-call-parameters": {
+      "end": "(\\))\\s*(?=;)?",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(,)",
+          "scope": "punctuation.separator.specman"
+        },
+        { "include": "#actions" }
+      ]
+    },
+    "when-inheritance": {
+      "match": "(?=^\\s*when(?:\\s+((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))+\\s*\\{)",
+      "patterns": [{"include": "#struct-declaration"}]
+    },
+    "methods": {
+      "match": "(?=^\\s*(?:package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*\\()",
+      "patterns": [{"include": "#method-declaration"}]
+    },
+    "method-declaration": {
+      "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(\\()",
+      "beginCaptures": {
+        "1": {"name": "storage.modifier.function.specman"},
+        "2": {"name": "storage.modifier.function.specman"},
+        "3": {"name": "storage.modifier.function.specman"},
+        "4": {"name": "meta.method.identifier.specman entity.name.function.specman"},
+        "5": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
+      },
+      "patterns": [{"include": "#method-parameters"}],
+      "end": "^((?!is).)*$"
+    },
+    "method-parameters": {
+      "name": "meta.method.parameters.specman",
+      "end": "(\\))\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?))",
+          "captures": {
+            "1": {"name": "variable.parameter.specman"},
+            "2": {"name": "punctuation.separator.parameter.specman"},
+            "3": {"name": "punctuation.accessor.parameter.specman"},
+            "4": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.parameter.specman"
+        },
+        {
+          "match": "\\)",
+          "name": "punctuation.section.parens.end.specman",
+          "patterns": [{"include": "#method-declaration-end"}]
+        },
+        { "include": "#literals"},
+        { "include": "#operators"}
+      ]
+    },
+    "method-declaration-end": {
+      "end": "(is)\\s+(empty|undefined|import.*)\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "keyword.other.function.specman"},
+        "2": {"name": "keyword.modifier.function.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
+          "captures": {
+            "1": {"name": "punctuation.separator.return-type.specman"},
+            "2": {"name": "meta.method.return-type.specman storage.type.specman"}
+          }
+        },
+        {
+          "match": "(\\@)[a-zA-Z](?:[a-zA-Z0-9_]+)?",
+          "captures": {
+            "1": {"name": "punctuation.accessor.event.specman"},
+            "2": {"name": "keyword.control.function.event.specman"}
+          }
+        },
+        {
+          "match": "(is)\\s+(only|first|also)?",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.modifier.function.specman"}
+          }
+        },
+        {
+          "match": "\\{",
+          "scope": "punctuation.section.method.begin.specman",
+          "patterns": [
+            {
+              "match": "(\\})\\s*(;)?",
+              "captures": {
+                "1": {"name": "punctuation.section.method.end.specman"},
+                "2": {"name": "punctuation.terminator.specman"}
+              }
+            },
+            { "include": "#actions" }
+          ]
+        }
+      ]
+    },
+    "list-literals": {
+      "begin": "(\\{)",
+      "beginCaptures": {
+        "1": {"name": "punctuation.section.list-literal.begin.specman"}
+      },
+      "contentName": "meta.list-literal.specman",
+      "end": "(\\})\\s*",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.list-literal.end.specman"}
+      },
+      "patterns": [
+        { "include": "#priority-scopes" },
+        { "include": "#list-literals" },
+        {
+          "match": "(;)",
+          "name": "punctuation.separator.specman"
         }
       ]
     }

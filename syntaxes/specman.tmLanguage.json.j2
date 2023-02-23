@@ -143,13 +143,12 @@
         { "include": "#member-declaration"},
         { "include": "#priority-scopes"},
         { "include": "#scalar-types" },
-        {# TODO { "include": "#when-inheritance" }, #}
+        { "include": "#when-inheritance" },
         { "include": "#scalar-type-definition" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
         { "include": "#code-blocks" },
-        {# TODO { "include": "#methods"}, #}
-        {# TODO { "include": "#stray-brackets-code"}, #}
+        { "include": "#methods"},
         { "include": "#default-scopes" }
       ]
     },
@@ -293,7 +292,7 @@
         { "include": "#template-params" },
         { "include": "#operators" },
         { "include": "#built-in-variables" },
-        {# TODO { "include": "#type-casting" },#}
+        { "include": "#type-casting" },
         { "include": "#preprocessor" },
         { "include": "#built-in-function-calls" }
       ]
@@ -683,9 +682,8 @@
         { "include": "#struct-allocation" },
         { "include": "#variable-declaration" },
         { "include": "#checks" },
-        {# TODO { "include": "#function-calls" }, #}
+        { "include": "#function-calls" },
         { "include": "#code-blocks" },
-        {# TODO { "include": "#stray-brackets-actions" }, #}
         { "include": "#default-scopes" }
       ]
     },
@@ -761,7 +759,6 @@
             "4": {"name": "keyword.control.import.specman"},
             "5": {"name": "punctuation.section.block.begin.specman"}
           },
-          {# TODO "name": "meta.preprocessor.specman", #}
           "end": "\\}",
           "endCaptures": "punctuation.section.block.end.specman",
           "patterns": [
@@ -811,8 +808,8 @@
         "2": {"name": "keyword.control.constraint.specman"}
       },
       "patterns": [
-        { "include": "#priority-scopes" }
-        {#TODO { "include": "#list-literals" } #}
+        { "include": "#priority-scopes" },
+        { "include": "#list-literals" }
       ],
       "end": "(;)",
       "endCaptures": {
@@ -842,8 +839,8 @@
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman"
-          {#TODO "patterns": [ { "include": "#function-call-parameters" } ] #}
+          "name": "meta.function-call.builtin.specman",
+          "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
           "match": "\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}}|{{any_struct_member_functions}}|{{any_unit_member_functions}})\\s*(\\()",
@@ -851,8 +848,8 @@
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman"
-          {#TODO "patterns": [ { "include": "#function-call-parameters" } ] #}
+          "name": "meta.function-call.builtin.specman",
+          "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
           "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})(?=\\s*\\{)",
@@ -872,6 +869,208 @@
             "3": {"name": "variable.other.specman"},
             "4": {"name": "keyword.control.specman"}
           }
+        }
+      ]
+    },
+    "type-casting": {
+      "patterns": [
+        {
+          "begin": "\\.(as_a)\\s*(\\()",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.type-casting.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "contentName": "meta.type-casting.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": "punctuation.section.parens.end.specman"
+          },
+          "patterns": [
+            {
+              "begin": "(\\()",
+              "beginCaptures": {
+                "1": {"name": "punctuation.section.parens.begin.specman"}
+              },
+              "end": "(\\))",
+              "endCaptures": {
+                "1": {"name": "punctuation.section.parens.end.specman"}
+              },
+              "patterns": [
+                { "include": "#literals" },
+                { "include": "#operators" }
+              ]
+            },
+            {
+              "match": "(?:\\b{{valid_type_no_modifier}}\\b)",
+              "name": "storage.type.specman"
+            },
+            { "include": "#literals"  },
+            { "include": "#operators" }
+          ]
+        },
+        {
+          "match": "\\btype\\b",
+          "name": "keyword.other.constraint.specman"
+        },
+        {
+          "match": "(\\bis\\s+(?:\\bnot\\b)?\\s*a)(?:\\s+({{valid_determinant}}))+",
+          "captures": {
+            "1": {"name": "keyword.other.type-casting.specman"},
+            "2": {"name": "storage.type.specman"}
+          }
+        }
+      ]
+    },
+    "function-calls": {
+      "match": "(?=\\b{{valid_name}}\\b\\s*\\()",
+      "patterns": [{"include": "#function-consume"}]
+    },
+    "function-consume": {
+      "name": "meta.function-call.specman",
+      "patterns": [
+        {
+          "match": "\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}})\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "patterns": [{"include": "#function-call-parameters"}]
+        },
+        {
+          "match": "\\b{{valid_id}}\\b\\s*(\\()",
+          "captures": {
+            "1": {"name": "variable.function.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "patterns": [{"include": "#function-call-parameters"}]
+        }
+      ]
+    },
+    "function-call-parameters": {
+      "end": "(\\))\\s*(?=;)?",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(,)",
+          "scope": "punctuation.separator.specman"
+        },
+        { "include": "#actions" }
+      ]
+    },
+    "when-inheritance": {
+      "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",
+      "patterns": [{"include": "#struct-declaration"}]
+    },
+    "methods": {
+      "match": "(?=^\\s*(?:{{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*\\()",
+      "patterns": [{"include": "#method-declaration"}]
+    },
+    "method-declaration": {
+      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*(\\()",
+      "beginCaptures": {
+        "1": {"name": "storage.modifier.function.specman"},
+        "2": {"name": "storage.modifier.function.specman"},
+        "3": {"name": "storage.modifier.function.specman"},
+        "4": {"name": "meta.method.identifier.specman entity.name.function.specman"},
+        "5": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
+      },
+      "patterns": [{"include": "#method-parameters"}],
+      "end": "^((?!is).)*$"
+    },
+    "method-parameters": {
+      "name": "meta.method.parameters.specman",
+      "end": "(\\))\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(?:{{valid_id}}\\s*(:)\\s*(?:(\\*)?{{valid_type}}))",
+          "captures": {
+            "1": {"name": "variable.parameter.specman"},
+            "2": {"name": "punctuation.separator.parameter.specman"},
+            "3": {"name": "punctuation.accessor.parameter.specman"},
+            "4": {"name": "storage.type.specman"}
+          }
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.parameter.specman"
+        },
+        {
+          "match": "\\)",
+          "name": "punctuation.section.parens.end.specman",
+          "patterns": [{"include": "#method-declaration-end"}]
+        },
+        { "include": "#literals"},
+        { "include": "#operators"}
+      ]
+    },
+    "method-declaration-end": {
+      "end": "(is)\\s+(empty|undefined|import.*)\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "keyword.other.function.specman"},
+        "2": {"name": "keyword.modifier.function.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        {
+          "match": "(:)\\s*{{valid_type}}",
+          "captures": {
+            "1": {"name": "punctuation.separator.return-type.specman"},
+            "2": {"name": "meta.method.return-type.specman storage.type.specman"}
+          }
+        },
+        {
+          "match": "(\\@){{valid_id}}",
+          "captures": {
+            "1": {"name": "punctuation.accessor.event.specman"},
+            "2": {"name": "keyword.control.function.event.specman"}
+          }
+        },
+        {
+          "match": "(is)\\s+(only|first|also)?",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.modifier.function.specman"}
+          }
+        },
+        {
+          "match": "\\{",
+          "scope": "punctuation.section.method.begin.specman",
+          "patterns": [
+            {
+              "match": "(\\})\\s*(;)?",
+              "captures": {
+                "1": {"name": "punctuation.section.method.end.specman"},
+                "2": {"name": "punctuation.terminator.specman"}
+              }
+            },
+            { "include": "#actions" }
+          ]
+        }
+      ]
+    },
+    "list-literals": {
+      "begin": "(\\{)",
+      "beginCaptures": {
+        "1": {"name": "punctuation.section.list-literal.begin.specman"}
+      },
+      "contentName": "meta.list-literal.specman",
+      "end": "(\\})\\s*",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.list-literal.end.specman"}
+      },
+      "patterns": [
+        { "include": "#priority-scopes" },
+        { "include": "#list-literals" },
+        {
+          "match": "(;)",
+          "name": "punctuation.separator.specman"
         }
       ]
     }
