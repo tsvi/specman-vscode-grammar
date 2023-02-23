@@ -44,7 +44,7 @@
     "comment": {
       "match": "(//|--)(.*)",
       "captures": {
-        "1": {"name": "punctuation.section.comment.specman"},
+        "1": {"name": "comment.line.specman punctuation.definition.comment.specman"},
         "2": {"name": "comment.line.specman"}
       }
     },
@@ -60,17 +60,16 @@
       "patterns": [
         {
           "begin": "\\b(struct|unit)\\s+({{valid_id}})(?:\\s+(like)\\s+({{valid_id}}))?\\s*(?:of\\s+\\(\\s*({{valid_id}})\\s*\\))?\\s*(?:(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
-          "name": "meta.class.declaration.specman",
           "beginCaptures": {
-            "1": {"name": "keyword.declaration.class.specman"},
-            "2": {"name": "entity.name.class.specman"},
-            "3": {"name": "keyword.declaration.like.specman"},
-            "4": {"name": "entity.other.inherited-class.specman"},
-            "5": {"name": "entity.other.template.specman"},
-            "6": {"name": "keyword.declaration.interface.specman"},
-            "7": {"name": "storage.type.interface.specman"},
-            "8": {"name": "storage.type.interface.specman"},
-            "9": {"name": "punctuation.section.class.begin.specman"}
+            "1": {"name": "meta.class.declaration.specman keyword.declaration.class.specman"},
+            "2": {"name": "meta.class.declaration.specman entity.name.class.specman"},
+            "3": {"name": "meta.class.declaration.specman keyword.declaration.like.specman"},
+            "4": {"name": "meta.class.declaration.specman entity.other.inherited-class.specman"},
+            "5": {"name": "meta.class.declaration.specman entity.other.template.specman"},
+            "6": {"name": "meta.class.declaration.specman keyword.declaration.interface.specman"},
+            "7": {"name": "meta.class.declaration.specman storage.type.interface.specman"},
+            "8": {"name": "meta.class.declaration.specman storage.type.interface.specman"},
+            "9": {"name": "meta.class.declaration.specman punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",
@@ -589,7 +588,7 @@
         },
         {
           "name": "keyword.other.statement.specman",
-          "match": "\\b(keep|export|extend|template|on|expect|routine|specman|radix|ignore|illegal|traceable|untraceable|cover|using|count_only|trace_only|at_least|transition|item|ranges|cross|text|call|task|within)\\b"
+          "match": "\\b(export|extend|template|on|expect|routine|specman|radix|ignore|illegal|traceable|untraceable|cover|using|count_only|trace_only|at_least|transition|item|ranges|cross|text|call|task|within)\\b"
         },
         {
           "name": "support.function.builtin.specman meta.function-call.builtin.specman",
