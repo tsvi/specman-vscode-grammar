@@ -535,14 +535,18 @@
           }
         },
         {
-          "match": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?=.*\\s*(=>))",
-          "captures": {
+          "begin": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?=.*\\s*(=>))",
+          "beginCaptures": {
             "1":  {"name": "keyword.other.constraint.specman"},
             "2":  {"name": "entity.name.label.specman"},
             "3":  {"name": "keyword.other.constraint.specman"},
             "4":  {"name": "keyword.modifier.constraint.specman"}
           },
-          "patterns": [{"include": "#constraint-expression"}]
+          "patterns": [{"include": "#constraint-expression"}],
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "punctuation.terminator.specman"}
+          }
         },
         {
           "match": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?:{{valid_name}}\\s*)(\\bbefore\\b)\\s*(?:{{valid_name}})(;)",
@@ -570,14 +574,19 @@
           }
         },
         {
-          "match": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.modifier.constraint.specman"}
+          "begin": "(\\bkeep\\b)\\s+(?:{{valid_id}}\\s+(is)\\s+)?(\\bsoft\\b)?\\s*",
+          "beginCaptures": {
+            "0": {"name": "meta.constraint-def.specman"},
+            "1": {"name": "keyword.other.constraint.specman"},
+            "2": {"name": "entity.name.label.specman"},
+            "3": {"name": "keyword.other.constraint.specman"},
+            "4": {"name": "keyword.modifier.constraint.specman"}
           },
-          "patterns": [{"include": "#constraint-expression" }]
+          "patterns": [{"include": "#constraint-expression" }],
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "punctuation.terminator.specman"}
+          }
         }
       ]
     },
@@ -802,19 +811,24 @@
     },
     "constraint-expression": {
       "name": "meta.constraint-expression.specman",
-      "begin": "(=>\\s+)(all\\s+of\\b)?(?=\\s*\\{)",
-      "beginCaptures": {
-        "1": {"name": "keyword.operator.logical.specman"},
-        "2": {"name": "keyword.control.constraint.specman"}
-      },
       "patterns": [
+        {
+          "match": "({{valid_name}})",
+          "captures": {
+            "1": {"name": "variable.other.specman"}
+          },
+          "patterns": { "include": "#priority-scopes" }
+        },
+        {
+          "match": "(=>\\s+)(all\\s+of\\b)?(?=\\s*\\{)",
+          "captures": {
+            "1": {"name": "keyword.operator.logical.specman"},
+            "2": {"name": "keyword.control.constraint.specman"}
+          }
+        },
         { "include": "#priority-scopes" },
         { "include": "#list-literals" }
-      ],
-      "end": "(;)",
-      "endCaptures": {
-        "1": {"name": "punctuation.terminator.specman"}
-      }
+      ]
     },
     "built-in-function-calls": {
       "patterns": [

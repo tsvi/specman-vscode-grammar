@@ -28,12 +28,13 @@ extend sys  {
 
 
    keep lyrics.size() == 200;
+// ^^^^                     ^ meta.constraint-def.specman
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class.declaration.specman
 // ^^^^ keyword.other.constraint.specman
 //      ^^^^^^ variable.other.specman
 //             ^^^^ support.function.builtin.specman
 //                    ^^ keyword.operator.comparison.specman
-//                       ^^^ constant.numeric.unsigned.integer
+//                       ^^^ constant.numeric.unsized.integer.specman
 
    keep beer_c is for each (o) using index (n) in lyrics  {
 // ^^^^ keyword.other.constraint.specman
