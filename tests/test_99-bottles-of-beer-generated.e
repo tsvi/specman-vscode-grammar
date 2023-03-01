@@ -37,10 +37,15 @@ extend sys  {
 //                       ^^^ constant.numeric.unsized.integer.specman
 
    keep beer_c is for each (o) using index (n) in lyrics  {
-// ^^^^ keyword.other.constraint.specman
-//      ^^^^^^ variable.other.specman
+// ^^^^        ^^ keyword.other.constraint.specman
+//      ^^^^^^ entity.name.label.specman
+//                ^^^^^^^^     ^^^^^^^^^^^     ^^ keyword.control.specman
+//                          ^                ^    ^^^^^^ variable.other.specman
 
       n==0                   => it == appendf("Go to the store and buy some more, 99 bottles of beer on the wall.");
+//    ^ variable.other.specman
+//     ^^ keyword.operator.comparison.specman
+//       ^ constant.numeric.unsized.integer.specman
       ((n%2==1) and (n!= 0)) => it == appendf("%s bottle%s of beer on the wall, %s bottle%s of beer.",
                                                   (n==1 ? "No more":(n/2).as_a(string)),
                                                   (n==3) ? "":"s",
