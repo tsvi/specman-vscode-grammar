@@ -141,10 +141,10 @@
       "patterns": [
         { "include": "#comment" },
         { "include": "#member-declaration"},
+        { "include": "#scalar-type-definition" },
         { "include": "#priority-scopes"},
         { "include": "#scalar-types" },
         { "include": "#when-inheritance" },
-        { "include": "#scalar-type-definition" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
         { "include": "#code-blocks" },
