@@ -81,7 +81,7 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend|\\bwhen)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
+          "begin": "(\\bextend)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
@@ -833,16 +833,21 @@
     "built-in-function-calls": {
       "patterns": [
         {
-          "begin": "\\s+({{built_in_functions_optional_parens}})\\b(?=\\s*(\\()?)",
+          "begin": "\\s+({{built_in_functions_optional_parens}})\\b\\s*(\\()?",
           "beginCaptures": {
-            "1": {"name": "support.function.builtin.specman"}
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
           },
           "contentName": "meta.function-call.builtin.specman",
-          "end": "(?=\\()",
+          "end": "(\\))?(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
           "patterns": [
             {
-              "match": "\\s*([;,])",
-              "name": "punctuation.terminator.specman"
+              "match": "\\s*(,)",
+              "name": "punctuation.separator.specman"
             },
             { "include": "#actions"}
           ]
@@ -975,8 +980,20 @@
       ]
     },
     "when-inheritance": {
-      "match": "(?=^\\s*when(?:\\s+({{valid_determinant}}))+\\s*\\{)",
-      "patterns": [{"include": "#struct-declaration"}]
+      "begin": "^\\s*(when)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
+      "beginCaptures": {
+        "0": {"name": "meta.class.declaration.specman" },
+        "1": {"name": "keyword.declaration.class.specman"},
+        "2": {"name": "entity.name.class.specman"},
+        "3": {"name": "punctuation.section.class.begin.specman"}
+      },
+      "contentName": "meta.class.body.specman",
+      "end": "(\\})\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.class.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [ { "include": "#code" } ]
     },
     "methods": {
       "match": "(?=^\\s*(?:{{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*\\()",

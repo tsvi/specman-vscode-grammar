@@ -32,12 +32,23 @@ unit foo_u {
    agents: list of list of agent_u is instance;
 
    when BLUE foo_u {
+   // <--- keyword.declaration.class.specman
+   //   ^^^^ ^^^^^ entity.name.class.specman
+   //              ^ punctuation.section.class.begin.specman
 
    };
+// ^ punctuation.section.class.end.specman
+//  ^ punctuation.terminator.specman
 
    when b'TRUE RED'det {
+// ^^^^^^^^^^^^^^^^^^^^^ meta.class.declaration.specman
+// ^^^^ keyword.declaration.class.specman
+//      ^^^^^^ ^^^^^^^ entity.name.class.specman
+//                     ^ punctuation.section.class.begin.specman
 
    };
+// ^ punctuation.section.class.end.specman
+//  ^ punctuation.terminator.specman
 
    s_p : list of in simple_port of uint(bits:3) is instance;
    m_p : out method_port of deliver_method_t is instance;
