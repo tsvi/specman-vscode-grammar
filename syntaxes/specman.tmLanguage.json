@@ -996,10 +996,6 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "match": "(?=^\\s*(?:package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*\\()",
-      "patterns": [{"include": "#method-declaration"}]
-    },
-    "method-declaration": {
       "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},

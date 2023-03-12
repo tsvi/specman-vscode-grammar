@@ -996,10 +996,6 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "match": "(?=^\\s*(?:{{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*\\()",
-      "patterns": [{"include": "#method-declaration"}]
-    },
-    "method-declaration": {
       "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*(\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
