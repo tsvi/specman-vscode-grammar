@@ -4,6 +4,7 @@ Structs and units
 <'
 
 extend sys {
+//         ^ punctuation.section.class.begin.specman
 
    foo: BLUE'det foo_u is instance;
 
@@ -12,6 +13,8 @@ extend sys {
       print me;
    };
 };
+// <- punctuation.section.class.end.specman
+// ~^ punctuation.terminator.specman
 
 struct bar_s {
    my_det: [LARGE, SMALL];

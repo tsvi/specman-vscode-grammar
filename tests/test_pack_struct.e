@@ -6,18 +6,18 @@ struct s {
 //  ^ punctuation.definition.variable.physical.specman
 //   ^^ variable.other.member.specman
 //     ^ punctuation.separator.type.specman
-// FIXME      ========= storage.type.specman
-// FIXME               = punctuation.terminator.specman
+//       ^^^^ storage.type.specman
+//                     ^ punctuation.terminator.specman
 
     %f2: uint(bits: 8);
-    
+
     do_pack(options: pack_options, l: *list of bit) is {
         var l_tmp: list of bit;
-        
+
         packing.pack_struct(me, options, l_tmp);
-        
+
         print l_tmp using radix=BIN;
-        
+
         l = l_tmp;
     };
 };
@@ -30,12 +30,12 @@ extend sys {
             .scalar_reorder = {};
             .final_reorder = {};
         };
-        
+
         var s: s = new with {
             .f1 = 0xAAF0;
             .f2 = 0xCC;
         };
-        
+
         print s using radix=BIN;
         print pack(po, s) using radix=BIN;
     };

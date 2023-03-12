@@ -29,6 +29,7 @@ extend sys  {
 
    keep lyrics.size() == 200;
 // ^^^^                     ^ meta.constraint-def.specman
+//      ^^^^^^^^^^^^^^^^^^^^  meta.constraint-expression.specman
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class.declaration.specman
 // ^^^^ keyword.other.constraint.specman
 //      ^^^^^^ variable.other.specman
