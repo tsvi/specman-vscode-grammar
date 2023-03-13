@@ -444,12 +444,12 @@
           "match": "(=>)"
         },
         {
-          "name": "keyword.operator.assignment.specman",
-          "match": "(=|\\+=|-=|\\*=|:=)"
-        },
-        {
           "name": "keyword.operator.comparison.specman",
           "match": "(==|!=|>|<|===|!===|>=|<=)"
+        },
+        {
+          "name": "keyword.operator.assignment.specman",
+          "match": "(=|\\+=|-=|\\*=|:=)"
         },
         {
           "name": "keyword.operator.arithmetic.specman",
