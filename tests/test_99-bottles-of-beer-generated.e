@@ -43,6 +43,9 @@ extend sys  {
 //                ^^^^^^^^     ^^^^^^^^^^^     ^^ keyword.control.specman
 //                          ^                ^    ^^^^^^ variable.other.specman
 
+// This is a comment within a constraint
+// <--------------------------------------- comment.line.specman
+
       n==0                   => it == appendf("Go to the store and buy some more, 99 bottles of beer on the wall.");
 //    ^ variable.other.specman
 //     ^^ keyword.operator.comparison.specman
