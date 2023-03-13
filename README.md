@@ -1,7 +1,6 @@
 # Specman grammar syntax for VS Code
 
-This repository holds the source code for the Specman (e) HDL verification language for
-VS Code.
+This addon adds support for the Specman (e) HDL verification language to VS Code.
 
 ## Development
 
