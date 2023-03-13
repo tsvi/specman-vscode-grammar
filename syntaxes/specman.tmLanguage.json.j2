@@ -397,7 +397,7 @@
     "template-params": {
       "patterns": [
         {
-          "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -408,7 +408,7 @@
           }
         },
         {
-          "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -419,7 +419,7 @@
           }
         },
         {
-          "match": "(<)\\s*(?:{{valid_id}}\\s*)\\'\\s*\\b(?:{{valid_id}}\\s*)(>)",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(?:({{valid_id}})\\s*)(>)",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -492,7 +492,7 @@
     "checks": {
       "patterns": [
         {
-          "match": "(\\bcheck\\b)\\s+(?:{{valid_id}}\\s+)?(\\bthat\\b)?\\s+",
+          "match": "(\\bcheck\\b)\\s+(?:({{valid_id}})\\s+)?(\\bthat\\b)?\\s+",
           "captures": {
             "1": {"name": "keyword.statement.specman"},
             "2": {"name": "entity.name.label.specman"},
@@ -659,7 +659,7 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:{{valid_id}}\\s*)(:)\\s*{{valid_type}}",
+          "match": "\\b(var|item)\\b\\s*(?:({{valid_id}})\\s*)(:)\\s*{{valid_type}}",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -668,7 +668,7 @@
           }
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:)\\s*(\\[\\s*)",
+          "match": "(\\bvar\\b)\\s*(?:({{valid_id}})\\s*)(:)\\s*(\\[\\s*)",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -678,7 +678,7 @@
           "patterns": {"include": "#enum-values-declaration"}
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:{{valid_id}}\\s*)(:=\\s*)",
+          "match": "(\\bvar\\b)\\s*(?:({{valid_id}})\\s*)(:=\\s*)",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -690,7 +690,7 @@
     "preprocessor": {
       "patterns": [
         {
-          "begin": "\\s*(?:\\}\\s*)?(#\\s*(?:ifdef|ifndef|else))\\s*((?:`)?{{valid_id}})?(\\s+then\\b)?\\s*(\\{)",
+          "begin": "\\s*(?:\\}\\s*)?(#\\s*(?:ifdef|ifndef|else))\\s*((?:`)?({{valid_id}}))?(\\s+then\\b)?\\s*(\\{)",
           "beginCaptures": {
             "1": {"name": "keyword.control.import.specman"},
             "2": {"name": "variable.other.define.specman"},
@@ -706,14 +706,14 @@
           ]
         },
         {
-          "match": "(\\bmethod_type\\b)\\s+\\b{{valid_id}}\\b\\s*(?=\\()",
+          "match": "(\\bmethod_type\\b)\\s+\\b({{valid_id}})\\b\\s*(?=\\()",
           "captures": {
             "1": {"name": "meta.function.method_type.specman keyword.declaration.specman"},
             "2": {"name": "meta.function.method_type.specman entity.name.function.specman"}
           }
         },
         {
-          "match": "(#\\s*(?:undef))\\s*((?:`)?{{valid_id}})",
+          "match": "(#\\s*(?:undef))\\s*((?:`)?({{valid_id}}))",
           "captures": {
             "1": {"name": "keyword.control.import.specman"},
             "2": {"name": "variable.other.define.specman"}
@@ -748,7 +748,7 @@
           }
         },
         {
-          "begin": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})\\s*(\\{)",
+          "begin": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*({{valid_id}})\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*({{valid_id}})\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})\\s*(\\{)",
           "beginCaptures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
@@ -856,7 +856,7 @@
           "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
-          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})(?=\\s*\\{)",
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*({{valid_id}})\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*({{valid_id}})\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})(?=\\s*\\{)",
           "captures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
@@ -866,7 +866,7 @@
           }
         },
         {
-          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*{{valid_id}}\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*{{valid_id}}\\s*\\)\\s*)?(in)\\s+",
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*({{valid_id}})\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*({{valid_id}})\\s*\\)\\s*)?(in)\\s+",
           "captures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
@@ -941,7 +941,7 @@
           "patterns": [{"include": "#function-call-parameters"}]
         },
         {
-          "match": "\\b{{valid_id}}\\b\\s*(\\()",
+          "match": "\\b({{valid_id}})\\b\\s*(\\()",
           "captures": {
             "1": {"name": "variable.function.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
@@ -981,7 +981,7 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b{{valid_id}}\\b\\s*(\\()",
+      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b({{valid_id}})\\b\\s*(\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
@@ -1001,7 +1001,7 @@
       },
       "patterns": [
         {
-          "match": "(?:{{valid_id}}\\s*(:)\\s*(?:(\\*)?{{valid_type}}))",
+          "match": "(?:({{valid_id}})\\s*(:)\\s*(?:(\\*)?{{valid_type}}))",
           "captures": {
             "1": {"name": "variable.parameter.specman"},
             "2": {"name": "punctuation.separator.parameter.specman"},
@@ -1038,7 +1038,7 @@
           }
         },
         {
-          "match": "(\\@){{valid_id}}",
+          "match": "(\\@)({{valid_id}})",
           "captures": {
             "1": {"name": "punctuation.accessor.event.specman"},
             "2": {"name": "keyword.control.function.event.specman"}
