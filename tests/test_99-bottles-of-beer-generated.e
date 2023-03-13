@@ -41,7 +41,11 @@ extend sys  {
 // ^^^^        ^^ keyword.other.constraint.specman
 //      ^^^^^^ entity.name.label.specman
 //                ^^^^^^^^     ^^^^^^^^^^^     ^^ keyword.control.specman
-//                          ^                ^    ^^^^^^ variable.other.specman
+//                          ^               ^     ^^^^^^ variable.other.specman
+//                                                        ^ punctuation.section.block.begin.specman
+
+// This is a comment within a constraint
+// <--------------------------------------- comment.line.specman
 
       n==0                   => it == appendf("Go to the store and buy some more, 99 bottles of beer on the wall.");
 //    ^ variable.other.specman

@@ -139,7 +139,6 @@
     },
     "code": {
       "patterns": [
-        { "include": "#comment" },
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition" },
         { "include": "#priority-scopes"},
@@ -288,6 +287,7 @@
     },
     "priority-scopes": {
       "patterns": [
+        { "include": "#comment" },
         { "include": "#literals" },
         { "include": "#template-params" },
         { "include": "#operators" },
@@ -397,7 +397,7 @@
     "template-params": {
       "patterns": [
         {
-          "match": "(<)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)(int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)",
+          "match": "(<)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)(int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -408,7 +408,7 @@
           }
         },
         {
-          "match": "(<)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
+          "match": "(<)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -419,7 +419,7 @@
           }
         },
         {
-          "match": "(<)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)\\'\\s*\\b(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(>)",
+          "match": "(<)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)\\'\\s*\\b(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(>)",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
@@ -492,7 +492,7 @@
     "checks": {
       "patterns": [
         {
-          "match": "(\\bcheck\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+)?(\\bthat\\b)?\\s+",
+          "match": "(\\bcheck\\b)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)?(\\bthat\\b)?\\s+",
           "captures": {
             "1": {"name": "keyword.statement.specman"},
             "2": {"name": "entity.name.label.specman"},
@@ -502,92 +502,21 @@
       ]
     },
     "constraint-def": {
+      "begin": "(\\bkeep\\b)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+(is)\\s+)?(\\bsoft\\b\\s)?\\s*",
+      "beginCaptures": {
+        "0": {"name": "meta.constraint-def.specman"},
+        "1": {"name": "keyword.other.constraint.specman"},
+        "2": {"name": "entity.name.label.specman"},
+        "3": {"name": "keyword.other.constraint.specman"},
+        "4": {"name": "keyword.modifier.constraint.specman"}
+      },
+      "end": ";",
+      "endCaptures": {
+        "0": {"name": "meta.constraint-def.specman punctuation.terminator.specman"}
+      },
+      "contentName": "meta.constraint-expression.specman",
       "patterns": [
-        {
-          "match": "(\\bkeep\\b)\\s+(?:\\s*([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\.(reset_soft)",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "variable.other.specman"},
-            "3":  {"name": "keyword.modifier.constraint.specman"}
-          }
-        },
-        {
-          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.modifier.constraint.specman"},
-            "5":  {"name": "keyword.control.specman"},
-            "6":  {"name": "variable.other.specman"},
-            "7":  {"name": "variable.other.specman"},
-            "8":  {"name": "keyword.control.specman"},
-            "9":  {"name": "variable.other.specman"}
-          }
-        },
-        {
-          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(all\\s+of\\b)(?=\\s*\\{)",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.control.constraint.specman"}
-          }
-        },
-        {
-          "begin": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?=.*\\s*(=>))",
-          "beginCaptures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.modifier.constraint.specman"}
-          },
-          "patterns": [{"include": "#constraint-expression"}],
-          "end": ";",
-          "endCaptures": {
-            "0": {"name": "punctuation.terminator.specman"}
-          }
-        },
-        {
-          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\s*)(\\bbefore\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(;)",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.modifier.constraint.specman"},
-            "5":  {"name": "variable.other.specman"},
-            "6":  {"name": "keyword.other.constraint.specman"},
-            "7":  {"name": "variable.other.specman"},
-            "8":  {"name": "punctuation.terminator.specman"}
-          }
-        },
-        {
-          "match": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s+(==)\\s+(\\bselect\\b)",
-          "captures": {
-            "1":  {"name": "keyword.other.constraint.specman"},
-            "2":  {"name": "entity.name.label.specman"},
-            "3":  {"name": "keyword.other.constraint.specman"},
-            "4":  {"name": "keyword.modifier.constraint.specman"},
-            "5":  {"name": "variable.other.specman"},
-            "6":  {"name": "keyword.operator.assignment.specman"},
-            "7":  {"name": "keyword.other.constraint.specman"}
-          }
-        },
-        {
-          "begin": "(\\bkeep\\b)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*",
-          "beginCaptures": {
-            "0": {"name": "meta.constraint-def.specman"},
-            "1": {"name": "keyword.other.constraint.specman"},
-            "2": {"name": "entity.name.label.specman"},
-            "3": {"name": "keyword.other.constraint.specman"},
-            "4": {"name": "keyword.modifier.constraint.specman"}
-          },
-          "patterns": [{"include": "#constraint-expression" }],
-          "end": ";",
-          "endCaptures": {
-            "0": {"name": "punctuation.terminator.specman"}
-          }
-        }
+        { "include": "#constraint-expression"}
       ]
     },
     "default-scopes": {
@@ -730,7 +659,7 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
+          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -739,7 +668,7 @@
           }
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:)\\s*(\\[\\s*)",
+          "match": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\[\\s*)",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -749,7 +678,7 @@
           "patterns": {"include": "#enum-values-declaration"}
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(:=\\s*)",
+          "match": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:=\\s*)",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -761,7 +690,7 @@
     "preprocessor": {
       "patterns": [
         {
-          "begin": "\\s*(?:\\}\\s*)?(#\\s*(?:ifdef|ifndef|else))\\s*((?:`)?[a-zA-Z](?:[a-zA-Z0-9_]+)?)?(\\s+then\\b)?\\s*(\\{)",
+          "begin": "\\s*(?:\\}\\s*)?(#\\s*(?:ifdef|ifndef|else))\\s*((?:`)?([a-zA-Z](?:[a-zA-Z0-9_]+)?))?(\\s+then\\b)?\\s*(\\{)",
           "beginCaptures": {
             "1": {"name": "keyword.control.import.specman"},
             "2": {"name": "variable.other.define.specman"},
@@ -777,14 +706,14 @@
           ]
         },
         {
-          "match": "(\\bmethod_type\\b)\\s+\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(?=\\()",
+          "match": "(\\bmethod_type\\b)\\s+\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(?=\\()",
           "captures": {
             "1": {"name": "meta.function.method_type.specman keyword.declaration.specman"},
             "2": {"name": "meta.function.method_type.specman entity.name.function.specman"}
           }
         },
         {
-          "match": "(#\\s*(?:undef))\\s*((?:`)?[a-zA-Z](?:[a-zA-Z0-9_]+)?)",
+          "match": "(#\\s*(?:undef))\\s*((?:`)?([a-zA-Z](?:[a-zA-Z0-9_]+)?))",
           "captures": {
             "1": {"name": "keyword.control.import.specman"},
             "2": {"name": "variable.other.define.specman"}
@@ -810,24 +739,83 @@
       }
     },
     "constraint-expression": {
-      "name": "meta.constraint-expression.specman",
       "patterns": [
         {
-          "match": "(([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))",
+          "match": "(?:\\s*([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\.(reset_soft)",
           "captures": {
-            "1": {"name": "variable.other.specman"}
-          },
-          "patterns": { "include": "#priority-scopes" }
-        },
-        {
-          "match": "(=>\\s+)(all\\s+of\\b)?(?=\\s*\\{)",
-          "captures": {
-            "1": {"name": "keyword.operator.logical.specman"},
-            "2": {"name": "keyword.control.constraint.specman"}
+            "1":  {"name": "variable.other.specman"},
+            "2":  {"name": "keyword.modifier.constraint.specman"}
           }
         },
+        {
+          "begin": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:(\\busing\\s+index)\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s*(\\{)",
+          "beginCaptures": {
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "keyword.control.specman"},
+            "4": {"name": "variable.other.specman"},
+            "5": {"name": "keyword.control.specman"},
+            "6": {"name": "variable.other.specman"},
+            "7": {"name": "punctuation.section.block.begin.specman"}
+          },
+          "patterns": [ {"include": "#constraint-bool-expression"} ],
+          "end": "\\}",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.block.end.specman"}
+          }
+        },
+        {
+          "begin": "(all\\s+of\\b)\\s*(\\{)",
+          "beginCaptures": {
+            "1": {"name": "keyword.control.constraint.specman"},
+            "2": {"name": "punctuation.section.block.begin.specman"}
+          },
+          "patterns": [ {"include": "#constraint-bool-expression"} ],
+          "end": "\\}",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.block.end.specman"}
+          }
+        },
+        {
+          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\s*)(\\bbefore\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))",
+          "captures": {
+            "1":  {"name": "variable.other.specman"},
+            "2":  {"name": "keyword.other.constraint.specman"},
+            "3":  {"name": "variable.other.specman"}
+          }
+        },
+        {
+          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s+(==)\\s+(\\bselect\\b)",
+          "captures": {
+            "1":  {"name": "variable.other.specman"},
+            "2":  {"name": "keyword.operator.comparison.specman"},
+            "3":  {"name": "keyword.other.constraint.specman"}
+          }
+        },
+        { "include": "#constraint-bool-expression" }
+      ]
+    },
+    "constraint-bool-expression": {
+      "patterns": [
+        {
+          "begin": "(=>\\s+)(all\\s+of\\b)?\\s*(\\{)",
+          "beginCaptures": {
+            "1": {"name": "keyword.operator.logical.specman"},
+            "2": {"name": "keyword.control.constraint.specman"},
+            "3": {"name": "punctuation.section.block.begin.specman"}
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.block.begin.specman"}
+          },
+          "patterns": [{ "include": "#constraint-bool-expression" }]
+        },
         { "include": "#priority-scopes" },
-        { "include": "#list-literals" }
+        { "include": "#list-literals" },
+        {
+          "match": "([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)",
+          "name": "variable.other.specman"
+        }
       ]
     },
     "built-in-function-calls": {
@@ -862,16 +850,17 @@
           "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
-          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
+          "match": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
           "captures": {
-            "1": {"name": "support.function.builtin.specman"},
-            "2": {"name": "punctuation.section.parens.begin.specman"}
+            "1": {"name": "variable.other.specman"},
+            "2": {"name": "support.function.builtin.specman"},
+            "3": {"name": "punctuation.section.parens.begin.specman"}
           },
           "name": "meta.function-call.builtin.specman",
           "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
-          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
           "captures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
@@ -881,7 +870,7 @@
           }
         },
         {
-          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\)\\s*)?(in)\\s+",
+          "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+",
           "captures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
@@ -956,7 +945,7 @@
           "patterns": [{"include": "#function-call-parameters"}]
         },
         {
-          "match": "\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(\\()",
+          "match": "\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(\\()",
           "captures": {
             "1": {"name": "variable.function.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
@@ -996,7 +985,7 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b\\s*(\\()",
+      "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
@@ -1016,7 +1005,7 @@
       },
       "patterns": [
         {
-          "match": "(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?))",
+          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?))",
           "captures": {
             "1": {"name": "variable.parameter.specman"},
             "2": {"name": "punctuation.separator.parameter.specman"},
@@ -1053,7 +1042,7 @@
           }
         },
         {
-          "match": "(\\@)[a-zA-Z](?:[a-zA-Z0-9_]+)?",
+          "match": "(\\@)([a-zA-Z](?:[a-zA-Z0-9_]+)?)",
           "captures": {
             "1": {"name": "punctuation.accessor.event.specman"},
             "2": {"name": "keyword.control.function.event.specman"}
