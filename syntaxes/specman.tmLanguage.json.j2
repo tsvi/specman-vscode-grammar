@@ -808,13 +808,14 @@
           "endCaptures": {
             "0": {"name": "punctuation.section.block.begin.specman"}
           },
-          "patterns": [
-            { "include": "#priority-scopes" },
-            { "include": "#list-literals" }
-          ]
+          "patterns": [{ "include": "#constraint-bool-expression" }]
         },
         { "include": "#priority-scopes" },
-        { "include": "#list-literals" }
+        { "include": "#list-literals" },
+        {
+          "match": "{{valid_name}}",
+          "name": "variable.other.specman"
+        }
       ]
     },
     "built-in-function-calls": {
