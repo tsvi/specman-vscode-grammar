@@ -41,7 +41,8 @@ extend sys  {
 // ^^^^        ^^ keyword.other.constraint.specman
 //      ^^^^^^ entity.name.label.specman
 //                ^^^^^^^^     ^^^^^^^^^^^     ^^ keyword.control.specman
-//                          ^                ^    ^^^^^^ variable.other.specman
+//                          ^               ^     ^^^^^^ variable.other.specman
+//                                                        ^ punctuation.section.block.begin.specman
 
 // This is a comment within a constraint
 // <--------------------------------------- comment.line.specman

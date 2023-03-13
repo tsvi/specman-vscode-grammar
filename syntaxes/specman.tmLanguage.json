@@ -748,14 +748,15 @@
           }
         },
         {
-          "begin": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s*(\\{)",
+          "begin": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:(\\busing\\s+index)\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))\\s*(\\{)",
           "beginCaptures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "variable.other.specman"},
-            "3": {"name": "variable.other.specman"},
-            "4": {"name": "keyword.control.specman"},
-            "5": {"name": "variable.other.specman"},
-            "6": {"name": "punctuation.section.block.begin.specman"}
+            "3": {"name": "keyword.control.specman"},
+            "4": {"name": "variable.other.specman"},
+            "5": {"name": "keyword.control.specman"},
+            "6": {"name": "variable.other.specman"},
+            "7": {"name": "punctuation.section.block.begin.specman"}
           },
           "end": "\\}",
           "endCaptures": {
