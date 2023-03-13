@@ -502,7 +502,7 @@
       ]
     },
     "constraint-def": {
-      "begin": "(\\bkeep\\b)(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s+(is)\\s+)?(\\bsoft\\b)?\\s*",
+      "begin": "(\\bkeep\\b)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+(is)\\s+)?(\\bsoft\\b\\s)?\\s*",
       "beginCaptures": {
         "0": {"name": "meta.constraint-def.specman"},
         "1": {"name": "keyword.other.constraint.specman"},
