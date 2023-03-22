@@ -4,7 +4,7 @@
 unit ifx_irq_source {
    on state_change$ {
       messagef(IFX_IRQ, HIGH, "(%s) : \"string-within-string\"", trans.state, name, trans);
-//    ^^^^^^^^ support.function.builtin.specman
+//    ^^^^^^^^ entity.name.function.specman
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  string.quoted.double.specman
 //                                    ^^                    ^^  constant.character.escape.specman
 //                            ^                                 punctuation.definition.string.begin.specman

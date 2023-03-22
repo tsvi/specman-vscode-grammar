@@ -77,7 +77,10 @@ extend sys  {
       };
    };
 // ^ punctuation.section.method.end.specman
+//  ^ punctuation.terminator.specman
 };
+// <- punctuation.section.class.end.specman
+// <~- punctuation.terminator.specman
 
 '>
 

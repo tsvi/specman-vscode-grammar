@@ -16,7 +16,7 @@ extend sys {
 //  ^ punctuation.terminator.specman
 };
 // <- punctuation.section.class.end.specman
-// ~^ punctuation.terminator.specman
+// <~- punctuation.terminator.specman
 
 struct bar_s {
    my_det: [LARGE, SMALL];
