@@ -597,11 +597,11 @@
           "patterns": [{"include": "#actions"}]
         },
         {
-          "begin": "(\\bfirst\\s+of|all\\s+of\\b)?\\s*\\{",
+          "begin": "(\\bfirst\\s+of|all\\s+of\\b)?\\s*(\\{)",
           "beginCaptures": {
-            "1":  {"name": "keyword.control.specman"}
+            "1": {"name": "keyword.control.specman"},
+            "2": {"name": "punctuation.section.block.begin.specman"}
           },
-          "name": "punctuation.section.block.begin.specman",
           "contentName": "meta.code_block.specman",
           "end": "(\\})\\s*(;)?",
           "endCaptures": {
@@ -806,7 +806,7 @@
           },
           "end": "\\}",
           "endCaptures": {
-            "0": {"name": "punctuation.section.block.begin.specman"}
+            "0": {"name": "punctuation.section.block.end.specman"}
           },
           "patterns": [{ "include": "#constraint-bool-expression" }]
         },
@@ -963,7 +963,7 @@
       "patterns": [
         {
           "match": "(,)",
-          "scope": "punctuation.separator.specman"
+          "name": "punctuation.separator.specman"
         },
         { "include": "#actions" }
       ]
