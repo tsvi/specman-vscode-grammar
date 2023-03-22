@@ -985,28 +985,36 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b({{valid_id}})\\b\\s*(\\()",
+      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b({{valid_id}})\\b\\s*\\(",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
         "3": {"name": "storage.modifier.function.specman"},
-        "4": {"name": "meta.method.identifier.specman entity.name.function.specman"},
-        "5": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
+        "4": {"name": "meta.method.identifier.specman entity.name.function.specman"}
       },
-      "patterns": [{"include": "#method-parameters"}],
-      "end": "^((?!is).)*$"
+      "patterns": [
+        {"include": "#method-parameters"},
+        {"include": "#method-declaration-end"},
+        {"include": "#method-contents"}
+      ],
+      "end": "\\}\\s*;"
     },
     "method-parameters": {
-      "name": "meta.method.parameters.specman",
-      "end": "(\\))\\s*(;)",
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
+      },
+      "end": "(\\))\\s*(?:(:)\\s*{{valid_type}})?",
       "endCaptures": {
-        "1": {"name": "punctuation.section.parens.end.specman"},
-        "2": {"name": "punctuation.terminator.specman"}
+        "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"},
+        "2": {"name": "punctuation.separator.return-type.specman"},
+        "3": {"name": "meta.method.return-type.specman storage.type.specman"}
       },
       "patterns": [
         {
           "match": "(?:({{valid_id}})\\s*(:)\\s*(?:(\\*)?{{valid_type}}))",
           "captures": {
+            "0": {"name": "meta.method.parameters.specman"},
             "1": {"name": "variable.parameter.specman"},
             "2": {"name": "punctuation.separator.parameter.specman"},
             "3": {"name": "punctuation.accessor.parameter.specman"},
@@ -1015,32 +1023,14 @@
         },
         {
           "match": ",",
-          "name": "punctuation.separator.parameter.specman"
-        },
-        {
-          "match": "\\)",
-          "name": "punctuation.section.parens.end.specman",
-          "patterns": [{"include": "#method-declaration-end"}]
+          "name": "meta.method.parameters.specman punctuation.separator.parameter.specman"
         },
         { "include": "#literals"},
         { "include": "#operators"}
       ]
     },
     "method-declaration-end": {
-      "end": "(is)\\s+(empty|undefined|import.*)\\s*(;)",
-      "endCaptures": {
-        "1": {"name": "keyword.other.function.specman"},
-        "2": {"name": "keyword.modifier.function.specman"},
-        "3": {"name": "punctuation.terminator.specman"}
-      },
       "patterns": [
-        {
-          "match": "(:)\\s*{{valid_type}}",
-          "captures": {
-            "1": {"name": "punctuation.separator.return-type.specman"},
-            "2": {"name": "meta.method.return-type.specman storage.type.specman"}
-          }
-        },
         {
           "match": "(\\@)({{valid_id}})",
           "captures": {
@@ -1049,27 +1039,42 @@
           }
         },
         {
+          "match": "(is)\\s+(empty|undefined)\\s*(;)",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.modifier.function.specman"},
+            "3": {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
+          "match": "(is)\\s+(only|first|also)?\\s+(imported)\\s*(;)",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.modifier.function.specman"},
+            "3": {"name": "keyword.modifier.function.specman"},
+            "4": {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
           "match": "(is)\\s+(only|first|also)?",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
             "2": {"name": "keyword.modifier.function.specman"}
           }
-        },
-        {
-          "match": "\\{",
-          "scope": "punctuation.section.method.begin.specman",
-          "patterns": [
-            {
-              "match": "(\\})\\s*(;)?",
-              "captures": {
-                "1": {"name": "punctuation.section.method.end.specman"},
-                "2": {"name": "punctuation.terminator.specman"}
-              }
-            },
-            { "include": "#actions" }
-          ]
         }
       ]
+    },
+    "method-contents": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {"name": "punctuation.section.method.begin.specman"}
+      },
+      "end": "(\\})\\s*(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.method.end.specman"},
+        "2": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [{ "include": "#actions" }]
     },
     "list-literals": {
       "begin": "(\\{)",
