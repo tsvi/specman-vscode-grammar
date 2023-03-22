@@ -453,7 +453,7 @@
         },
         {
           "name": "keyword.operator.arithmetic.specman",
-          "match": "(-|\\+|\\*|/)"
+          "match": "(-|\\+|\\*|/|%)"
         },
         {
           "name": "keyword.operator.bitwise.specman",
