@@ -9,9 +9,11 @@ extend sys {
    foo: BLUE'det foo_u is instance;
 
    setup() is also {
-// ^^^^^ support.function.builtin.specman
+// ^^^^^ meta.method.identifier.specman entity.name.function.specman
       print me;
    };
+// ^ punctuation.section.method.end.specman
+//  ^ punctuation.terminator.specman
 };
 // <- punctuation.section.class.end.specman
 // ~^ punctuation.terminator.specman
