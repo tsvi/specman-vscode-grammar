@@ -52,6 +52,11 @@ extend sys  {
 //     ^^ keyword.operator.comparison.specman
 //       ^ constant.numeric.unsized.integer.specman
       ((n%2==1) and (n!= 0)) => it == appendf("%s bottle%s of beer on the wall, %s bottle%s of beer.",
+//              ^^^                   keyword.operator.word.specman
+//      ^            ^                variable.other.specman
+//       ^                            keyword.operator.arithmetic.specman
+//         ^^         ^^           ^^ keyword.operator.comparison.specman
+//                           ^^       keyword.operator.logical.specman
                                                   (n==1 ? "No more":(n/2).as_a(string)),
                                                   (n==3) ? "":"s",
                                                   (n==1 ? "no more":(n/2).as_a(string)),
@@ -62,11 +67,23 @@ extend sys  {
    };
 
    run() is also {
+// ^^^             meta.method.identifier.specman entity.name.function.specman
+//       ^^        keyword.other.function.specman
+//          ^^^^   keyword.modifier.function.specman
+//               ^ punctuation.section.method.begin.specman
       for each in lyrics.reverse() {
+//                                 ^ punctuation.section.block.begin.specman
          outf("%s\n", append(it, (index % 2 == 1 ? "\n":"")));
+//                                      ^ keyword.operator.arithmetic.specman
       };
+//    ^ punctuation.section.block.end.specman
+//     ^ punctuation.terminator.specman
    };
+// ^ punctuation.section.method.end.specman
+//  ^ punctuation.terminator.specman
 };
+// <- punctuation.section.class.end.specman
+// <~- punctuation.terminator.specman
 
 '>
 
