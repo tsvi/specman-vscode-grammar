@@ -72,9 +72,12 @@ extend sys  {
 //          ^^^^   keyword.modifier.function.specman
 //               ^ punctuation.section.method.begin.specman
       for each in lyrics.reverse() {
+//                                 ^ punctuation.section.block.begin.specman
          outf("%s\n", append(it, (index % 2 == 1 ? "\n":"")));
 //                                      ^ keyword.operator.arithmetic.specman
       };
+//    ^ punctuation.section.block.end.specman
+//     ^ punctuation.terminator.specman
    };
 // ^ punctuation.section.method.end.specman
 //  ^ punctuation.terminator.specman

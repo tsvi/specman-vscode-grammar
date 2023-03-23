@@ -597,7 +597,7 @@
           "patterns": [{"include": "#actions"}]
         },
         {
-          "begin": "(\\b{{concurrency_actions}}\\b)\\s*(\\{)",
+          "begin": "(\\b{{concurrency_actions}}\\b)?\\s*(\\{)",
           "beginCaptures": {
             "1": {"name": "keyword.control.specman"},
             "2": {"name": "punctuation.section.block.begin.specman"}
@@ -995,11 +995,7 @@
       "patterns": [
         { "include": "#method-parameters"},
         { "include": "#method-declaration-end"},
-        {
-          "match": "\\{",
-          "name": "punctuation.section.method.begin.specman"
-        },
-        { "include": "#actions" }
+        { "include": "#method-contents"}
       ],
       "end": "(\\})\\s*(;)",
       "endCaptures": {
@@ -1071,6 +1067,15 @@
           }
         }
       ]
+    },
+    "method-contents": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {"name": "punctuation.section.method.begin.specman"}
+      },
+      "contentName": "meta.method.body.specman",
+      "patterns": [{ "include": "#actions" }],
+      "end": "(?=\\})"
     },
     "list-literals": {
       "begin": "(\\{)",
