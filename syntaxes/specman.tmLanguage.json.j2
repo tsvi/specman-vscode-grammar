@@ -492,13 +492,67 @@
     "checks": {
       "patterns": [
         {
-          "match": "(\\bcheck\\b)\\s+(?:({{valid_id}})\\s+)?(\\bthat\\b)?\\s+",
-          "captures": {
-            "1": {"name": "keyword.statement.specman"},
-            "2": {"name": "entity.name.label.specman"},
-            "3": {"name": "keyword.other.specman"}
-          }
+          "description": "10.1.1 - check [[name] that] bool-exp [[then] true-block] [else dut-error-action]",
+          "begin": "\\b(check)\\b",
+          "beginCaptures": {
+            "0": {"name": "meta.check-def.specman"},
+            "1": {"name": "keyword.statement.specman"}
+          },
+          "contentName": "meta.check-def.specman",
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "meta.check-def.specman punctuation.terminator.specman"}
+          },
+          "patterns": [
+            {
+              "match": "(?:({{valid_id}})\\s+)?(\\bthat\\b)",
+              "captures": {
+                "1": {"name": "entity.name.label.specman"},
+                "2": {"name": "keyword.other.specman"}
+              }
+            },
+            { "include": "#bool-exp" },
+            {
+              "begin": "\\b(then)\\b",
+              "beginCaptures": {
+                "1": {"name": "keyword.conditional.specman"}
+              },
+              "contentName": "meta.true-block.specman",
+              "end": "}",
+              "endCaptures": {
+                "0": {"name": "punctuation.section.block.end.specman"}
+              },
+              "patterns": [
+                {"include": "#code-blocks"}
+              ]
+            },
+            {
+              "match": "\\b(else)\\b",
+              "name": "keyword.conditional.specman"
+            },
+            {"include": "#dut-error-action"}
+          ]
         }
+      ]
+    },
+    "dut-error-action": {
+      "description": "10.1.2 - dut_error (message: exp, ...) [ action-block ]\ndut_errorf(format: string, item: exp, ...) [action-block]",
+      "begin": "\\b(dut_error|dut_errorf)\\b\\s*(\\()",
+      "beginCaptures": {
+        "1": {"name": "support.function.builtin.specman"},
+        "2": {"name": "punctuation.section.parens.begin.specman"}
+      },
+      "contentName": "meta.function-call.builtin.specman",
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"}
+      },
+      "patterns": [
+        {
+          "match": "\\s*(,)",
+          "name": "punctuation.separator.specman"
+        },
+        { "include": "#actions"}
       ]
     },
     "constraint-def": {
