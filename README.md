@@ -1,8 +1,8 @@
 # Specman Syntax Highlighter for Visual Studio Code
 
-![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/tsvi.specman-vscode-grammar)
-![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/tsvi.specman-vscode-grammar)
-![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/tsvi.specman-vscode-grammar)
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/TsviMostovicz.specman)
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/TsviMostovicz.specman)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/TsviMostovicz.specman)
 ![GitHub](https://img.shields.io/github/license/tsvi/specman-vscode-grammar)
 
 This extension provides syntax highlighting support for the Specman language in Visual Studio Code.
