@@ -38,7 +38,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Acknowledgments
 
 - The Specman Syntax Highlighter extension is based on the [Specman Grammar for Sublime Text](https://github.com/tsvi/specman-sublime-grammar).
-    - Many thanks to @blutsvente for the fixes to the Sublime Text version and to Yan Sokolovsky for the initial code for Sublime Text
+    - Many thanks to [@blutsvente](https://github.com/blutsvente) for the fixes to the Sublime Text version and to Yan Sokolovsky for the initial code for Sublime Text
 - Other projects that made this project possible:
     - [Jinja](https://jinja.palletsprojects.com/en/3.1.x/)
     - [Jinja CLI](https://github.com/cykerway/jinja-cli)
