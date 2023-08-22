@@ -165,7 +165,7 @@
           }
         },
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~])?\\s*(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?))\\s*(;|=)",
+          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~])?\\s*(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+)*)?(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?))\\s*(;|=)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "storage.modifier.static.specman"},
@@ -589,7 +589,7 @@
         },
         {
           "name": "keyword.control.specman",
-          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return|keeping)\\b"
+          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return)\\b"
         },
         {
           "name": "keyword.other.packing.specman",
@@ -680,29 +680,38 @@
       ]
     },
     "inline-generation": {
-      "begin": "\\s+(gen)\\s+(?:(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?))",
+      
+      "begin": "\\s+(gen)\\s+((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+)*)?(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?))\\s+",
       "beginCaptures": {
         "1": {"name": "keyword.other.gen.specman"},
         "2": {"name": "variable.other.specman"}
       },
-      "pattern": [{"include": "#inline-generation-constraint"}],
-      "end": "(;)",
+      "contentName": "meta.inline-generation.specman",
+      "pattern": [
+        {"include": "#comment"},
+        {
+          "match": "\\bkeeping\\b",
+          "name": "keyword.other.constraint.specman"
+        },
+        
+        {"include": "#code"}
+      ],
+      
+      "end": ";",
       "endCaptures": {
-        "1": {"name": "punctuation.terminator.specman"}
+        
+        "0": {"name": "punctuation.terminator.specman"}
       }
     },
     "inline-generation-constraint": {
       "name": "meta.constraint.specman",
-      "begin": "(\\bkeeping\\b)(\\s*\\{)",
+      "begin": "\\{",
       "beginCaptures": {
-        "1": {"name": "keyword.other.constraint.specman"},
-        "2": {"name": "punctuation.section.constraint_block.begin.specman"}
+        "0": {"name": "punctuation.section.constraint_block.begin.specman"}
       },
-      "contentName": "meta.inline-generation.specman",
-      "end": "(\\})\\s*(;)",
+      "end": "\\}",
       "endCaptures": {
-        "1": {"name":  "punctuation.section.constraint_block.end.specman"},
-        "2": {"name":  "punctuation.terminator.specman"}
+        "0": {"name":  "punctuation.section.constraint_block.end.specman"}
       },
       "pattern": [{ "include": "#code"}]
     },
@@ -963,7 +972,7 @@
               ]
             },
             {
-              "match": "(?:\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b)",
+              "match": "(?:\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+)*)?(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b)",
               "name": "storage.type.specman"
             },
             { "include": "#literals"  },

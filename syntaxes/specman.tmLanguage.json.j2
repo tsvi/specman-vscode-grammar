@@ -589,7 +589,7 @@
         },
         {
           "name": "keyword.control.specman",
-          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return|keeping)\\b"
+          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return)\\b"
         },
         {
           "name": "keyword.other.packing.specman",
@@ -680,29 +680,64 @@
       ]
     },
     "inline-generation": {
-      "begin": "\\s+(gen)\\s+(?:{{valid_type_no_modifier}})",
-      "beginCaptures": {
-        "1": {"name": "keyword.other.gen.specman"},
-        "2": {"name": "variable.other.specman"}
-      },
-      "pattern": [{"include": "#inline-generation-constraint"}],
-      "end": "(;)",
-      "endCaptures": {
-        "1": {"name": "punctuation.terminator.specman"}
+      "pattern": [
+        {
+          "begin": "\\s+(gen)\\s+({{valid_type_no_modifier}})\\s+(keeping)?\\s*(\\{)?",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.gen.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "keyword.other.constraint.specman"},
+            "4": {"name": "punctuation.section.constraint_block.begin.specman"}
+          },
+          "contentName": "meta.inline-generation.specman",
+          "pattern": [
+            {"include": "#code"},
+            {"match": ""}
+          ],
+          "end": "(\\})?\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.constraint_block.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },        
+        },
+        {
+          "begin": "\\s+(gen)\\s+({{valid_type_no_modifier}})\\s+(keeping)?\\s*(\\{)?",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.gen.specman"},
+            "2": {"name": "variable.other.specman"},
+            "3": {"name": "keyword.other.constraint.specman"},
+            "4": {"name": "punctuation.section.constraint_block.begin.specman"}
+          },
+          "contentName": "meta.inline-generation.specman",
+          "pattern": [{"include": "#code"}],
+          "end": "(\\})?\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.constraint_block.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+        }         
+      ]
+        {"include": "#comment"},
+        {
+          "match": "\\bkeeping\\b",
+          "name": "keyword.other.constraint.specman"
+        },
+        {#{"include": "#inline-generation-constraint"},#}
+        
+      ],
+      {##}
+      "end": ";",
       }
     },
     "inline-generation-constraint": {
       "name": "meta.constraint.specman",
-      "begin": "(\\bkeeping\\b)(\\s*\\{)",
+      "begin": "\\{",
       "beginCaptures": {
-        "1": {"name": "keyword.other.constraint.specman"},
-        "2": {"name": "punctuation.section.constraint_block.begin.specman"}
+        "0": {"name": "punctuation.section.constraint_block.begin.specman"}
       },
-      "contentName": "meta.inline-generation.specman",
-      "end": "(\\})\\s*(;)",
+      "end": "\\}",
       "endCaptures": {
-        "1": {"name":  "punctuation.section.constraint_block.end.specman"},
-        "2": {"name":  "punctuation.terminator.specman"}
+        "0": {"name":  "punctuation.section.constraint_block.end.specman"}
       },
       "pattern": [{ "include": "#code"}]
     },
