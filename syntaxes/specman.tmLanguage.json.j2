@@ -1023,19 +1023,53 @@
       ]
     },
     "when-inheritance": {
-      "begin": "^\\s*(when)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
+      "begin": "^\\s*(when)\\b",
       "beginCaptures": {
         "0": {"name": "meta.class.declaration.specman" },
-        "1": {"name": "keyword.declaration.class.specman"},
-        "2": {"name": "entity.name.class.specman"},
-        "3": {"name": "punctuation.section.class.begin.specman"}
+        "1": {"name": "keyword.declaration.class.specman"}
       },
-      "contentName": "meta.class.body.specman",
       "end": "(\\})\\s*(;)",
       "endCaptures": {
         "1": {"name": "punctuation.section.class.end.specman"},
         "2": {"name": "punctuation.terminator.specman"}
       },
+      "patterns": [
+        { "include": "#when-inheritance-determinants" },
+        { "include": "#when-inheritance-declaration-end" },
+        { "include": "#when-inheritance-contents" }
+      ]
+    },
+    "when-inheritance-determinants": {
+      "begin": "\\b{{valid_determinant}}\\b",
+      "beginCaptures": {
+        "0": {"name": "meta.class.determinant.specman"},
+        "1": {"name": "constant.other.enum.specman"},
+        "2": {"name": "punctuation.separator.determinant.specman"},
+        "3": {"name": "variable.other.determinant.specman"}
+      },
+      "end": "\\b{{valid_id}}\\b",
+      "endCaptures": {
+        "0": {"name": "entity.name.class.specman"}
+      },
+      "patterns": [
+        {
+          "match": "\\b{{valid_determinant}}\\b",
+          "captures": {
+            "0": {"name": "meta.class.determinant.specman"},
+            "1": {"name": "constant.other.enum.specman"},
+            "2": {"name": "punctuation.separator.determinant.specman"},
+            "3": {"name": "variable.other.determinant.specman"}
+          }
+        }
+      ]
+    },
+    "when-inheritance-contents": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {"name": "punctuation.section.class.begin.specman"}
+      },
+      "contentName": "meta.class.body.specman",
+      "end": "(?=\\})",
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
