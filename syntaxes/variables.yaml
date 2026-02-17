@@ -1,7 +1,7 @@
 # This file holds variables to generate specman.tmLanguage.json
 
 scalar_types: int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric
-built_in_types: ({{scalar_types}}|string|real|set|untyped|rdv_semaphore|semaphore|locker|external_pointer|any_buffer_port|any_unit|any_struct|any_sequence|objection_kind)
+built_in_types: ({{scalar_types}}|string|real|set|untyped|mvl|mvl4|rdv_semaphore|semaphore|locker|external_pointer|any_buffer_port|any_unit|any_struct|any_sequence|objection_kind)
 built_in_constants: TRUE|FALSE|NULL|UNDEF|MAX_INT|MIN_INT|MAX_LONGINT|MIN_LONGINT|MAX_UINT|MAX_LONGUINT|SN_M_E|SN_M_LOG2E|SN_M_LOG10E|SN_M_LN2|SN_M_LN10|SN_M_PI|SN_M_TWO_PI|SN_M_PI_2|SN_M_PI_4|SN_M_1_PI|SN_M_2_PI|SN_M_2_SQRTPI|SN_M_SQRT2|SN_M_SQRT1_2
 
 # Pre-defined functions
@@ -12,14 +12,14 @@ bitwise_functions: bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor
 output_functions: messagef|message|appendf|append|dut_errorf|dut_error|out|outf
 unit_functions: get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit
 conversion_functions: pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale
-misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range
+misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe|set_check|set_check_by_name|set_check_by_cover_item|simulator_command|bind
 built_in_functions: assert|warning|error|fatal|{{string_functions}}|{{arithmetic_functions}}|{{bitwise_functions}}|{{real_number_functions}}|{{output_functions}}|{{unit_functions}}|{{conversion_functions}}|{{misc_functions}}
 
 # Pre-defined functions that dont need parentheses
 built_in_functions_optional_parens: assert|print|start
 
 # Functions called in member-function-style
-list_pseudo_methods: add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists
+list_pseudo_methods: add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists
 set_pseudo_methods: union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above
 any_struct_member_functions: check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun
 any_unit_member_functions: agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style
@@ -40,7 +40,7 @@ valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)
 # Simple valid identifier
 valid_id: "[a-zA-Z](?:[a-zA-Z0-9_]+)?"
 # Valid identifier that includes ' for things like TRUE'has_checker; no negative look-ahead because we use it in repetition
-valid_determinant: (?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)
+valid_determinant: (?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)
 # 'list of' or 'list(key: field) of' and multi-dimensional lists ('list of list of ...'); note: includes trailing white-space
 
 # [static] [!][%] list-name: [list of...] list(key: key-field) of type[= init-value]

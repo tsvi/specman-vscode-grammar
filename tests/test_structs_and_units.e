@@ -26,31 +26,43 @@ struct bar_s {
 unit foo_u {
    bar      : GREEN'my_det bar_s;
    const b  : bool;
-   det      : [BLUE, RED, GREEN];
+   det      : [blue, red, green];
    bar_l    : list of bar_s;
    const i  : uint[0..10](bits: 3);
    bar_l2[2]: list of bar_s;
 
    static check:check_u is instance;
    const my: a'det b'det my_struct is instance;
+// ^^^^^                                        storage.modifier.const.specman
+//       ^^                                     variable.other.member.specman
+//         ^                                    punctuation.separator.type.specman
+//                 ^                            constant.other.enum.specman
+//                  ^                           punctuation.separator.determinant.specman
+//                   ^^^                        variable.other.determinant.specman
+//                       ^^^^^^^^               storage.type.class.specman
+//                                 ^^^^^^^^^^^  storage.modifier.specman
+//                                            ^ punctuation.terminator.specman
 
    agents: list of list of agent_u is instance;
 
    when BLUE foo_u {
    // <--- keyword.declaration.class.specman
-   //   ^^^^ ^^^^^ entity.name.class.specman
+   //   ^^^^       constant.other.enum.specman
+   //        ^^^^^ entity.name.class.specman
    //              ^ punctuation.section.class.begin.specman
 
    };
 // ^ punctuation.section.class.end.specman
 //  ^ punctuation.terminator.specman
 
-   when b'TRUE RED'det {
-// ^^^^^^^^^^^^^^^^^^^^^ meta.class.declaration.specman
+   when TRUE'b red'det check_u{
+// ^^^^ meta.class.declaration.specman
 // ^^^^ keyword.declaration.class.specman
-//      ^^^^^^ ^^^^^^^ entity.name.class.specman
-//                     ^ punctuation.section.class.begin.specman
-
+//      ^^^^   ^^^       constant.other.enum.specman
+//          ^     ^      punctuation.separator.determinant.specman
+//           ^     ^^^   variable.other.determinant.specman
+//                     ^^^^^^^ entity.name.class.specman
+//                            ^ punctuation.section.class.begin.specman
    };
 // ^ punctuation.section.class.end.specman
 //  ^ punctuation.terminator.specman

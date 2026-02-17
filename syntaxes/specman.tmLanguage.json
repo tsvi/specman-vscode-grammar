@@ -42,11 +42,26 @@
       }
     },
     "comment": {
-      "match": "(//|--)(.*)",
-      "captures": {
-        "1": {"name": "comment.line.specman punctuation.definition.comment.specman"},
-        "2": {"name": "comment.line.specman"}
-      }
+      "patterns": [
+        {
+          "name": "comment.block.specman",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {"name": "punctuation.definition.comment.begin.specman"}
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {"name": "punctuation.definition.comment.end.specman"}
+          }
+        },
+        {
+          "match": "(//|--)(.*)",
+          "captures": {
+            "1": {"name": "comment.line.specman punctuation.definition.comment.specman"},
+            "2": {"name": "comment.line.specman"}
+          }
+        }
+      ]
     },
     "imports": {
       "match": "\\b(import)\\s+(.*)(;)",
@@ -81,12 +96,12 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend)(?:\\s+((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))+\\s*(\\{)",
+          "begin": "(\\bextend)(?:\\s+((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))+\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
             "2": {"name": "entity.name.class.specman"},
-            "3": {"name": "punctuation.section.class.begin.specman"}
+            "6": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",
@@ -192,7 +207,7 @@
           }
         },
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)(?:(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:\\b(?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)\\s+)*?((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))(?:\\s+(\\bis\\s+instance\\b))?\\s*(;|=)",
+          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\s+)*?((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))(?:\\s+(\\bis\\s+instance\\b))?\\s*(;|=)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "storage.modifier.static.specman"},
@@ -201,9 +216,12 @@
             "5": {"name": "punctuation.definition.variable.physical.specman"},
             "6": {"name": "variable.other.member.specman"},
             "7": {"name": "punctuation.separator.type.specman"},
-            "8": {"name": "storage.type.class.specman"},
-            "9": {"name": "storage.modifier.specman"},
-            "10": {"name": "punctuation.terminator.specman"}
+            "8": {"name": "constant.other.enum.specman"},
+            "9": {"name": "punctuation.separator.determinant.specman"},
+            "10": {"name": "variable.other.determinant.specman"},
+            "12": {"name": "storage.type.class.specman"},
+            "15": {"name": "storage.modifier.specman"},
+            "16": {"name": "punctuation.terminator.specman"}
           }
         },
         {
@@ -328,7 +346,7 @@
           }
         },
         {
-          "match": "\\b(-?([0-9_]+[kKmM]?))\\b",
+          "match": "\\b(-?([0-9_]+[kKmMgGtT]?))\\b",
           "name": "constant.numeric.unsized.integer.specman"
         },
         {
@@ -388,7 +406,7 @@
           "name": "constant.language.specman"
         },
         {
-          "match": "0c\"[a-zA-Z]\"",
+          "match": "0c\"[\\x20-\\x7E]\"",
           "name": "constant.character.literal.specman"
         },
         {"include": "#string"}
@@ -441,7 +459,11 @@
         },
         {
           "name": "keyword.operator.comparison.specman",
-          "match": "(==|!=|>|<|===|!===|>=|<=)"
+          "match": "(===|!==|==|!=|>=|<=|>|<)"
+        },
+        {
+          "name": "keyword.operator.comparison.specman",
+          "match": "\\b(list_ptr==|!list_ptr=)\\b"
         },
         {
           "name": "keyword.operator.assignment.specman",
@@ -454,6 +476,10 @@
         {
           "name": "keyword.operator.arithmetic.specman",
           "match": "(-|\\+|\\*|/|%)"
+        },
+        {
+          "name": "keyword.operator.shift.specman",
+          "match": "(>>|<<)"
         },
         {
           "name": "keyword.operator.bitwise.specman",
@@ -577,7 +603,7 @@
       "patterns": [
         {
           "name": "keyword.other.specman",
-          "match": "\\b(soft|compute|new)\\b"
+          "match": "\\b(soft|compute|new|evaluate|force|release)\\b"
         },
         {
           "name": "keyword.other.statement.specman",
@@ -589,7 +615,7 @@
         },
         {
           "name": "keyword.control.specman",
-          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return|keeping)\\b"
+          "match": "\\b(until|repeat|while|for|from|to|step|each|do|break|continue|before|next|always|in|return|keeping|chosen_from)\\b"
         },
         {
           "name": "keyword.other.packing.specman",
@@ -625,7 +651,7 @@
         },
         {
           "name": "keyword.declaration.specman",
-          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python)\\b"
+          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python|numeric_type|sequence)\\b"
         },
         {
           "name": "punctuation.terminator.specman",
@@ -895,7 +921,7 @@
           ]
         },
         {
-          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range)\\s*(\\()",
+          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe|set_check|set_check_by_name|set_check_by_cover_item|simulator_command|bind)\\s*(\\()",
           "captures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
@@ -904,7 +930,7 @@
           "patterns": [ { "include": "#function-call-parameters" } ]
         },
         {
-          "match": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
+          "match": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
           "captures": {
             "1": {"name": "variable.other.specman"},
             "2": {"name": "support.function.builtin.specman"},
@@ -975,7 +1001,7 @@
           "name": "keyword.other.constraint.specman"
         },
         {
-          "match": "(\\bis\\s+(?:\\bnot\\b)?\\s*a)(?:\\s+((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))+",
+          "match": "(\\bis\\s+(?:\\bnot\\b)?\\s*a)(?:\\s+((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))+",
           "captures": {
             "1": {"name": "keyword.other.type-casting.specman"},
             "2": {"name": "storage.type.specman"}
@@ -991,7 +1017,7 @@
       "name": "meta.function-call.specman",
       "patterns": [
         {
-          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above)\\s*(\\()",
+          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above)\\s*(\\()",
           "captures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
@@ -1023,19 +1049,53 @@
       ]
     },
     "when-inheritance": {
-      "begin": "^\\s*(when)(?:\\s+((?:[a-zA-Z](?:[a-zA-Z0-9_\\']+)?)))+\\s*(\\{)",
+      "begin": "^\\s*(when)\\b",
       "beginCaptures": {
         "0": {"name": "meta.class.declaration.specman" },
-        "1": {"name": "keyword.declaration.class.specman"},
-        "2": {"name": "entity.name.class.specman"},
-        "3": {"name": "punctuation.section.class.begin.specman"}
+        "1": {"name": "keyword.declaration.class.specman"}
       },
-      "contentName": "meta.class.body.specman",
       "end": "(\\})\\s*(;)",
       "endCaptures": {
         "1": {"name": "punctuation.section.class.end.specman"},
         "2": {"name": "punctuation.terminator.specman"}
       },
+      "patterns": [
+        { "include": "#when-inheritance-determinants" },
+        { "include": "#when-inheritance-declaration-end" },
+        { "include": "#when-inheritance-contents" }
+      ]
+    },
+    "when-inheritance-determinants": {
+      "begin": "\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\b",
+      "beginCaptures": {
+        "0": {"name": "meta.class.determinant.specman"},
+        "1": {"name": "constant.other.enum.specman"},
+        "2": {"name": "punctuation.separator.determinant.specman"},
+        "3": {"name": "variable.other.determinant.specman"}
+      },
+      "end": "\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b(?=\\s*\\{)",
+      "endCaptures": {
+        "0": {"name": "entity.name.class.specman"}
+      },
+      "patterns": [
+        {
+          "match": "\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\b",
+          "captures": {
+            "0": {"name": "meta.class.determinant.specman"},
+            "1": {"name": "constant.other.enum.specman"},
+            "2": {"name": "punctuation.separator.determinant.specman"},
+            "3": {"name": "variable.other.determinant.specman"}
+          }
+        }
+      ]
+    },
+    "when-inheritance-contents": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {"name": "punctuation.section.class.begin.specman"}
+      },
+      "contentName": "meta.class.body.specman",
+      "end": "(?=\\})",
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {

@@ -41,5 +41,8 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/tsvi/specman-vscode-grammar.git"
+    },
+    "devDependencies": {
+        "vscode-tmgrammar-test": "^0.1.3"
     }
 }
