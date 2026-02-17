@@ -456,7 +456,11 @@
         },
         {
           "name": "keyword.operator.comparison.specman",
-          "match": "(==|!=|>|<|===|!===|>=|<=)"
+          "match": "(===|!==|==|!=|>=|<=|>|<)"
+        },
+        {
+          "name": "keyword.operator.comparison.specman",
+          "match": "\\b(list_ptr==|!list_ptr=)\\b"
         },
         {
           "name": "keyword.operator.assignment.specman",
@@ -469,6 +473,10 @@
         {
           "name": "keyword.operator.arithmetic.specman",
           "match": "(-|\\+|\\*|/|%)"
+        },
+        {
+          "name": "keyword.operator.shift.specman",
+          "match": "(>>|<<)"
         },
         {
           "name": "keyword.operator.bitwise.specman",
@@ -592,7 +600,7 @@
       "patterns": [
         {
           "name": "keyword.other.specman",
-          "match": "\\b(soft|compute|new)\\b"
+          "match": "\\b(soft|compute|new|evaluate)\\b"
         },
         {
           "name": "keyword.other.statement.specman",
