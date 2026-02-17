@@ -36,11 +36,12 @@ unit foo_u {
 // ^^^^^                                        storage.modifier.const.specman
 //       ^^                                     variable.other.member.specman
 //         ^                                    punctuation.separator.type.specman
-//           ^     ^                            constant.other.enum.specman
-//            ^     ^                           punctuation.separator.determinant.specman
-//             ^^^   ^^^                        variable.other.determinant.specman
+//                 ^                            constant.other.enum.specman
+//                  ^                           punctuation.separator.determinant.specman
+//                   ^^^                        variable.other.determinant.specman
 //                       ^^^^^^^^               storage.type.class.specman
 //                                 ^^^^^^^^^^^  storage.modifier.specman
+//                                            ^ punctuation.terminator.specman
 
    agents: list of list of agent_u is instance;
 
@@ -55,13 +56,13 @@ unit foo_u {
 //  ^ punctuation.terminator.specman
 
    when TRUE'b red'det check_u{
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.declaration.specman
+// ^^^^ meta.class.declaration.specman
 // ^^^^ keyword.declaration.class.specman
 //      ^^^^   ^^^       constant.other.enum.specman
 //          ^     ^      punctuation.separator.determinant.specman
 //           ^     ^^^   variable.other.determinant.specman
-//                     ^ punctuation.section.class.begin.specman
 //                     ^^^^^^^ entity.name.class.specman
+//                            ^ punctuation.section.class.begin.specman
    };
 // ^ punctuation.section.class.end.specman
 //  ^ punctuation.terminator.specman
