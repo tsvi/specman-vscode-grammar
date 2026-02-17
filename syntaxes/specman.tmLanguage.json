@@ -648,7 +648,7 @@
         },
         {
           "name": "keyword.declaration.specman",
-          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python)\\b"
+          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python|numeric_type)\\b"
         },
         {
           "name": "punctuation.terminator.specman",
@@ -918,7 +918,7 @@
           ]
         },
         {
-          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range)\\s*(\\()",
+          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe)\\s*(\\()",
           "captures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}

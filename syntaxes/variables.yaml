@@ -1,7 +1,7 @@
 # This file holds variables to generate specman.tmLanguage.json
 
 scalar_types: int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric
-built_in_types: ({{scalar_types}}|string|real|set|untyped|rdv_semaphore|semaphore|locker|external_pointer|any_buffer_port|any_unit|any_struct|any_sequence|objection_kind)
+built_in_types: ({{scalar_types}}|string|real|set|untyped|mvl|mvl4|rdv_semaphore|semaphore|locker|external_pointer|any_buffer_port|any_unit|any_struct|any_sequence|objection_kind)
 built_in_constants: TRUE|FALSE|NULL|UNDEF|MAX_INT|MIN_INT|MAX_LONGINT|MIN_LONGINT|MAX_UINT|MAX_LONGUINT|SN_M_E|SN_M_LOG2E|SN_M_LOG10E|SN_M_LN2|SN_M_LN10|SN_M_PI|SN_M_TWO_PI|SN_M_PI_2|SN_M_PI_4|SN_M_1_PI|SN_M_2_PI|SN_M_2_SQRTPI|SN_M_SQRT2|SN_M_SQRT1_2
 
 # Pre-defined functions
@@ -12,7 +12,7 @@ bitwise_functions: bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor
 output_functions: messagef|message|appendf|append|dut_errorf|dut_error|out|outf
 unit_functions: get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit
 conversion_functions: pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale
-misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range
+misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe
 built_in_functions: assert|warning|error|fatal|{{string_functions}}|{{arithmetic_functions}}|{{bitwise_functions}}|{{real_number_functions}}|{{output_functions}}|{{unit_functions}}|{{conversion_functions}}|{{misc_functions}}
 
 # Pre-defined functions that dont need parentheses
