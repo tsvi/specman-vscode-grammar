@@ -42,11 +42,26 @@
       }
     },
     "comment": {
-      "match": "(//|--)(.*)",
-      "captures": {
-        "1": {"name": "comment.line.specman punctuation.definition.comment.specman"},
-        "2": {"name": "comment.line.specman"}
-      }
+      "patterns": [
+        {
+          "name": "comment.block.specman",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {"name": "punctuation.definition.comment.begin.specman"}
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {"name": "punctuation.definition.comment.end.specman"}
+          }
+        },
+        {
+          "match": "(//|--)(.*)",
+          "captures": {
+            "1": {"name": "comment.line.specman punctuation.definition.comment.specman"},
+            "2": {"name": "comment.line.specman"}
+          }
+        }
+      ]
     },
     "imports": {
       "match": "\\b(import)\\s+(.*)(;)",
@@ -328,7 +343,7 @@
           }
         },
         {
-          "match": "\\b(-?([0-9_]+[kKmM]?))\\b",
+          "match": "\\b(-?([0-9_]+[kKmMgGtT]?))\\b",
           "name": "constant.numeric.unsized.integer.specman"
         },
         {
@@ -388,7 +403,7 @@
           "name": "constant.language.specman"
         },
         {
-          "match": "0c\"[a-zA-Z]\"",
+          "match": "0c\"[\\x20-\\x7E]\"",
           "name": "constant.character.literal.specman"
         },
         {"include": "#string"}
