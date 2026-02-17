@@ -29,7 +29,7 @@
         "panel": "new"
       },
       "problemMatcher": {
-        "owner": "tmLanguage.json",
+        "owner": "vscode-tmgrammar-test",
         "fileLocation": "autoDetect",
         "pattern": [
           {
