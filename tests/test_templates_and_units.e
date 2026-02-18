@@ -514,6 +514,8 @@ template extend struct packet of (<kind'type>: enum, <data'type>:numeric, <data_
 //                     ^^^^^^ entity.name.class.template.specman
 //                            ^^ keyword.declaration.specman
 //                                                                                              ^^^^^^^^^^ keyword.declaration.specman
+//                                                                                                           ^^^^^^^^^^^^^ support.function.builtin.specman
+//                                                                                                                                        ^^ constant.numeric.unsized.integer.specman
 };
 
 -- Template extend unit
