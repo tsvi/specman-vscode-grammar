@@ -99,20 +99,21 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)({{valid_determinant}}))+(?:\\s+(\\bof\\b)\\s*(\\()\\s*({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*\\s*(\\)))?(?:\\s+(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
+          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)({{valid_determinant}})(?=\\s+(?!implementing\\b|of\\b|\\{)\\w))?(?:\\s+(?!implementing\\b|of\\b){{valid_determinant_nc}}(?=\\s+(?!implementing\\b|of\\b|\\{)\\w))*\\s+(?!implementing\\b|of\\b)({{valid_determinant}})(?:\\s+(\\bof\\b)\\s*(\\()\\s*({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*\\s*(\\)))?(?:\\s+(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
-            "2": {"name": "entity.name.class.specman"},
-            "6": {"name": "keyword.declaration.specman"},
-            "7": {"name": "punctuation.section.parens.begin.specman"},
-            "8": {"name": "entity.other.template-argument.specman"},
-            "9": {"name": "entity.other.template-argument.specman"},
-            "10": {"name": "punctuation.section.parens.end.specman"},
-            "11": {"name": "keyword.declaration.interface.specman"},
-            "12": {"name": "storage.type.interface.specman"},
-            "13": {"name": "storage.type.interface.specman"},
-            "14": {"name": "punctuation.section.class.begin.specman"}
+            "2": {"name": "entity.name.type.when-subtype.specman"},
+            "6": {"name": "entity.name.class.specman"},
+            "10": {"name": "keyword.declaration.specman"},
+            "11": {"name": "punctuation.section.parens.begin.specman"},
+            "12": {"name": "entity.other.template-argument.specman"},
+            "13": {"name": "entity.other.template-argument.specman"},
+            "14": {"name": "punctuation.section.parens.end.specman"},
+            "15": {"name": "keyword.declaration.interface.specman"},
+            "16": {"name": "storage.type.interface.specman"},
+            "17": {"name": "storage.type.interface.specman"},
+            "18": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",
