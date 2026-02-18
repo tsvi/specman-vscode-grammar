@@ -589,6 +589,48 @@ extend red packet of (color, int) {
 };
 
 -- ==========================================================================
+-- 5.1.3. Declaring a Template Numeric Type
+-- Syntax: template numeric_type template-name of (param-list):
+--     implementing-struct-name [of (actuals)] [conditions { [bool-exp;...] }];
+-- ==========================================================================
+
+-- Reference: template numeric_type my_two_arg_numeric_t of (<t1'type>, <t2'type>):
+--     my_tmpl_numeric_s of (<t1'type>, <t2'type>);
+template numeric_type my_two_arg_numeric_t of (<t1'type>, <t2'type>): my_tmpl_numeric_s of (<t1'type>, <t2'type>);
+// <------- keyword.declaration.template.specman
+//       ^^^^^^^^^^^^ keyword.declaration.class.specman
+//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                         ^^ keyword.declaration.specman
+//                                                                  ^ punctuation.separator.specman
+//                                                                    ^^^^^^^^^^^^^^^^^ storage.type.class.specman
+//                                                                                      ^^ keyword.declaration.specman
+//                                                                                                               ^ punctuation.terminator.specman
+
+-- Reference: template numeric_type my_one_arg_numeric_t of (<t1'type>):
+--     my_tmpl_numeric_s of (<t1'type>, int);
+template numeric_type my_one_arg_numeric_t of (<t1'type>): my_tmpl_numeric_s of (<t1'type>, int);
+// <------- keyword.declaration.template.specman
+//       ^^^^^^^^^^^^ keyword.declaration.class.specman
+//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                         ^^ keyword.declaration.specman
+//                                                       ^ punctuation.separator.specman
+//                                                         ^^^^^^^^^^^^^^^^^ storage.type.class.specman
+//                                                                           ^^ keyword.declaration.specman
+//                                                                                          ^^^ storage.type.specman
+//                                                                                              ^ punctuation.terminator.specman
+
+-- Reference: template numeric_type with defaults and bounding
+template numeric_type my_bounded_numeric_t of (<t1'type>:numeric=int, <t2'type>= <t1'type>): my_tmpl_numeric_s of (<t1'type>, <t2'type>);
+// <------- keyword.declaration.template.specman
+//       ^^^^^^^^^^^^ keyword.declaration.class.specman
+//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                         ^^ keyword.declaration.specman
+//                                                                                         ^ punctuation.separator.specman
+//                                                                                           ^^^^^^^^^^^^^^^^^ storage.type.class.specman
+//                                                                                                             ^^ keyword.declaration.specman
+//                                                                                                                                      ^ punctuation.terminator.specman
+
+-- ==========================================================================
 -- The patterns below are known to trigger scope-leaking grammar bugs.
 -- They are placed at the end to prevent cascading failures in the above
 -- tests. Failing assertions here are expected.
@@ -608,35 +650,6 @@ template extend packet of (<kind'type>: enum, <data'type>:numeric, <max_size'exp
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^^^ entity.name.class.template.specman
 };
-
--- ==========================================================================
--- 5.1.3. Declaring a Template Numeric Type
--- Syntax: template numeric_type template-name of (param-list):
---     implementing-struct-name [conditions { [bool-exp;...] }];
--- NOTE: `of (...)` on these lines triggers the "methods" begin pattern,
--- which opens a scope that never properly closes. Place LAST to avoid
--- cascading scope pollution.
--- ==========================================================================
-
--- Reference: template numeric_type my_two_arg_numeric_t of (<t1'type>, <t2'type>):
---     my_tmpl_numeric_s of (<t1'type>, <t2'type>);
-template numeric_type my_two_arg_numeric_t of (<t1'type>, <t2'type>): my_tmpl_numeric_s of (<t1'type>, <t2'type>);
-// <------- keyword.declaration.template.specman
-//       ^^^^^^^^^^^^ keyword.declaration.class.specman
-//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
-
--- Reference: template numeric_type my_one_arg_numeric_t of (<t1'type>):
---     my_tmpl_numeric_s of (<t1'type>, int);
-template numeric_type my_one_arg_numeric_t of (<t1'type>): my_tmpl_numeric_s of (<t1'type>, int);
-// <------- keyword.declaration.template.specman
-//       ^^^^^^^^^^^^ keyword.declaration.class.specman
-//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
-
--- Reference: template numeric_type with defaults and bounding
-template numeric_type my_bounded_numeric_t of (<t1'type>:numeric=int, <t2'type>= <t1'type>): my_tmpl_numeric_s of (<t1'type>, <t2'type>);
-// <------- keyword.declaration.template.specman
-//       ^^^^^^^^^^^^ keyword.declaration.class.specman
-//                    ^^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
 
 '>
 
