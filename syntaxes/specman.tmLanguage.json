@@ -362,7 +362,7 @@
           }
         },
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)\\s*",
+          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)\\s*",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "storage.modifier.static.specman"},
@@ -444,7 +444,7 @@
     "scalar-type-definition": {
       "patterns": [
         {
-          "match": "\\b(type|extend)\\b\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
+          "match": "\\b(type|extend)\\b\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "storage.type.specman"},
@@ -702,7 +702,7 @@
     "scalar-types": {
       "patterns": [
         {
-          "match": "\\s*(\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)\\b",
+          "match": "\\s*(\\b(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)\\b",
           "captures": {
             "1": {"name": "storage.type.specman"}
           }
@@ -805,7 +805,7 @@
         },
         {
           "name": "support.function.builtin.specman meta.function-call.builtin.specman",
-          "match": "\\b(initialize|delayed|exit|finish|post_generate|pre_generate|wave_setup|setup|setup_test|finalize|finalize_test|extract_test|run_test|get_timescale|is_gui|print_stack_trace|simulator_exists|simulator_save|sn_plusargs_exists|sn_plusarg_value|pre_save|pre_restore|post_restore|remap_tick_access|set_config|lock|unlock|release|swap|value|stop_run|get_config|get_indices|exec)\\b"
+          "match": "\\b(initialize|delayed|exit|finish|post_generate|pre_generate|wave_setup|setup|setup_test|finalize|finalize_test|extract_test|run_test|get_timescale|is_gui|print_stack_trace|simulator_exists|simulator_save|sn_plusargs_exists|sn_plusarg_value|pre_save|pre_restore|post_restore|remap_tick_access|set_config|lock|unlock|swap|value|stop_run|get_config|get_indices|exec)\\b"
         },
         {
           "name": "keyword.control.specman",
@@ -905,7 +905,7 @@
         "1": {"name": "keyword.other.gen.specman"},
         "2": {"name": "variable.other.specman"}
       },
-      "pattern": [{"include": "#inline-generation-constraint"}],
+      "patterns": [{"include": "#inline-generation-constraint"}],
       "end": "(;)",
       "endCaptures": {
         "1": {"name": "punctuation.terminator.specman"}
@@ -924,7 +924,7 @@
         "1": {"name":  "punctuation.section.constraint_block.end.specman"},
         "2": {"name":  "punctuation.terminator.specman"}
       },
-      "pattern": [{ "include": "#code"}]
+      "patterns": [{ "include": "#code"}]
     },
     "struct-allocation": {
       "match": "\\bnew\\b",
@@ -933,7 +933,7 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?",
+          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -949,7 +949,7 @@
             "3": {"name": "punctuation.separator.type.specman"},
             "4": {"name": "punctuation.brackets.begin.specman"}
           },
-          "patterns": {"include": "#enum-values-declaration"}
+          "patterns": [{"include": "#enum-values-declaration"}]
         },
         {
           "match": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:=\\s*)",
@@ -1255,7 +1255,6 @@
       },
       "patterns": [
         { "include": "#when-inheritance-determinants" },
-        { "include": "#when-inheritance-declaration-end" },
         { "include": "#when-inheritance-contents" }
       ]
     },
@@ -1317,7 +1316,7 @@
       "beginCaptures": {
         "0": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
       },
-      "end": "(\\))\\s*(?:(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?)?",
+      "end": "(\\))\\s*(?:(:)\\s*(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)?",
       "endCaptures": {
         "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"},
         "2": {"name": "punctuation.separator.return-type.specman"},
@@ -1325,7 +1324,7 @@
       },
       "patterns": [
         {
-          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:)?))",
+          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?))",
           "captures": {
             "0": {"name": "meta.method.parameters.specman"},
             "1": {"name": "variable.parameter.specman"},
