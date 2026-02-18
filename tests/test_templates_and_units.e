@@ -358,6 +358,11 @@ template struct bounded_map of (<key'type>: scalar, <max_size'exp>:uint=1000) li
 //                                                                                                ^^^^^^^^^^^^ keyword.declaration.interface.specman
 //                                                                                                             ^^^^^^^^^^^^ storage.type.interface.specman
 //                                                                                                                          ^^^^^^^^^^ keyword.declaration.specman
+//                                                                                                                                        ^ punctuation.separator.specman
+//                                                                                                                                         ^^^^^^^^ variable.parameter.template.specman
+//                                                                                                                                                 ^ punctuation.separator.specman
+//                                                                                                                                                  ^^^ keyword.declaration.specman
+//                                                                                                                                                     ^ punctuation.separator.specman
 };
 
 -- ==========================================================================
@@ -434,6 +439,11 @@ template interface foo_if of (<data'exp>:uint = 1000) like base_if, advanced_if 
 //                                                         ^^^^^^^ entity.other.inherited-class.specman
 //                                                                  ^^^^^^^^^^^ entity.other.inherited-class.specman
 //                                                                              ^^^^^^^^^^ keyword.declaration.specman
+//                                                                                           ^ punctuation.separator.specman
+//                                                                                            ^^^^ variable.parameter.template.specman
+//                                                                                                ^ punctuation.separator.specman
+//                                                                                                 ^^^ keyword.declaration.specman
+//                                                                                                    ^ punctuation.separator.specman
 {
 
 };

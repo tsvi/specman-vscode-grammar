@@ -165,10 +165,18 @@
           "patterns": [
             { "include": "#comment" },
             {
-              "match": "(\\bconditions\\b)\\s*\\{[^}]*\\}",
-              "captures": {
-                "1": {"name": "keyword.declaration.specman"}
-              }
+              "begin": "(\\bconditions\\b)\\s*(\\{)",
+              "beginCaptures": {
+                "1": {"name": "keyword.declaration.specman"},
+                "2": {"name": "punctuation.section.conditions.begin.specman"}
+              },
+              "end": "(\\})",
+              "endCaptures": {
+                "1": {"name": "punctuation.section.conditions.end.specman"}
+              },
+              "patterns": [
+                { "include": "#template-params" }
+              ]
             },
             {
               "begin": "\\{",
@@ -214,10 +222,18 @@
           "patterns": [
             { "include": "#comment" },
             {
-              "match": "(\\bconditions\\b)\\s*\\{[^}]*\\}",
-              "captures": {
-                "1": {"name": "keyword.declaration.specman"}
-              }
+              "begin": "(\\bconditions\\b)\\s*(\\{)",
+              "beginCaptures": {
+                "1": {"name": "keyword.declaration.specman"},
+                "2": {"name": "punctuation.section.conditions.begin.specman"}
+              },
+              "end": "(\\})",
+              "endCaptures": {
+                "1": {"name": "punctuation.section.conditions.end.specman"}
+              },
+              "patterns": [
+                { "include": "#template-params" }
+              ]
             },
             {
               "begin": "\\{",
