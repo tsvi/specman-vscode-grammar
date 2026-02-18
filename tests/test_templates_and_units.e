@@ -538,14 +538,8 @@ template extend struct simple_container of (<cont'type>) implementing serializab
 };
 
 -- ==========================================================================
--- Additional keyword coverage (uvm_build_config, sequence)
+-- Additional keyword coverage (sequence)
 -- ==========================================================================
-
-uvm_build_config env singleagent_flat_env_u singleagent_env_config_u singleagent_env_config_params_s ;
-// <------------ keyword.declaration.specman
-
-uvm_build_config agent singleagent_agent_u singleagent_agent_config_u singleagent_agent_config_params_s ;
-// <------------ keyword.declaration.specman
 
 sequence singleagent_sequence_s
 // <---- keyword.declaration.specman

@@ -840,7 +840,7 @@
         },
         {
           "name": "keyword.declaration.specman",
-          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|uvm_build_config|import_python|numeric_type|sequence)\\b"
+          "match": "\\b(DPI-C|like|implementing|conditions|created_driver|created_kind|testflow|import_python|numeric_type|sequence)\\b"
         },
         {
           "name": "punctuation.terminator.specman",
