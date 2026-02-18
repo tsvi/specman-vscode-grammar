@@ -94,4 +94,4 @@ jobs:
           if [ "${{ needs.check-version.outputs.prerelease }}" == "true" ]; then
             PRERELEASE_FLAG="--pre-release"
           fi
-          vsce publish $PRERELEASE_FLAG
+          vsce publish --packagePath "specman-${{ needs.check-version.outputs.version }}.vsix" $PRERELEASE_FLAG
