@@ -243,10 +243,22 @@ package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'
 //               ^^^^^^ keyword.declaration.class.specman
 //                      ^^^^^^ entity.name.class.template.specman
   size: uint;
+//^^^^ variable.other.member.specman
+//    ^ punctuation.separator.type.specman
+//      ^^^^ storage.type.specman
   data1: <data'type>(bits: <data_size'exp>);
+//^^^^^ variable.other.member.specman
+//     ^ punctuation.separator.type.specman
+//                   ^^^^ keyword.operator.width-modifier.specman
   data2: <data'type>(bits: <data_size'exp>);
+//^^^^^ variable.other.member.specman
+//     ^ punctuation.separator.type.specman
+//                   ^^^^ keyword.operator.width-modifier.specman
   kind: <kind'type>;
+//^^^^ variable.other.member.specman
+//    ^ punctuation.separator.type.specman
   keep size < 256;
+//^^^^ keyword.other.constraint.specman
 };
 
 -- Template struct with a single type parameter (parens optional per ref 5.1.1)
