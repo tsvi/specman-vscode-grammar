@@ -83,18 +83,25 @@ jobs:
             gh pr edit ${{ github.event.pull_request.number }} --add-label "pre-release"
           fi
 
-  auto-merge:
+  auto-merge-and-release:
     needs: [build-and-test, version-check]
     if: needs.version-check.outputs.version-changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+      actions: write
     steps:
-      - name: Enable auto-merge
+      - name: Merge version PR
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr merge ${{ github.event.pull_request.number }} \
             --repo ${{ github.repository }} \
-            --auto --squash
+            --squash
+
+      - name: Trigger release workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run release.yml --repo ${{ github.repository }}
