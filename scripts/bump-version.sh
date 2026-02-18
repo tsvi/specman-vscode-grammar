@@ -77,15 +77,34 @@ if [[ "$VERSION" == *-* ]]; then
   PRERELEASE_LABEL=",pre-release"
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Define all release steps (used for both dry-run and error recovery)
+STEPS=(
+  "git fetch origin main && git checkout -b '$BRANCH' origin/main"
+  "npm version '$VERSION' --no-git-tag-version"
+  "$SCRIPT_DIR/update-changelog.sh '$VERSION'"
+  "git add package.json package-lock.json CHANGELOG.md && git commit -m 'Bump version to $VERSION'"
+  "git push -u origin '$BRANCH'"
+  "gh pr create --title 'Release v${VERSION}' --body 'Automated version bump to ${VERSION}.' --base main --label 'version-update${PRERELEASE_LABEL}'"
+)
+
+STEP_LABELS=(
+  "Create branch '$BRANCH' from origin/main"
+  "Bump version to $VERSION in package.json"
+  "Update CHANGELOG.md with commits since last tag"
+  "Commit changes"
+  "Push branch '$BRANCH' to origin"
+  "Open PR: \"Release v${VERSION}\" with labels: version-update${PRERELEASE_LABEL}"
+)
+
 if [ "$DRY_RUN" = true ]; then
   echo ""
   echo "Dry run — the following actions would be performed:"
-  echo "  1. Create branch '$BRANCH' from origin/main"
-  echo "  2. Run: npm version $VERSION --no-git-tag-version"
-  echo "  3. Update CHANGELOG.md with commits since last tag"
-  echo "  4. Commit: \"Bump version to $VERSION\""
-  echo "  5. Push branch '$BRANCH' to origin"
-  echo "  6. Open PR: \"Release v${VERSION}\" with labels: version-update${PRERELEASE_LABEL}"
+  for i in "${!STEP_LABELS[@]}"; do
+    echo "  $((i + 1)). ${STEP_LABELS[$i]}"
+    echo "     $ ${STEPS[$i]}"
+  done
   exit 0
 fi
 
@@ -95,28 +114,25 @@ if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --
   exit 1
 fi
 
-# Create branch from latest main
-git fetch origin main
-git checkout -b "$BRANCH" origin/main
+# --- Helper: print remaining steps on failure ---
+fail() {
+  local failed_step=$1
+  echo ""
+  echo "ERROR: Step $((failed_step + 1)) failed: ${STEP_LABELS[$failed_step]}"
+  echo ""
+  echo "To recover, run the remaining steps manually:"
+  for ((i = failed_step; i < ${#STEPS[@]}; i++)); do
+    echo "  $((i + 1)). ${STEP_LABELS[$i]}"
+    echo "     $ ${STEPS[$i]}"
+  done
+  exit 1
+}
 
-# Bump the version in package.json using npm (no git tag)
-npm version "$VERSION" --no-git-tag-version
-
-# Update CHANGELOG.md with commits since last tag
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-"$SCRIPT_DIR/update-changelog.sh" "$VERSION"
-
-# Commit and push
-git add package.json package-lock.json CHANGELOG.md
-git commit -m "Bump version to $VERSION"
-git push -u origin "$BRANCH"
-
-# Open a PR with the version-update label
-gh pr create \
-  --title "Release v${VERSION}" \
-  --body "Automated version bump to \`${VERSION}\`." \
-  --base main \
-  --label "version-update${PRERELEASE_LABEL}"
+# Execute each step
+for i in "${!STEPS[@]}"; do
+  echo "Step $((i + 1)): ${STEP_LABELS[$i]}"
+  eval "${STEPS[$i]}" || fail "$i"
+done
 
 echo ""
 echo "PR created for v${VERSION}. CI will validate and auto-merge."
