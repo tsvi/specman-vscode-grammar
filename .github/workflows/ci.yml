@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          pip install jinja-cli
+          npm install -g vscode-tmgrammar-test
+
+      - name: Validate build
+        run: ./build.py --validate
+
+      - name: Run tests
+        run: vscode-tmgrammar-test -c 'tests/test*.e'
+
+  version-check:
+    runs-on: ubuntu-latest
+    outputs:
+      version-changed: ${{ steps.check.outputs.changed }}
+      is-prerelease: ${{ steps.check.outputs.prerelease }}
+      version: ${{ steps.check.outputs.pr_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for version change
+        id: check
+        run: |
+          PR_VERSION=$(jq -r '.version' package.json)
+          git fetch origin main
+          MAIN_VERSION=$(git show origin/main:package.json | jq -r '.version')
+          echo "pr_version=$PR_VERSION" >> "$GITHUB_OUTPUT"
+          echo "main_version=$MAIN_VERSION" >> "$GITHUB_OUTPUT"
+          if [ "$PR_VERSION" != "$MAIN_VERSION" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          # Pre-release versions contain a hyphen (e.g., 1.0.0-beta.1)
+          if [[ "$PR_VERSION" == *-* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ensure labels exist
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "version-update" --description "PR updates the extension version" --color "0E8A16" 2>/dev/null || true
+          gh label create "pre-release" --description "Pre-release version update" --color "FFA500" 2>/dev/null || true
+
+      - name: Add version-update label
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "version-update"
+          if [ "${{ steps.check.outputs.prerelease }}" == "true" ]; then
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "pre-release"
+          fi
+
+  auto-merge:
+    needs: [build-and-test, version-check]
+    if: needs.version-check.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --repo ${{ github.repository }} \
+            --auto --squash
