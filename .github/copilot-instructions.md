@@ -1,12 +1,3 @@
-# ---
-applyTo: 'syntaxes.tmLanguage.json.j2'
-title: Copilot Instructions
-description: |
-  Instructions for Copilot to follow when generating code.
-version: 1.0
-author: Tsvi Mostovicz
----
-
 # Code behavior
 - The source code is a Jinja2 template for a TextMate syntax definition file.
 - The template is used to generate a JSON file for TextMate syntax highlighting.
