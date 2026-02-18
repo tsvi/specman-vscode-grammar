@@ -7,18 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Added
-- CI workflow for PR validation (build + tests)
-- Automated release workflow (tag, GitHub Release, Marketplace publish)
-- npm scripts for build, test, package, and release
-- `.vscodeignore` for clean extension packaging
+## [0.2.12-beta.1] - 2026-02-18
 
-### Changed
-- Rewritten README and added CONTRIBUTING guide
-- Devcontainer uses `pipx` for Python CLI tools
-
-### Fixed
-- Multiple syntax bugs based on Specman reference (#4)
+- Add Github cli to devcontainer (#7)
+- Changelog generation and release scripts update (#6)
+- Add CI and release workflows (#5)
+- Fix multiple bugs based on specman reference with Copilot (#4)
+- Fix link to contributors
+- Fix VS Marketplace badges
+- Rewrite README and add CONTRIBUTING
 
 ## [0.2.11] - 2023-06-07
 
@@ -117,7 +114,8 @@ _No notable changes._
 - Build script with Jinja2 template support
 - Grammar test infrastructure
 
-[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.11...HEAD
+[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.12-beta.1...HEAD
+[0.2.12-beta.1]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.11...v0.2.12-beta.1
 [0.2.11]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.10...v0.2.11
 [0.2.10]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.9...v0.2.10
 [0.2.9]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.8...v0.2.9
