@@ -272,6 +272,23 @@
           }
         },
         {
+          "begin": "(?:({{struct_access}})\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*({{valid_id}})\\s*(:)\\s*{{template_param_ref}}",
+          "beginCaptures": {
+            "1": {"name": "storage.modifier.access.specman"},
+            "2": {"name": "storage.modifier.static.specman"},
+            "3": {"name": "storage.modifier.const.specman"},
+            "4": {"name": "punctuation.definition.variable.generation.specman"},
+            "5": {"name": "punctuation.definition.variable.physical.specman"},
+            "6": {"name": "variable.other.member.specman"},
+            "7": {"name": "punctuation.separator.type.specman"}
+          },
+          "end": "(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [{ "include": "#priority-scopes" }, { "include": "#default-scopes" }]
+        },
+        {
           "match": "(?:({{struct_access}})\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*({{valid_id}})\\s*(:)\\s*(?:{{valid_struct_type}})(?:\\s+(\\bis\\s+instance\\b))?\\s*(;|=)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
