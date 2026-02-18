@@ -53,11 +53,11 @@ npm run release -- minor
 # Release a major version (0.2.11 -> 1.0.0)
 npm run release -- major
 
-# Start a beta (0.2.11 -> 0.2.12-beta.1)
-npm run release -- beta
+# Start a pre-release (0.2.11 -> 0.2.12, published as VS Code pre-release)
+npm run release -- prerelease
 
 # Explicit version
-npm run release -- 0.4.0-rc.1
+npm run release -- 0.4.0
 ```
 
 # CI / CD
@@ -69,9 +69,9 @@ All pull requests against `main` automatically run:
   is committed.
 - **Tests** — `vscode-tmgrammar-test` runs all `tests/test*.e` files.
 
-If a PR changes the version in `package.json`, it is automatically labeled `version-update`
-(and `pre-release` if the version contains a hyphen, e.g., `0.3.0-beta.1`). Once CI passes,
-the PR is auto-merged via squash.
+If a PR changes the version in `package.json`, it is automatically labeled `version-update`.
+If the PR also has the `pre-release` label, it will be published as a VS Code pre-release.
+Once CI passes, the PR is auto-merged via squash.
 
 ## Releasing
 
@@ -86,17 +86,21 @@ Releases are fully automated. The workflow triggered by `npm run release` does t
    - Creates a GitHub Release with auto-generated notes and the `.vsix` artifact.
    - Publishes the extension to the VS Code Marketplace.
 
-### Beta / Pre-release Versions
+### Pre-release Versions
 
-Use a semver pre-release suffix in `package.json`:
+Use the `prerelease` bump type:
 
-```json
-"version": "0.3.0-beta.1"
+```bash
+npm run release -- prerelease
 ```
 
+This bumps the patch version normally and labels the PR as `pre-release`.
 The release workflow will:
 - Mark the GitHub Release as a **prerelease**.
 - Publish to the VS Code Marketplace with the `--pre-release` flag.
+
+Note: the VS Code Marketplace does not support semver pre-release suffixes
+(e.g., `-beta.1`). Pre-release is controlled by the `--pre-release` flag on publish.
 
 ### Manual Release
 
@@ -104,4 +108,6 @@ You can also trigger a release manually from the command line:
 
 ```bash
 gh workflow run release.yml
+# Or with pre-release:
+gh workflow run release.yml -f prerelease=true
 ```
