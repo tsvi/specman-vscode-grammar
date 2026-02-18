@@ -357,6 +357,7 @@ template struct bounded_map of (<key'type>: scalar, <max_size'exp>:uint=1000) li
 //                                                                                 ^^^^^^^^^^^^^^ entity.other.inherited-class.specman
 //                                                                                                ^^^^^^^^^^^^ keyword.declaration.interface.specman
 //                                                                                                             ^^^^^^^^^^^^ storage.type.interface.specman
+//                                                                                                                          ^^^^^^^^^^ keyword.declaration.specman
 };
 
 -- ==========================================================================
@@ -429,6 +430,10 @@ template interface foo_if of (<data'exp>:uint = 1000) like base_if, advanced_if 
 // <------- keyword.declaration.template.specman
 //       ^^^^^^^^^ keyword.declaration.class.specman
 //                 ^^^^^^ entity.name.class.template.specman
+//                                                    ^^^^ keyword.declaration.like.specman
+//                                                         ^^^^^^^ entity.other.inherited-class.specman
+//                                                                  ^^^^^^^^^^^ entity.other.inherited-class.specman
+//                                                                              ^^^^^^^^^^ keyword.declaration.specman
 {
 
 };
@@ -479,6 +484,7 @@ template extend struct packet of (<kind'type>: enum, <data'type>:numeric, <data_
 //              ^^^^^^ keyword.declaration.class.specman
 //                     ^^^^^^ entity.name.class.template.specman
 //                            ^^ keyword.declaration.specman
+//                                                                                              ^^^^^^^^^^ keyword.declaration.specman
 };
 
 -- Template extend unit

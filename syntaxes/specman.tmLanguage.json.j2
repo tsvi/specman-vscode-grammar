@@ -165,7 +165,10 @@
           "patterns": [
             { "include": "#comment" },
             {
-              "match": "\\bconditions\\b\\s*\\{[^}]*\\}"
+              "match": "(\\bconditions\\b)\\s*\\{[^}]*\\}",
+              "captures": {
+                "1": {"name": "keyword.declaration.specman"}
+              }
             },
             {
               "begin": "\\{",
@@ -175,10 +178,11 @@
               "patterns": [{ "include": "#code" }]
             },
             {
-              "match": "\\b(like)\\s+({{valid_id}})",
+              "match": "\\b(like)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*",
               "captures": {
                 "1": {"name": "keyword.declaration.like.specman"},
-                "2": {"name": "entity.other.inherited-class.specman"}
+                "2": {"name": "entity.other.inherited-class.specman"},
+                "3": {"name": "entity.other.inherited-class.specman"}
               }
             },
             {
@@ -210,7 +214,10 @@
           "patterns": [
             { "include": "#comment" },
             {
-              "match": "\\bconditions\\b\\s*\\{[^}]*\\}"
+              "match": "(\\bconditions\\b)\\s*\\{[^}]*\\}",
+              "captures": {
+                "1": {"name": "keyword.declaration.specman"}
+              }
             },
             {
               "begin": "\\{",
@@ -220,10 +227,11 @@
               "patterns": [{ "include": "#code" }]
             },
             {
-              "match": "\\b(like)\\s+({{valid_id}})",
+              "match": "\\b(like)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*",
               "captures": {
                 "1": {"name": "keyword.declaration.like.specman"},
-                "2": {"name": "entity.other.inherited-class.specman"}
+                "2": {"name": "entity.other.inherited-class.specman"},
+                "3": {"name": "entity.other.inherited-class.specman"}
               }
             },
             {
