@@ -21,3 +21,87 @@ Check the [documentation](https://www.npmjs.com/package/vscode-tmgrammar-test) f
 vscode-tmgrammar-test tool on how to implement tests.
 
 If you create a new test file, please confirm that the file starts with the prefix `test_*`.
+
+## npm Scripts
+
+| Command | Description |
+|---|---|
+| `npm run build` | Generate the grammar JSON from the Jinja2 template |
+| `npm run build:validate` | Generate and verify the grammar matches what is committed |
+| `npm test` | Run all grammar tests |
+| `npm run package` | Build and package the extension into a `.vsix` file |
+| `npm run release -- <bump>` | Create a branch, bump the version, and open a release PR |
+
+### Examples
+
+```bash
+# Run tests locally
+npm test
+
+# Build a .vsix to install locally
+npm run package
+
+# Dry run — see what would happen without making changes
+npm run release -- -n patch
+
+# Release a patch (0.2.11 -> 0.2.12)
+npm run release -- patch
+
+# Release a minor version (0.2.11 -> 0.3.0)
+npm run release -- minor
+
+# Release a major version (0.2.11 -> 1.0.0)
+npm run release -- major
+
+# Start a beta (0.2.11 -> 0.2.12-beta.1)
+npm run release -- beta
+
+# Explicit version
+npm run release -- 0.4.0-rc.1
+```
+
+# CI / CD
+
+## Pull Requests
+
+All pull requests against `main` automatically run:
+- **Build validation** — `./build.py --validate` ensures the generated grammar matches what
+  is committed.
+- **Tests** — `vscode-tmgrammar-test` runs all `tests/test*.e` files.
+
+If a PR changes the version in `package.json`, it is automatically labeled `version-update`
+(and `pre-release` if the version contains a hyphen, e.g., `0.3.0-beta.1`). Once CI passes,
+the PR is auto-merged via squash.
+
+## Releasing
+
+Releases are fully automated. The workflow triggered by `npm run release` does the following:
+
+1. Create a branch and update `"version"` in `package.json`.
+2. Open a PR to `main`.
+3. CI runs tests and build validation.
+4. The PR is labeled `version-update` and auto-merged on success.
+5. On merge to `main`, the release workflow:
+   - Creates a git tag (`v<version>`).
+   - Creates a GitHub Release with auto-generated notes and the `.vsix` artifact.
+   - Publishes the extension to the VS Code Marketplace.
+
+### Beta / Pre-release Versions
+
+Use a semver pre-release suffix in `package.json`:
+
+```json
+"version": "0.3.0-beta.1"
+```
+
+The release workflow will:
+- Mark the GitHub Release as a **prerelease**.
+- Publish to the VS Code Marketplace with the `--pre-release` flag.
+
+### Manual Release
+
+You can also trigger a release manually from the command line:
+
+```bash
+gh workflow run release.yml
+```
