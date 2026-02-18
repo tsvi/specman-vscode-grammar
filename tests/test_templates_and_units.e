@@ -633,9 +633,8 @@ template numeric_type my_bounded_numeric_t of (<t1'type>:numeric=int, <t2'type>=
 -- ==========================================================================
 -- 5.2 (variant). Template extend without struct/unit keyword
 -- Syntax: template extend template_name of (param-list) ... { ... }
--- NOTE: The grammar currently does not handle this form in the templates
--- pattern (which requires struct|unit|interface). This should still be valid
--- per the reference.
+-- The grammar handles this via a dedicated pattern that matches
+-- "template extend <name> of" without requiring struct|unit|interface.
 -- ==========================================================================
 
 -- Template extend without struct/unit keyword (valid per reference 5.2)
