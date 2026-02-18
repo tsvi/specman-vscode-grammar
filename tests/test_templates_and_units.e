@@ -450,6 +450,7 @@ template interface foo_if of (<data'exp>:uint = 1000) like base_if, advanced_if 
 //                                                                                                ^ punctuation.separator.specman
 //                                                                                                 ^^^ keyword.declaration.specman
 //                                                                                                    ^ punctuation.separator.specman
+//                                                                                                         ^^^^ constant.numeric.unsized.integer.specman
 {
 
 };
