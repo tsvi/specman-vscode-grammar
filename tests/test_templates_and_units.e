@@ -242,6 +242,25 @@ package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'
 //      ^^^^^^^^ keyword.declaration.template.specman
 //               ^^^^^^ keyword.declaration.class.specman
 //                      ^^^^^^ entity.name.class.template.specman
+//                                 ^ punctuation.separator.specman
+//                                  ^^^^ variable.parameter.template.specman
+//                                      ^ punctuation.separator.specman
+//                                       ^^^^ keyword.declaration.specman
+//                                           ^ punctuation.separator.specman
+//                                              ^ punctuation.separator.specman
+//                                               ^^^^ variable.parameter.template.specman
+//                                                   ^ punctuation.separator.specman
+//                                                    ^^^^ keyword.declaration.specman
+//                                                        ^ punctuation.separator.specman
+//                                                         ^ punctuation.separator.specman
+//                                                          ^^^^^^^ storage.type.specman
+//                                                                   ^ punctuation.separator.specman
+//                                                                    ^^^^^^^^^ variable.parameter.template.specman
+//                                                                             ^ punctuation.separator.specman
+//                                                                              ^^^ keyword.declaration.specman
+//                                                                                 ^ punctuation.separator.specman
+//                                                                                  ^ punctuation.separator.specman
+//                                                                                   ^^^^ storage.type.specman
   size: uint;
 //^^^^ variable.other.member.specman
 //    ^ punctuation.separator.type.specman
@@ -249,14 +268,29 @@ package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'
   data1: <data'type>(bits: <data_size'exp>);
 //^^^^^ variable.other.member.specman
 //     ^ punctuation.separator.type.specman
+//       ^ punctuation.separator.specman
+//        ^^^^ variable.parameter.template.specman
+//            ^ punctuation.separator.specman
+//             ^^^^ keyword.declaration.specman
+//                 ^ punctuation.separator.specman
 //                   ^^^^ keyword.operator.width-modifier.specman
   data2: <data'type>(bits: <data_size'exp>);
 //^^^^^ variable.other.member.specman
 //     ^ punctuation.separator.type.specman
+//       ^ punctuation.separator.specman
+//        ^^^^ variable.parameter.template.specman
+//            ^ punctuation.separator.specman
+//             ^^^^ keyword.declaration.specman
+//                 ^ punctuation.separator.specman
 //                   ^^^^ keyword.operator.width-modifier.specman
   kind: <kind'type>;
 //^^^^ variable.other.member.specman
 //    ^ punctuation.separator.type.specman
+//      ^ punctuation.separator.specman
+//       ^^^^ variable.parameter.template.specman
+//           ^ punctuation.separator.specman
+//            ^^^^ keyword.declaration.specman
+//                ^ punctuation.separator.specman
   keep size < 256;
 //^^^^ keyword.other.constraint.specman
 };

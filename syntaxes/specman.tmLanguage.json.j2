@@ -173,6 +173,7 @@
               "contentName": "meta.class.body.specman",
               "patterns": [{ "include": "#code" }]
             },
+            { "include": "#priority-scopes" },
             { "include": "#default-scopes" }
           ]
         },
@@ -201,6 +202,7 @@
               "contentName": "meta.class.body.specman",
               "patterns": [{ "include": "#code" }]
             },
+            { "include": "#priority-scopes" },
             { "include": "#default-scopes" }
           ]
         },
@@ -280,7 +282,12 @@
             "4": {"name": "punctuation.definition.variable.generation.specman"},
             "5": {"name": "punctuation.definition.variable.physical.specman"},
             "6": {"name": "variable.other.member.specman"},
-            "7": {"name": "punctuation.separator.type.specman"}
+            "7": {"name": "punctuation.separator.type.specman"},
+            "8": {"name": "punctuation.separator.specman"},
+            "9": {"name": "variable.parameter.template.specman"},
+            "10": {"name": "punctuation.separator.specman"},
+            "11": {"name": "keyword.declaration.specman"},
+            "12": {"name": "punctuation.separator.specman"}
           },
           "end": "(;)",
           "endCaptures": {
@@ -497,34 +504,37 @@
     "template-params": {
       "patterns": [
         {
-          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)(\\'\\s*)\\b(type|exp)(\\s*>\\s*)(:\\s*)({{scalar_types}})",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
-            "3": {"name": "keyword.declaration.specman"},
-            "4": {"name": "punctuation.separator.specman"},
+            "3": {"name": "punctuation.separator.specman"},
+            "4": {"name": "keyword.declaration.specman"},
             "5": {"name": "punctuation.separator.specman"},
-            "6": {"name": "storage.type.specman"}
+            "6": {"name": "punctuation.separator.specman"},
+            "7": {"name": "storage.type.specman"}
           }
         },
         {
-          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)(\\'\\s*)\\b(type|exp)(\\s*>\\s*)(?:(:\\s*)(struct|interface|object|list|scalar|numeric|custom_numeric|enum|port))?",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
-            "3": {"name": "keyword.declaration.specman"},
-            "4": {"name": "punctuation.separator.specman"},
+            "3": {"name": "punctuation.separator.specman"},
+            "4": {"name": "keyword.declaration.specman"},
             "5": {"name": "punctuation.separator.specman"},
-            "6": {"name": "storage.type.category.specman"}
+            "6": {"name": "punctuation.separator.specman"},
+            "7": {"name": "storage.type.category.specman"}
           }
         },
         {
-          "match": "(<)\\s*(?:({{valid_id}})\\s*)\\'\\s*\\b(?:({{valid_id}})\\s*)(>)",
+          "match": "(<)\\s*(?:({{valid_id}})\\s*)(\\'\\s*)\\b(?:({{valid_id}})\\s*)(>)",
           "captures": {
             "1": {"name": "punctuation.separator.specman"},
             "2": {"name": "variable.parameter.template.specman"},
-            "3": {"name": "keyword.declaration.specman"},
-            "4": {"name": "punctuation.separator.specman"}
+            "3": {"name": "punctuation.separator.specman"},
+            "4": {"name": "keyword.declaration.specman"},
+            "5": {"name": "punctuation.separator.specman"}
           }
         }
       ]
