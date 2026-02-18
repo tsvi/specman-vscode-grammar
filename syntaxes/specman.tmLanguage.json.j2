@@ -96,12 +96,15 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend)(?:\\s+({{valid_determinant}}))+\\s*(\\{)",
+          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)({{valid_determinant}}))+(?:\\s+\\bof\\b\\s*\\([^)]*\\))?(?:\\s+(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
             "2": {"name": "entity.name.class.specman"},
-            "6": {"name": "punctuation.section.class.begin.specman"}
+            "6": {"name": "keyword.declaration.interface.specman"},
+            "7": {"name": "storage.type.interface.specman"},
+            "8": {"name": "storage.type.interface.specman"},
+            "9": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",
@@ -142,15 +145,28 @@
       }
     },
     "templates": {
-      "name": "meta.class.declaration.template.specman",
-      "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:({{valid_id}})\\s+)\\bof\\b\\s+",
-      "captures": {
-        "1": {"name": "entity.name.namespace.specman"},
-        "2": {"name": "keyword.declaration.template.specman"},
-        "3": {"name": "keyword.declaration.specman"},
-        "4": {"name": "keyword.declaration.class.specman"},
-        "5": {"name": "entity.name.class.template.specman"}
-      }
+      "patterns": [
+        {
+          "name": "meta.class.declaration.template.specman",
+          "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface|numeric_type)\\b\\s+(?:({{valid_id}})\\s+)\\bof\\b\\s+",
+          "captures": {
+            "1": {"name": "entity.name.namespace.specman"},
+            "2": {"name": "keyword.declaration.template.specman"},
+            "3": {"name": "keyword.declaration.specman"},
+            "4": {"name": "keyword.declaration.class.specman"},
+            "5": {"name": "entity.name.class.template.specman"}
+          }
+        },
+        {
+          "name": "meta.class.declaration.template.specman",
+          "match": "(template)\\s+(extend)\\s+(?:({{valid_id}})\\s+)\\bof\\b\\s+",
+          "captures": {
+            "1": {"name": "keyword.declaration.template.specman"},
+            "2": {"name": "keyword.declaration.specman"},
+            "3": {"name": "entity.name.class.template.specman"}
+          }
+        }
+      ]
     },
     "code": {
       "patterns": [
@@ -1099,7 +1115,7 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b({{valid_id}})\\b\\s*\\(",
+      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b(?!of\\b)({{valid_id}})\\b\\s*\\(",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
