@@ -77,7 +77,12 @@ jobs:
           npm install -g @vscode/vsce
 
       - name: Package extension
-        run: npm run package
+        run: |
+          PRERELEASE_FLAG=""
+          if [ "${{ inputs.prerelease }}" == "true" ]; then
+            PRERELEASE_FLAG="--pre-release"
+          fi
+          npm run package -- $PRERELEASE_FLAG
 
       - name: Create tag
         if: needs.check-version.outputs.mode == 'release'
