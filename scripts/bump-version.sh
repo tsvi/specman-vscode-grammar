@@ -89,7 +89,7 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 # Ensure working tree is clean
-if ! git diff --quiet || ! git diff --cached --quiet; then
+if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
   echo "Error: working tree is not clean. Commit or stash changes first."
   exit 1
 fi

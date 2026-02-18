@@ -29,10 +29,10 @@ jobs:
           npm install -g vscode-tmgrammar-test
 
       - name: Validate build
-        run: ./build.py --validate
+        run: npm run build:validate
 
       - name: Run tests
-        run: vscode-tmgrammar-test -c 'tests/test*.e'
+        run: npm test
 
   version-check:
     runs-on: ubuntu-latest
