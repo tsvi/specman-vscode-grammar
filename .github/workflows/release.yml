@@ -64,14 +64,13 @@ jobs:
           pip install jinja-cli
           npm install -g @vscode/vsce
 
-      - name: Build
-        run: ./build.py
-
       - name: Package extension
-        run: vsce package -o specman-${{ needs.check-version.outputs.version }}.vsix
+        run: npm run package
 
       - name: Create tag
         run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git tag ${{ needs.check-version.outputs.tag }}
           git push origin ${{ needs.check-version.outputs.tag }}
 
