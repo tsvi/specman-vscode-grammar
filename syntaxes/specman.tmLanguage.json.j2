@@ -74,18 +74,21 @@
     "structs": {
       "patterns": [
         {
-          "begin": "\\b(struct|unit)\\s+({{valid_id}})(?:\\s+(like)\\s+({{valid_id}}))?\\s*(?:of\\s+\\(\\s*({{valid_id}})\\s*\\))?\\s*(?:(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
+          "begin": "\\b(struct|unit)\\s+({{valid_id}})(?:\\s+(like)\\s+({{valid_id}}))?\\s*(?:(\\bof\\b)\\s+(\\()\\s*({{valid_id}})\\s*(\\)))?\\s*(?:(implementing)\\s+({{valid_id}})(?:\\s*,\\s*({{valid_id}}))*)?\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman"},
             "1": {"name": "keyword.declaration.class.specman"},
             "2": {"name": "entity.name.class.specman"},
             "3": {"name": "keyword.declaration.like.specman"},
             "4": {"name": "entity.other.inherited-class.specman"},
-            "5": {"name": "entity.other.template.specman"},
-            "6": {"name": "keyword.declaration.interface.specman"},
-            "7": {"name": "storage.type.interface.specman"},
-            "8": {"name": "storage.type.interface.specman"},
-            "9": {"name": "punctuation.section.class.begin.specman"}
+            "5": {"name": "keyword.declaration.specman"},
+            "6": {"name": "punctuation.section.parens.begin.specman"},
+            "7": {"name": "entity.other.template-argument.specman"},
+            "8": {"name": "punctuation.section.parens.end.specman"},
+            "9": {"name": "keyword.declaration.interface.specman"},
+            "10": {"name": "storage.type.interface.specman"},
+            "11": {"name": "storage.type.interface.specman"},
+            "12": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",

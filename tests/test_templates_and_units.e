@@ -191,6 +191,12 @@ unit singleagent_monitor_u like imc_base_monitor_u of (singleagent_data_item_s) 
 // ^ keyword.declaration.class.specman
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.name.class.specman
 //                         ^^^^ keyword.declaration.like.specman
+//                              ^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.specman
+//                                                 ^^ keyword.declaration.specman
+//                                                    ^ punctuation.section.parens.begin.specman
+//                                                     ^^^^^^^^^^^^^^^^^^^^^^^ entity.other.template-argument.specman
+//                                                                            ^ punctuation.section.parens.end.specman
+//                                                                              ^ punctuation.section.class.begin.specman
 
    -- 4.2.3. field: unit-type (unit pointer, not instance)
    !agent_p: singleagent_agent_u;
