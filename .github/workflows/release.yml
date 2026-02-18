@@ -1,9 +1,12 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      prerelease:
+        description: Publish as a VS Code pre-release
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -12,17 +15,18 @@ jobs:
   check-version:
     runs-on: ubuntu-latest
     outputs:
-      should-release: ${{ steps.check.outputs.should_release }}
+      mode: ${{ steps.check.outputs.mode }}
       version: ${{ steps.check.outputs.version }}
       tag: ${{ steps.check.outputs.tag }}
-      prerelease: ${{ steps.check.outputs.prerelease }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Check if release is needed
+      - name: Determine release mode
         id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           VERSION=$(jq -r '.version' package.json)
           TAG="v$VERSION"
@@ -30,25 +34,33 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists. Skipping release."
-            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            if [ "${{ inputs.prerelease }}" == "true" ]; then
+              echo "Tag $TAG already exists. Skipping."
+              echo "mode=skip" >> "$GITHUB_OUTPUT"
+            else
+              # Check if the existing release is a pre-release that can be promoted
+              IS_PRE=$(gh release view "$TAG" --json isPrerelease -q '.isPrerelease' 2>/dev/null || echo "false")
+              if [ "$IS_PRE" == "true" ]; then
+                echo "Tag $TAG exists as pre-release. Will promote to stable."
+                echo "mode=promote" >> "$GITHUB_OUTPUT"
+              else
+                echo "Tag $TAG already released as stable. Skipping."
+                echo "mode=skip" >> "$GITHUB_OUTPUT"
+              fi
+            fi
           else
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-          fi
-
-          # Pre-release versions contain a hyphen (e.g., 1.0.0-beta.1)
-          if [[ "$VERSION" == *-* ]]; then
-            echo "prerelease=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+            echo "mode=release" >> "$GITHUB_OUTPUT"
           fi
 
   release:
     needs: check-version
-    if: needs.check-version.outputs.should-release == 'true'
+    if: needs.check-version.outputs.mode != 'skip'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check-version.outputs.mode == 'promote' && needs.check-version.outputs.tag || '' }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -68,6 +80,7 @@ jobs:
         run: npm run package
 
       - name: Create tag
+        if: needs.check-version.outputs.mode == 'release'
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
@@ -75,11 +88,12 @@ jobs:
           git push origin ${{ needs.check-version.outputs.tag }}
 
       - name: Create GitHub Release
+        if: needs.check-version.outputs.mode == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           PRERELEASE_FLAG=""
-          if [ "${{ needs.check-version.outputs.prerelease }}" == "true" ]; then
+          if [ "${{ inputs.prerelease }}" == "true" ]; then
             PRERELEASE_FLAG="--prerelease"
           fi
           gh release create "${{ needs.check-version.outputs.tag }}" \
@@ -88,12 +102,24 @@ jobs:
             --generate-notes \
             $PRERELEASE_FLAG
 
+      - name: Promote GitHub Release to stable
+        if: needs.check-version.outputs.mode == 'promote'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit "${{ needs.check-version.outputs.tag }}" \
+            --prerelease=false \
+            --latest
+          gh release upload "${{ needs.check-version.outputs.tag }}" \
+            "specman-${{ needs.check-version.outputs.version }}.vsix" \
+            --clobber
+
       - name: Publish to VS Code Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           PRERELEASE_FLAG=""
-          if [ "${{ needs.check-version.outputs.prerelease }}" == "true" ]; then
+          if [ "${{ inputs.prerelease }}" == "true" ]; then
             PRERELEASE_FLAG="--pre-release"
           fi
-          vsce publish $PRERELEASE_FLAG
+          vsce publish --packagePath "specman-${{ needs.check-version.outputs.version }}.vsix" $PRERELEASE_FLAG

@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version-changed: ${{ steps.check.outputs.changed }}
-      is-prerelease: ${{ steps.check.outputs.prerelease }}
+      is-prerelease: ${{ steps.labels.outputs.prerelease }}
       version: ${{ steps.check.outputs.pr_version }}
     steps:
       - uses: actions/checkout@v4
@@ -58,12 +58,6 @@ jobs:
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
-          # Pre-release versions contain a hyphen (e.g., 1.0.0-beta.1)
-          if [[ "$PR_VERSION" == *-* ]]; then
-            echo "prerelease=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "prerelease=false" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Ensure labels exist
         if: steps.check.outputs.changed == 'true'
@@ -79,22 +73,41 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr edit ${{ github.event.pull_request.number }} --add-label "version-update"
-          if [ "${{ steps.check.outputs.prerelease }}" == "true" ]; then
-            gh pr edit ${{ github.event.pull_request.number }} --add-label "pre-release"
+
+      - name: Check for pre-release label
+        id: labels
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LABELS=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json labels -q '.labels[].name')
+          if echo "$LABELS" | grep -q "pre-release"; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
           fi
 
-  auto-merge:
+  auto-merge-and-release:
     needs: [build-and-test, version-check]
     if: needs.version-check.outputs.version-changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+      actions: write
     steps:
-      - name: Enable auto-merge
+      - name: Merge version PR
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr merge ${{ github.event.pull_request.number }} \
             --repo ${{ github.repository }} \
-            --auto --squash
+            --squash
+
+      - name: Trigger release workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run release.yml \
+            --repo ${{ github.repository }} \
+            -f prerelease=${{ needs.version-check.outputs.is-prerelease || 'false' }}
