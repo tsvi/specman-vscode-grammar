@@ -147,14 +147,15 @@
     "templates": {
       "patterns": [
         {
-          "begin": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b",
+          "begin": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)(\\bof\\b)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.template.specman"},
             "1": {"name": "entity.name.namespace.specman"},
             "2": {"name": "keyword.declaration.template.specman"},
             "3": {"name": "keyword.declaration.specman"},
             "4": {"name": "keyword.declaration.class.specman"},
-            "5": {"name": "entity.name.class.template.specman"}
+            "5": {"name": "entity.name.class.template.specman"},
+            "6": {"name": "keyword.declaration.specman"}
           },
           "end": "(\\})\\s*(;)",
           "endCaptures": {
@@ -172,18 +173,34 @@
               "end": "(?=\\})",
               "contentName": "meta.class.body.specman",
               "patterns": [{ "include": "#code" }]
+            },
+            {
+              "match": "\\b(like)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)",
+              "captures": {
+                "1": {"name": "keyword.declaration.like.specman"},
+                "2": {"name": "entity.other.inherited-class.specman"}
+              }
+            },
+            {
+              "match": "\\b(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*",
+              "captures": {
+                "1": {"name": "keyword.declaration.interface.specman"},
+                "2": {"name": "storage.type.interface.specman"},
+                "3": {"name": "storage.type.interface.specman"}
+              }
             },
             { "include": "#priority-scopes" },
             { "include": "#default-scopes" }
           ]
         },
         {
-          "begin": "(template)\\s+(extend)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b",
+          "begin": "(template)\\s+(extend)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)(\\bof\\b)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.template.specman"},
             "1": {"name": "keyword.declaration.template.specman"},
             "2": {"name": "keyword.declaration.specman"},
-            "3": {"name": "entity.name.class.template.specman"}
+            "3": {"name": "entity.name.class.template.specman"},
+            "4": {"name": "keyword.declaration.specman"}
           },
           "end": "(\\})\\s*(;)",
           "endCaptures": {
@@ -201,6 +218,21 @@
               "end": "(?=\\})",
               "contentName": "meta.class.body.specman",
               "patterns": [{ "include": "#code" }]
+            },
+            {
+              "match": "\\b(like)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)",
+              "captures": {
+                "1": {"name": "keyword.declaration.like.specman"},
+                "2": {"name": "entity.other.inherited-class.specman"}
+              }
+            },
+            {
+              "match": "\\b(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*",
+              "captures": {
+                "1": {"name": "keyword.declaration.interface.specman"},
+                "2": {"name": "storage.type.interface.specman"},
+                "3": {"name": "storage.type.interface.specman"}
+              }
             },
             { "include": "#priority-scopes" },
             { "include": "#default-scopes" }

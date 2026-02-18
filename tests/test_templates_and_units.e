@@ -242,6 +242,7 @@ package template struct packet of (<kind'type>, <data'type>:numeric, <data_size'
 //      ^^^^^^^^ keyword.declaration.template.specman
 //               ^^^^^^ keyword.declaration.class.specman
 //                      ^^^^^^ entity.name.class.template.specman
+//                             ^^ keyword.declaration.specman
 //                                 ^ punctuation.separator.specman
 //                                  ^^^^ variable.parameter.template.specman
 //                                      ^ punctuation.separator.specman
@@ -301,6 +302,7 @@ template struct simple_container of <type> {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                               ^^ keyword.declaration.specman
   value: <type>;
 };
 
@@ -310,6 +312,9 @@ template struct derived_map of (<key'type>: scalar, <value'type>) like base_map 
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^ entity.name.class.template.specman
+//                          ^^ keyword.declaration.specman
+//                                                                ^^^^ keyword.declaration.like.specman
+//                                                                     ^^^^^^^^ entity.other.inherited-class.specman
   key: <key'type>;
   value: <value'type>;
 };
@@ -320,6 +325,7 @@ template struct foo of (<a'type>, <b'exp>: int, <c'type>) {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^ entity.name.class.template.specman
+//                  ^^ keyword.declaration.specman
 };
 
 -- Template struct with defaults derived from previous params
@@ -328,6 +334,7 @@ template struct linked of (<first'type>, <second'type> = <first'type>) {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^ entity.name.class.template.specman
+//                     ^^ keyword.declaration.specman
   a: <first'type>;
   b: <second'type>;
 };
@@ -339,6 +346,11 @@ template struct bounded_map of (<key'type>: scalar, <max_size'exp>:uint=1000) li
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^ entity.name.class.template.specman
+//                          ^^ keyword.declaration.specman
+//                                                                            ^^^^ keyword.declaration.like.specman
+//                                                                                 ^^^^^^^^^^^^^^ entity.other.inherited-class.specman
+//                                                                                                ^^^^^^^^^^^^ keyword.declaration.interface.specman
+//                                                                                                             ^^^^^^^^^^^^ storage.type.interface.specman
 };
 
 -- ==========================================================================
@@ -355,6 +367,7 @@ template struct tparam_scalar_bound of (<key'type>: scalar) {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                  ^^ keyword.declaration.specman
 };
 
 -- Value parameter with scalar type
@@ -363,6 +376,7 @@ template struct tparam_value of (<max_size'exp>:uint=1000) {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^^ entity.name.class.template.specman
+//                           ^^ keyword.declaration.specman
 };
 
 -- Type parameter with object category
@@ -371,6 +385,7 @@ template struct tparam_object_bound of (<kind'type>:object) {
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.class.specman
 //              ^^^^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                  ^^ keyword.declaration.specman
 };
 
 -- Template unit declaration
@@ -379,6 +394,7 @@ template unit monitor_u of (<data'type>) {
 // <------- keyword.declaration.template.specman
 //       ^^^^ keyword.declaration.class.specman
 //            ^^^^^^^^^ entity.name.class.template.specman
+//                      ^^ keyword.declaration.specman
   !data: <data'type>;
 };
 
@@ -388,6 +404,9 @@ template unit agent_u of (<item'type>) like base_agent_u {
 // <------- keyword.declaration.template.specman
 //       ^^^^ keyword.declaration.class.specman
 //            ^^^^^^^ entity.name.class.template.specman
+//                    ^^ keyword.declaration.specman
+//                                     ^^^^ keyword.declaration.like.specman
+//                                          ^^^^^^^^^^^^ entity.other.inherited-class.specman
   !item: <item'type>;
 };
 
@@ -439,6 +458,7 @@ template extend struct packet of (<kind'type>:object, <data'type>:numeric, <data
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^^^ keyword.declaration.class.specman
 //                     ^^^^^^ entity.name.class.template.specman
+//                            ^^ keyword.declaration.specman
    sum_data(): <data'type>(bits: <data_size'exp>) is {
       return data1 + data2;
    };
@@ -452,6 +472,7 @@ template extend struct packet of (<kind'type>: enum, <data'type>:numeric, <data_
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^^^ keyword.declaration.class.specman
 //                     ^^^^^^ entity.name.class.template.specman
+//                            ^^ keyword.declaration.specman
 };
 
 -- Template extend unit
@@ -461,6 +482,7 @@ template extend unit monitor_u of (<data'type>) {
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^ keyword.declaration.class.specman
 //                   ^^^^^^^^^ entity.name.class.template.specman
+//                             ^^ keyword.declaration.specman
 };
 
 -- Template extend with implementing
@@ -470,6 +492,9 @@ template extend struct simple_container of (<cont'type>) implementing serializab
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^^^ keyword.declaration.class.specman
 //                     ^^^^^^^^^^^^^^^^ entity.name.class.template.specman
+//                                      ^^ keyword.declaration.specman
+//                                                       ^^^^^^^^^^^^ keyword.declaration.interface.specman
+//                                                                    ^^^^^^^^^^^^^^^ storage.type.interface.specman
 };
 
 -- ==========================================================================
