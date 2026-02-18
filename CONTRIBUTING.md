@@ -102,6 +102,20 @@ The release workflow will:
 Note: the VS Code Marketplace does not support semver pre-release suffixes
 (e.g., `-beta.1`). Pre-release is controlled by the `--pre-release` flag on publish.
 
+### Promoting a Pre-release to Stable
+
+Once a pre-release has been validated, promote it to a stable release:
+
+```bash
+npm run promote
+```
+
+This triggers the release workflow which detects the existing pre-release tag and:
+- Removes the **prerelease** flag from the GitHub Release.
+- Re-publishes the same version to the Marketplace **without** `--pre-release`.
+
+No version bump is needed — the same version number serves both channels.
+
 ### Manual Release
 
 You can also trigger a release manually from the command line:
