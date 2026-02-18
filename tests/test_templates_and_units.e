@@ -219,6 +219,12 @@ unit router_u {
 //   ^^^^^^^^ entity.name.class.specman
 //            ^ punctuation.section.class.begin.specman
    channels: list of channel_u is instance;
+// ^^^^^^^^ variable.other.member.specman
+//         ^ punctuation.separator.type.specman
+//           ^^^^^^^ storage.modifier.specman
+//                   ^^^^^^^^^ storage.type.class.specman
+//                             ^^^^^^^^^^^ storage.modifier.specman
+//                                        ^ punctuation.terminator.specman
    keep channels.size() == 3;
 };
 
