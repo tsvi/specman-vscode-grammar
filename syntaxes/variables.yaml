@@ -13,7 +13,8 @@ output_functions: messagef|message|appendf|append|dut_errorf|dut_error|out|outf
 unit_functions: get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit
 conversion_functions: pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale
 misc_functions: read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe|set_check|set_check_by_name|set_check_by_cover_item|simulator_command|bind
-built_in_functions: assert|warning|error|fatal|{{string_functions}}|{{arithmetic_functions}}|{{bitwise_functions}}|{{real_number_functions}}|{{output_functions}}|{{unit_functions}}|{{conversion_functions}}|{{misc_functions}}
+type_operator_functions: type_is_scalar|type_is_numeric|type_is_longint|type_is_signed|type_is_enum|type_is_bool|type_is_real|type_is_custom_numeric|type_is_struct|type_is_when_subtype|type_is_interface|type_is_list|type_is_keyed_list|type_is_port|type_is_simple_port|type_is_event_port|type_is_buffer_port|type_is_method_port|type_is_method_type|type_is_interface_port|type_is_tlm_socket|type_is_annotation|type_is_sequence|type_is_template_instance|type_is_set|type_is_string|type_list_elem|type_deep_list_elem|type_port_elem|type_bit_size|type_list_dim|element_type|base_list_elem_type|supertype|when_base|typeof|typeof_item
+built_in_functions: assert|warning|error|fatal|{{string_functions}}|{{arithmetic_functions}}|{{bitwise_functions}}|{{real_number_functions}}|{{output_functions}}|{{unit_functions}}|{{conversion_functions}}|{{misc_functions}}|{{type_operator_functions}}
 
 # Pre-defined functions that dont need parentheses
 built_in_functions_optional_parens: assert|print|start
@@ -39,8 +40,12 @@ scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
 valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)
 # Simple valid identifier
 valid_id: "[a-zA-Z](?:[a-zA-Z0-9_]+)?"
+# Template parameter reference, e.g. <data'type> or <size'exp>
+template_param_ref: "(<)([a-zA-Z][a-zA-Z0-9_]*)(')(type|exp)(>)"
 # Valid identifier that includes ' for things like TRUE'has_checker; no negative look-ahead because we use it in repetition
 valid_determinant: (?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)
+# Same as valid_determinant but fully non-capturing (for use in repetitions that must not add group numbers)
+valid_determinant_nc: (?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?)
 # 'list of' or 'list(key: field) of' and multi-dimensional lists ('list of list of ...'); note: includes trailing white-space
 
 # [static] [!][%] list-name: [list of...] list(key: key-field) of type[= init-value]
@@ -48,6 +53,6 @@ valid_list_decl: (?:list(?:\\s*key\\s*:\\s*{{valid_id}})?\\s+of\\s+)
 valid_type: (?:{{valid_list_decl}})*(?:{{valid_id}}\\s*)(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?
 valid_type_no_modifier: (?:{{valid_list_decl}})*(?:{{valid_id}})
 # A compound type or list of compound type as used in a field declaration; covers when-inheritance;
-valid_struct_type: (?:{{valid_list_decl}})*(?:\\b{{valid_determinant}}\\s+)*?({{valid_determinant}})
+valid_struct_type: ((?:{{valid_list_decl}})*)(?:\\b{{valid_determinant}}\\s+)*?({{valid_determinant}})
 valid_scalar_type: (?:{{valid_list_decl}})*\\b(?:{{scalar_types}})(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?
 list_length_expr: (?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+
