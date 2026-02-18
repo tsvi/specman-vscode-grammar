@@ -99,15 +99,20 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))+(?:\\s+\\bof\\b\\s*\\([^)]*\\))?(?:\\s+(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*)?\\s*(\\{)",
+          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))+(?:\\s+(\\bof\\b)\\s*(\\()\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*\\s*(\\)))?(?:\\s+(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*)?\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
             "2": {"name": "entity.name.class.specman"},
-            "6": {"name": "keyword.declaration.interface.specman"},
-            "7": {"name": "storage.type.interface.specman"},
-            "8": {"name": "storage.type.interface.specman"},
-            "9": {"name": "punctuation.section.class.begin.specman"}
+            "6": {"name": "keyword.declaration.specman"},
+            "7": {"name": "punctuation.section.parens.begin.specman"},
+            "8": {"name": "entity.other.template-argument.specman"},
+            "9": {"name": "entity.other.template-argument.specman"},
+            "10": {"name": "punctuation.section.parens.end.specman"},
+            "11": {"name": "keyword.declaration.interface.specman"},
+            "12": {"name": "storage.type.interface.specman"},
+            "13": {"name": "storage.type.interface.specman"},
+            "14": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",

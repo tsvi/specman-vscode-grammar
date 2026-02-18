@@ -556,6 +556,39 @@ sequence singleagent_sequence_s
    created_kind   = singleagent_sequence_kind_t;
 
 -- ==========================================================================
+-- 5.3. Instantiating a Template Type
+-- Syntax: template-name of (actual-param-list)
+-- Used wherever a type name is expected. Regular extends and when
+-- subtypes of template instances follow the same syntax.
+-- ==========================================================================
+
+-- Regular extend of a template instance (reference 5.3)
+-- Reference: extend type-name of (actual-params) { ... }
+extend packet of (color, int) {
+// <-- keyword.declaration.class.specman
+//     ^^^^^^ entity.name.class.specman
+//            ^^ keyword.declaration.specman
+//               ^ punctuation.section.parens.begin.specman
+//                ^^^^^ entity.other.template-argument.specman
+//                       ^^^ entity.other.template-argument.specman
+//                          ^ punctuation.section.parens.end.specman
+//                            ^ punctuation.section.class.begin.specman
+};
+
+-- Extend with when subtype of template instance (5.3.2)
+-- Reference: red packet of (color, int) is a legal type name
+extend red packet of (color, int) {
+// <-- keyword.declaration.class.specman
+//         ^^^^^^ entity.name.class.specman
+//                ^^ keyword.declaration.specman
+//                   ^ punctuation.section.parens.begin.specman
+//                    ^^^^^ entity.other.template-argument.specman
+//                           ^^^ entity.other.template-argument.specman
+//                              ^ punctuation.section.parens.end.specman
+//                                ^ punctuation.section.class.begin.specman
+};
+
+-- ==========================================================================
 -- The patterns below are known to trigger scope-leaking grammar bugs.
 -- They are placed at the end to prevent cascading failures in the above
 -- tests. Failing assertions here are expected.
@@ -574,29 +607,6 @@ template extend packet of (<kind'type>: enum, <data'type>:numeric, <max_size'exp
 // <------- keyword.declaration.template.specman
 //       ^^^^^^ keyword.declaration.specman
 //              ^^^^^^ entity.name.class.template.specman
-};
-
--- ==========================================================================
--- 5.3. Instantiating a Template Type
--- Syntax: template-name of (actual-param-list)
--- Used wherever a type name is expected. Regular extends and when
--- subtypes of template instances follow the same syntax.
--- NOTE: `of (...)` after extend/type-name causes the grammar's "methods"
--- begin pattern to falsely match, opening a scope that never closes.
--- These tests are placed at the end to avoid cascading scope issues.
--- ==========================================================================
-
--- Regular extend of a template instance (reference 5.3)
--- Reference: extend type-name of (actual-params) { ... }
-extend packet of (color, int) {
-// <-- keyword.declaration.class.specman
-//     ^^^^^^ entity.name.class.specman
-};
-
--- Extend with when subtype of template instance (5.3.2)
--- Reference: red packet of (color, int) is a legal type name
-extend red packet of (color, int) {
-// <-- keyword.declaration.class.specman
 };
 
 -- ==========================================================================
