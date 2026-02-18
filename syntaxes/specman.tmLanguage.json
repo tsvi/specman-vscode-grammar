@@ -147,23 +147,72 @@
     "templates": {
       "patterns": [
         {
+          "begin": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b",
+          "beginCaptures": {
+            "0": {"name": "meta.class.declaration.template.specman"},
+            "1": {"name": "entity.name.namespace.specman"},
+            "2": {"name": "keyword.declaration.template.specman"},
+            "3": {"name": "keyword.declaration.specman"},
+            "4": {"name": "keyword.declaration.class.specman"},
+            "5": {"name": "entity.name.class.template.specman"}
+          },
+          "end": "(\\})\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.class.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#comment" },
+            {
+              "match": "\\bconditions\\b\\s*\\{[^}]*\\}"
+            },
+            {
+              "begin": "\\{",
+              "beginCaptures": { "0": {"name": "punctuation.section.class.begin.specman"} },
+              "end": "(?=\\})",
+              "contentName": "meta.class.body.specman",
+              "patterns": [{ "include": "#code" }]
+            },
+            { "include": "#default-scopes" }
+          ]
+        },
+        {
+          "begin": "(template)\\s+(extend)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b",
+          "beginCaptures": {
+            "0": {"name": "meta.class.declaration.template.specman"},
+            "1": {"name": "keyword.declaration.template.specman"},
+            "2": {"name": "keyword.declaration.specman"},
+            "3": {"name": "entity.name.class.template.specman"}
+          },
+          "end": "(\\})\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.class.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#comment" },
+            {
+              "match": "\\bconditions\\b\\s*\\{[^}]*\\}"
+            },
+            {
+              "begin": "\\{",
+              "beginCaptures": { "0": {"name": "punctuation.section.class.begin.specman"} },
+              "end": "(?=\\})",
+              "contentName": "meta.class.body.specman",
+              "patterns": [{ "include": "#code" }]
+            },
+            { "include": "#default-scopes" }
+          ]
+        },
+        {
           "name": "meta.class.declaration.template.specman",
-          "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(struct|unit|interface|numeric_type)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b\\s+",
+          "match": "(package\\s+)?(template)\\s+(extend\\s+)?\\b(numeric_type)\\b\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b\\s+",
           "captures": {
             "1": {"name": "entity.name.namespace.specman"},
             "2": {"name": "keyword.declaration.template.specman"},
             "3": {"name": "keyword.declaration.specman"},
             "4": {"name": "keyword.declaration.class.specman"},
             "5": {"name": "entity.name.class.template.specman"}
-          }
-        },
-        {
-          "name": "meta.class.declaration.template.specman",
-          "match": "(template)\\s+(extend)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s+)\\bof\\b\\s+",
-          "captures": {
-            "1": {"name": "keyword.declaration.template.specman"},
-            "2": {"name": "keyword.declaration.specman"},
-            "3": {"name": "entity.name.class.template.specman"}
           }
         }
       ]
