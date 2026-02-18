@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.13] - 2026-02-18
+
+- Fix deployment (#9)
+
 ## [0.2.12-beta.1] - 2026-02-18
 
 - Add Github cli to devcontainer (#7)
@@ -114,7 +118,8 @@ _No notable changes._
 - Build script with Jinja2 template support
 - Grammar test infrastructure
 
-[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.12-beta.1...HEAD
+[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.13...HEAD
+[0.2.13]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.12-beta.1...v0.2.13
 [0.2.12-beta.1]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.11...v0.2.12-beta.1
 [0.2.11]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.10...v0.2.11
 [0.2.10]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.9...v0.2.10
