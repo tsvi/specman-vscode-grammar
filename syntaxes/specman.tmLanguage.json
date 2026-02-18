@@ -1259,6 +1259,7 @@
         "4": {"name": "meta.method.identifier.specman entity.name.function.specman"}
       },
       "patterns": [
+        { "include": "#template-params"},
         { "include": "#method-parameters"},
         { "include": "#method-declaration-end"},
         { "include": "#method-contents"}
@@ -1295,6 +1296,7 @@
           "match": ",",
           "name": "meta.method.parameters.specman punctuation.separator.parameter.specman"
         },
+        { "include": "#template-params"},
         { "include": "#literals"},
         { "include": "#operators"}
       ]

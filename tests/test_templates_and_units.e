@@ -487,7 +487,19 @@ template extend struct packet of (<kind'type>:object, <data'type>:numeric, <data
 //                     ^^^^^^ entity.name.class.template.specman
 //                            ^^ keyword.declaration.specman
    sum_data(): <data'type>(bits: <data_size'exp>) is {
+// ^^^^^^^^ entity.name.function.specman
+//             ^ punctuation.separator.specman
+//              ^^^^ variable.parameter.template.specman
+//                  ^ punctuation.separator.specman
+//                   ^^^^ keyword.declaration.specman
+//                       ^ punctuation.separator.specman
+//                               ^ punctuation.separator.specman
+//                                ^^^^^^^^^ variable.parameter.template.specman
+//                                         ^ punctuation.separator.specman
+//                                          ^^^ keyword.declaration.specman
+//                                             ^ punctuation.separator.specman
       return data1 + data2;
+//    ^^^^^^ keyword.control.specman
    };
 };
 
