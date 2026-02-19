@@ -59,9 +59,10 @@ struct s {
 
 extend has_info Start vr_ad_sequence {
 // <----- keyword.declaration.class.specman
+//     ^^^^^^^^ constant.other.enum.specman
+//              ^^^^^ constant.other.enum.specman
 //                    ^^^^^^^^^^^^^^ entity.name.class.specman
 //                                   ^ punctuation.section.class.begin.specman
-//     TODO - fix determinants (has_info and Start)
 
    keep start_reg.start == read_only(context.setup.is_selected(static_reg_file.name).as_a(bit));
 };

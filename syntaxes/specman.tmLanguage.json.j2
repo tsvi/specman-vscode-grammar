@@ -346,6 +346,7 @@
         { "include": "#when-inheritance" },
         { "include": "#checks" },
         { "include": "#constraint-def" },
+        { "include": "#coverage-group" },
         { "include": "#code-blocks" },
         { "include": "#methods"},
         { "include": "#default-scopes" }
@@ -835,11 +836,296 @@
         { "include": "#constraint-expression"}
       ]
     },
+    "coverage-group": {
+      "patterns": [
+        {
+          "comment": "cover event is empty;",
+          "match": "\\b(cover)\\s+({{valid_id}})\\s+(is)\\s+(empty)\\s*(;)",
+          "captures": {
+            "1": {"name": "keyword.other.coverage.specman"},
+            "2": {"name": "entity.name.coverage-group.specman"},
+            "3": {"name": "keyword.other.specman"},
+            "4": {"name": "keyword.modifier.specman"},
+            "5": {"name": "punctuation.terminator.specman"}
+          }
+        },
+        {
+          "comment": "cover event [using options] is [also] { items };",
+          "begin": "\\b(cover)\\s+({{valid_id}})(?:\\s*(\\()([^)]*)(\\)))?\\s*",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.coverage.specman"},
+            "2": {"name": "entity.name.coverage-group.specman"},
+            "3": {"name": "punctuation.section.parens.begin.specman"},
+            "4": {"name": "meta.coverage-instance.specman"},
+            "5": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "end": "(\\})\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.block.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-using" },
+            { "include": "#coverage-body" }
+          ]
+        }
+      ]
+    },
+    "coverage-using": {
+      "comment": "using [also] options before is",
+      "begin": "\\b(using)\\s+(also\\s+)?",
+      "beginCaptures": {
+        "1": {"name": "keyword.other.coverage.specman"},
+        "2": {"name": "keyword.modifier.specman"}
+      },
+      "end": "(?=\\bis\\b|\\{)",
+      "patterns": [
+        { "include": "#coverage-options" }
+      ]
+    },
+    "coverage-body": {
+      "comment": "is [also] { items }",
+      "begin": "\\b(is)\\s+(also\\s+)?(\\{)",
+      "beginCaptures": {
+        "1": {"name": "keyword.other.specman"},
+        "2": {"name": "keyword.modifier.specman"},
+        "3": {"name": "punctuation.section.block.begin.specman"}
+      },
+      "end": "(?=\\})",
+      "patterns": [
+        { "include": "#coverage-items" }
+      ]
+    },
+    "coverage-options": {
+      "patterns": [
+        {
+          "match": "\\b(global|no_collect|per_unit_instance|radix|text|weight|when|instance_no_collect|at_least|ignore|illegal|instance_ignore|instance_illegal|instance_ranges|no_trace|num_of_buckets|per_instance|ranges|name|first_high_bit)\\b",
+          "name": "keyword.other.coverage-option.specman"
+        },
+        {
+          "match": "\\b(HEX|BIN|DEC|OCT)\\b",
+          "name": "constant.language.radix.specman"
+        },
+        {
+          "match": "\\b(TRUE|FALSE|UNDEF)\\b",
+          "name": "constant.language.specman"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.specman"
+        },
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.specman"
+        },
+        { "include": "#literals" },
+        { "include": "#comment" }
+      ]
+    },
+    "coverage-items": {
+      "patterns": [
+        {
+          "comment": "item name [: type = expr] [using options]",
+          "begin": "\\b(item)\\s+({{valid_id}})\\s*",
+          "beginCaptures": {
+            "1": {"name": "keyword.declaration.coverage-item.specman"},
+            "2": {"name": "variable.other.coverage-item.specman"}
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            {
+              "comment": "type expression : type = expr",
+              "begin": "(:)\\s*({{valid_type}})\\s*(=)",
+              "beginCaptures": {
+                "1": {"name": "punctuation.separator.type.specman"},
+                "2": {"name": "storage.type.specman"},
+                "3": {"name": "keyword.operator.assignment.specman"}
+              },
+              "end": "(?=using|;)",
+              "patterns": [
+                { "include": "#coverage-item-expression" }
+              ]
+            },
+            { "include": "#coverage-item-using" }
+          ]
+        },
+        {
+          "comment": "cross item1, item2, ... [using options]",
+          "begin": "\\b(cross)\\s+",
+          "beginCaptures": {
+            "1": {"name": "keyword.declaration.coverage-cross.specman"}
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            {
+              "comment": "cross item names before using",
+              "match": "\\b({{valid_id}})\\b",
+              "captures": {
+                "1": {"name": "variable.other.coverage-item.specman"}
+              }
+            },
+            {
+              "match": ",",
+              "name": "punctuation.separator.specman"
+            },
+            { "include": "#coverage-item-using" }
+          ]
+        },
+        {
+          "comment": "transition item [using options]",
+          "begin": "\\b(transition)\\s+({{valid_id}})\\s*",
+          "beginCaptures": {
+            "1": {"name": "keyword.declaration.coverage-transition.specman"},
+            "2": {"name": "variable.other.coverage-item.specman"}
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-item-using" }
+          ]
+        },
+        { "include": "#comment" },
+        { "include": "#default-scopes" }
+      ]
+    },
+    "coverage-item-using": {
+      "comment": "using [also] options for items",
+      "begin": "\\b(using)\\s+(also\\s+)?",
+      "beginCaptures": {
+        "1": {"name": "keyword.other.coverage.specman"},
+        "2": {"name": "keyword.modifier.specman"}
+      },
+      "end": "(?=;)",
+      "patterns": [
+        {
+          "comment": "ranges = { range(...); ... }",
+          "begin": "\\b(ranges)\\s*(=)\\s*(\\{)",
+          "beginCaptures": {
+            "1": {"name": "keyword.other.coverage-option.specman"},
+            "2": {"name": "keyword.operator.assignment.specman"},
+            "3": {"name": "punctuation.section.block.begin.specman"}
+          },
+          "end": "(\\})",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.block.end.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-range-call" }
+          ]
+        },
+        {
+          "comment": "Parenthesized options",
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-options" },
+            { "include": "#coverage-item-expression" }
+          ]
+        },
+        { "include": "#coverage-options" },
+        { "include": "#coverage-item-expression" }
+      ]
+    },
+    "coverage-range-call": {
+      "patterns": [
+        {
+          "match": "\\b(range)\\b",
+          "name": "support.function.builtin.specman"
+        },
+        { "include": "#coverage-item-expression" },
+        {
+          "match": ";",
+          "name": "punctuation.separator.specman"
+        }
+      ]
+    },
+    "coverage-item-expression": {
+      "patterns": [
+        { "include": "#comment" },
+        { "include": "#literals" },
+        { "include": "#operators" },
+        {
+          "match": "\\b({{singletons}})\\b",
+          "name": "keyword.other.singleton.specman"
+        },
+        {
+          "match": "\\b(inst|prev|prev_{{valid_id}}|it|me|others)\\b",
+          "name": "variable.language.specman"
+        },
+        {
+          "match": "\\b(set_of_values|full_set_of_values|all_values)\\b",
+          "name": "support.function.builtin.specman"
+        },
+        {
+          "match": "\\b(min|max|uint_size|size|int_min|int_max)\\s*(\\()",
+          "captures": {
+            "1": {"name": "support.function.builtin.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"}
+          }
+        },
+        {
+          "match": "\\b(dut_error|dut_errorf|with)\\b",
+          "name": "keyword.other.specman"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.specman"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {"name": "punctuation.section.parens.begin.specman"}
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-item-expression" }
+          ]
+        },
+        {
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": {"name": "punctuation.section.brackets.begin.specman"}
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {"name": "punctuation.section.brackets.end.specman"}
+          },
+          "patterns": [
+            { "include": "#coverage-item-expression" }
+          ]
+        }
+      ]
+    },
     "default-scopes": {
       "patterns": [
         {
           "name": "keyword.other.specman",
           "match": "\\b(soft|compute|new|evaluate|force|release|is)\\b"
+        },
+        {
+          "name": "keyword.modifier.specman",
+          "match": "\\b(also|only|first)\\b"
+        },
+        {
+          "name": "constant.language.radix.specman",
+          "match": "\\b(HEX|BIN|DEC|OCT)\\b"
         },
         {
           "name": "keyword.other.statement.specman",
