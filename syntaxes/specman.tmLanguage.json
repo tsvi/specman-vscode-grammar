@@ -771,7 +771,9 @@
                 "2": {"name": "keyword.other.specman"}
               }
             },
-            { "include": "#bool-exp" },
+            { "include": "#literals" },
+            { "include": "#operators" },
+            { "include": "#built-in-function-calls" },
             {
               "begin": "\\b(then)\\b",
               "beginCaptures": {
@@ -837,7 +839,7 @@
       "patterns": [
         {
           "name": "keyword.other.specman",
-          "match": "\\b(soft|compute|new|evaluate|force|release)\\b"
+          "match": "\\b(soft|compute|new|evaluate|force|release|is)\\b"
         },
         {
           "name": "keyword.other.statement.specman",
