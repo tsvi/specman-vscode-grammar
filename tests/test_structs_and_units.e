@@ -36,6 +36,8 @@ unit foo_u {
 // ^^^^^                                        storage.modifier.const.specman
 //       ^^                                     variable.other.member.specman
 //         ^                                    punctuation.separator.type.specman
+//           ^                                  constant.other.enum.specman
+//             ^^^                              variable.other.determinant.specman
 //                 ^                            constant.other.enum.specman
 //                  ^                           punctuation.separator.determinant.specman
 //                   ^^^                        variable.other.determinant.specman
@@ -68,11 +70,27 @@ unit foo_u {
 //  ^ punctuation.terminator.specman
 
    s_p : list of in simple_port of uint(bits:3) is instance;
+// ^^^                                                       variable.other.member.specman
+//     ^                                                     punctuation.separator.type.specman
+//       ^^^^^^^                                             storage.modifier.specman
+//               ^^                                          storage.modifier.direction.specman
+//                  ^^^^^^^^^^^^^^                           storage.type.specman
+//                                              ^^^^^^^^^^^  storage.modifier.specman
+//                                                         ^ punctuation.terminator.specman
    m_p : out method_port of deliver_method_t is instance;
+// ^^^                                                    variable.other.member.specman
+//     ^                                                  punctuation.separator.type.specman
+//       ^^^                                              storage.modifier.direction.specman
+//           ^^^^^^^^^^^^^^                               storage.type.specman
+//                                           ^^^^^^^^^^^  storage.modifier.specman
+//                                                      ^ punctuation.terminator.specman
 
 };
 
-extend b'TRUE BLUE foo_u {
+extend TRUE'b BLUE foo_u {
+//     ^^^^                      constant.other.enum.specman
+//          ^                    variable.other.determinant.specman
+//            ^^^^               constant.other.enum.specman
    keep s_p.hdl_path() == "~TB.dut.sub.p";
 };
 

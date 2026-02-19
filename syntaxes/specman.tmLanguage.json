@@ -99,21 +99,38 @@
           "patterns": [ { "include": "#code" } ]
         },
         {
-          "begin": "(\\bextend)(?:\\s+(?!implementing\\b|of\\b)((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?))(?=\\s+(?!implementing\\b|of\\b|\\{)\\w))?(?:\\s+(?!implementing\\b|of\\b)(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?)(?=\\s+(?!implementing\\b|of\\b|\\{)\\w))*\\s+(?!implementing\\b|of\\b)((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?))(?:\\s+(\\bof\\b)\\s*(\\()\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*\\s*(\\)))?(?:\\s+(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*)?\\s*(\\{)",
+          "comment": "Extend declaration with when-subtypes",
+          "begin": "(\\bextend)\\s+(?=(?:(?!implementing\\b|of\\b)(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?)\\s+)+(?!implementing\\b|of\\b)(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?)\\s*(?:implementing\\b|of\\b|\\{))",
+          "beginCaptures": {
+            "0": {"name": "meta.class.declaration.specman" },
+            "1": {"name": "keyword.declaration.class.specman"}
+          },
+          "end": "(\\})\\s*(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.class.end.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#extend-with-when-subtypes" },
+            { "include": "#extend-body" }
+          ]
+        },
+        {
+          "comment": "Simple extend declaration (no when-subtypes)",
+          "begin": "(\\bextend)\\s+(?!implementing\\b|of\\b)((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?))(?:\\s+(\\bof\\b)\\s*(\\()\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*\\s*(\\)))?(?:\\s+(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*)?\\s*(\\{)",
           "beginCaptures": {
             "0": {"name": "meta.class.declaration.specman" },
             "1": {"name": "keyword.declaration.class.specman"},
-            "2": {"name": "entity.name.type.when-subtype.specman"},
-            "6": {"name": "entity.name.class.specman"},
-            "10": {"name": "keyword.declaration.specman"},
-            "11": {"name": "punctuation.section.parens.begin.specman"},
-            "12": {"name": "entity.other.template-argument.specman"},
-            "13": {"name": "entity.other.template-argument.specman"},
-            "14": {"name": "punctuation.section.parens.end.specman"},
-            "15": {"name": "keyword.declaration.interface.specman"},
-            "16": {"name": "storage.type.interface.specman"},
-            "17": {"name": "storage.type.interface.specman"},
-            "18": {"name": "punctuation.section.class.begin.specman"}
+            "2": {"name": "entity.name.class.specman"},
+            "6": {"name": "keyword.declaration.specman"},
+            "7": {"name": "punctuation.section.parens.begin.specman"},
+            "8": {"name": "entity.other.template-argument.specman"},
+            "9": {"name": "entity.other.template-argument.specman"},
+            "10": {"name": "punctuation.section.parens.end.specman"},
+            "11": {"name": "keyword.declaration.interface.specman"},
+            "12": {"name": "storage.type.interface.specman"},
+            "13": {"name": "storage.type.interface.specman"},
+            "14": {"name": "punctuation.section.class.begin.specman"}
           },
           "contentName": "meta.class.body.specman",
           "end": "(\\})\\s*(;)",
@@ -337,14 +354,17 @@
     "member-declaration": {
       "patterns": [
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\blist\\s+of\\s*)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s",
+          "match": "(?:(package|protected|private)\\s+)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\blist\\s+of\\s+)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(?:\\s+(\\bis\\s+instance\\b))?\\s*(;)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "variable.other.member.specman"},
             "3": {"name": "punctuation.separator.type.specman"},
             "4": {"name": "storage.modifier.specman"},
             "5": {"name": "storage.modifier.direction.specman"},
-            "6": {"name": "storage.type.specman"}
+            "6": {"name": "storage.type.specman"},
+            "7": {"name": "storage.type.specman"},
+            "8": {"name": "storage.modifier.specman"},
+            "9": {"name": "punctuation.terminator.specman"}
           }
         },
         {
@@ -397,8 +417,9 @@
           "patterns": [{ "include": "#priority-scopes" }, { "include": "#default-scopes" }]
         },
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*)(?:\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\s+)*?((?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)))(?:\\s+(\\bis\\s+instance\\b))?\\s*(;|=)",
-          "captures": {
+          "comment": "Field declaration with struct type (supports multiple when-determinants)",
+          "begin": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?=((?:(?:list(?:\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?)?\\s+of\\s+))*)(?:\\b(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?)\\s+)*?(?:(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?))(?:\\s+\\bis\\s+instance\\b)?\\s*(?:;|=))",
+          "beginCaptures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "storage.modifier.static.specman"},
             "3": {"name": "storage.modifier.const.specman"},
@@ -406,14 +427,33 @@
             "5": {"name": "punctuation.definition.variable.physical.specman"},
             "6": {"name": "variable.other.member.specman"},
             "7": {"name": "punctuation.separator.type.specman"},
-            "8": {"name": "storage.modifier.specman"},
-            "9": {"name": "constant.other.enum.specman"},
-            "10": {"name": "punctuation.separator.determinant.specman"},
-            "11": {"name": "variable.other.determinant.specman"},
-            "13": {"name": "storage.type.class.specman"},
-            "16": {"name": "storage.modifier.specman"},
-            "17": {"name": "punctuation.terminator.specman"}
-          }
+            "8": {"name": "storage.modifier.specman"}
+          },
+          "end": "(\\bis\\s+instance\\b)?\\s*(;|=)",
+          "endCaptures": {
+            "1": {"name": "storage.modifier.specman"},
+            "2": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            {
+              "match": "\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\b(?=\\s+(?!is\\b)(?:[a-zA-Z][a-zA-Z0-9_]*(?:'[a-zA-Z0-9_]+)?))",
+              "captures": {
+                "1": {"name": "constant.other.enum.specman"},
+                "2": {"name": "punctuation.separator.determinant.specman"},
+                "3": {"name": "variable.other.determinant.specman"}
+              }
+            },
+            {
+              "match": "\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b(?=(?:\\s+\\bis\\s+instance\\b)?\\s*(?:;|=))",
+              "captures": {
+                "1": {"name": "storage.type.class.specman"}
+              }
+            },
+            {
+              "match": "\\blist\\s+of\\b",
+              "name": "storage.modifier.specman"
+            }
+          ]
         },
         {
           "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\[\\s*)",
@@ -1241,6 +1281,63 @@
         },
         { "include": "#actions" }
       ]
+    },
+    "extend-with-when-subtypes": {
+      "comment": "Handles extend with multiple when-subtypes before class name",
+      "begin": "\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\b",
+      "beginCaptures": {
+        "0": {"name": "meta.class.declaration.specman meta.class.determinant.specman"},
+        "1": {"name": "constant.other.enum.specman"},
+        "2": {"name": "punctuation.separator.determinant.specman"},
+        "3": {"name": "variable.other.determinant.specman"}
+      },
+      "end": "(\\{)",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.class.begin.specman"}
+      },
+      "contentName": "meta.class.declaration.specman",
+      "patterns": [
+        {
+          "match": "\\b(?:([a-zA-Z][a-zA-Z0-9_]*)(?:(')([a-zA-Z0-9_]+))?)\\b(?=\\s+(?!implementing\\b|of\\b|\\{)\\w)",
+          "captures": {
+            "0": {"name": "meta.class.determinant.specman"},
+            "1": {"name": "constant.other.enum.specman"},
+            "2": {"name": "punctuation.separator.determinant.specman"},
+            "3": {"name": "variable.other.determinant.specman"}
+          }
+        },
+        {
+          "match": "\\b[a-zA-Z](?:[a-zA-Z0-9_]+)?\\b(?=\\s*(?:implementing\\b|of\\b|\\{))",
+          "captures": {
+            "0": {"name": "entity.name.class.specman"}
+          }
+        },
+        {
+          "match": "\\b(implementing)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*",
+          "captures": {
+            "1": {"name": "keyword.declaration.interface.specman"},
+            "2": {"name": "storage.type.interface.specman"},
+            "3": {"name": "storage.type.interface.specman"}
+          }
+        },
+        {
+          "match": "(\\bof\\b)\\s*(\\()\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\s*,\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?))*\\s*(\\))",
+          "captures": {
+            "1": {"name": "keyword.declaration.specman"},
+            "2": {"name": "punctuation.section.parens.begin.specman"},
+            "3": {"name": "entity.other.template-argument.specman"},
+            "4": {"name": "entity.other.template-argument.specman"},
+            "5": {"name": "punctuation.section.parens.end.specman"}
+          }
+        }
+      ]
+    },
+    "extend-body": {
+      "comment": "Body content after extend header - prevents header patterns from re-matching",
+      "begin": "(?<=\\{)",
+      "end": "(?=\\})",
+      "contentName": "meta.class.body.specman",
+      "patterns": [ { "include": "#code" } ]
     },
     "when-inheritance": {
       "begin": "^\\s*(when)\\b",
