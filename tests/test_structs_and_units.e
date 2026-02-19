@@ -36,6 +36,8 @@ unit foo_u {
 // ^^^^^                                        storage.modifier.const.specman
 //       ^^                                     variable.other.member.specman
 //         ^                                    punctuation.separator.type.specman
+//           ^                                  constant.other.enum.specman
+//             ^^^                              variable.other.determinant.specman
 //                 ^                            constant.other.enum.specman
 //                  ^                           punctuation.separator.determinant.specman
 //                   ^^^                        variable.other.determinant.specman
@@ -85,7 +87,10 @@ unit foo_u {
 
 };
 
-extend b'TRUE BLUE foo_u {
+extend TRUE'b BLUE foo_u {
+//     ^^^^                      constant.other.enum.specman
+//          ^                    variable.other.determinant.specman
+//            ^^^^               constant.other.enum.specman
    keep s_p.hdl_path() == "~TB.dut.sub.p";
 };
 

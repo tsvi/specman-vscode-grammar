@@ -576,7 +576,7 @@ extend packet of (color, int) {
 -- Reference: red packet of (color, int) is a legal type name
 extend red packet of (color, int) {
 // <-- keyword.declaration.class.specman
-//     ^^^ entity.name.type.when-subtype.specman
+//     ^^^ constant.other.enum.specman
 //         ^^^^^^ entity.name.class.specman
 //                ^^ keyword.declaration.specman
 //                   ^ punctuation.section.parens.begin.specman
