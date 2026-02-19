@@ -112,7 +112,7 @@
           },
           "patterns": [
             { "include": "#extend-with-when-subtypes" },
-            { "include": "#code" }
+            { "include": "#extend-body" }
           ]
         },
         {
@@ -354,7 +354,7 @@
     "member-declaration": {
       "patterns": [
         {
-          "match": "(?:(package|protected|private)\\s+)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\blist\\s+of\\s+)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s+(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(?:\\s+(\\bis\\s+instance\\b))?\\s*(;)",
+          "match": "(?:(package|protected|private)\\s+)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\blist\\s+of\\s+)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(?:\\s+(\\bis\\s+instance\\b))?\\s*(;)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "variable.other.member.specman"},
@@ -362,8 +362,9 @@
             "4": {"name": "storage.modifier.specman"},
             "5": {"name": "storage.modifier.direction.specman"},
             "6": {"name": "storage.type.specman"},
-            "7": {"name": "storage.modifier.specman"},
-            "8": {"name": "punctuation.terminator.specman"}
+            "7": {"name": "storage.type.specman"},
+            "8": {"name": "storage.modifier.specman"},
+            "9": {"name": "punctuation.terminator.specman"}
           }
         },
         {
@@ -1330,6 +1331,13 @@
           }
         }
       ]
+    },
+    "extend-body": {
+      "comment": "Body content after extend header - prevents header patterns from re-matching",
+      "begin": "(?<=\\{)",
+      "end": "(?=\\})",
+      "contentName": "meta.class.body.specman",
+      "patterns": [ { "include": "#code" } ]
     },
     "when-inheritance": {
       "begin": "^\\s*(when)\\b",
