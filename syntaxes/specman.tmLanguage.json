@@ -1297,13 +1297,24 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?",
-          "captures": {
+          "begin": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)(?=\\s*(?:list\\s|[a-zA-Z](?:[a-zA-Z0-9_]+)?))",
+          "beginCaptures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
-            "3": {"name": "punctuation.separator.type.specman"},
-            "4": {"name": "storage.type.specman"}
-          }
+            "3": {"name": "punctuation.separator.type.specman"}
+          },
+          "end": "(?=[;={]|:=)",
+          "patterns": [
+            {
+              "match": "\\blist\\s+of\\b",
+              "name": "storage.modifier.specman"
+            },
+            {
+              "match": "\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b",
+              "name": "storage.type.specman"
+            },
+            { "include": "#literals" }
+          ]
         },
         {
           "begin": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\[\\s*)",
