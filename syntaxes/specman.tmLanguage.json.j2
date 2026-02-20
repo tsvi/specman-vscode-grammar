@@ -24,6 +24,7 @@
             { "include": "#structs" },
             { "include": "#macros" },
             { "include": "#templates"},
+            { "include": "#method-type-declaration"},
             { "include": "#code"}
           ]
         }
@@ -69,6 +70,13 @@
         "1": {"name": "keyword.control.import.specman"},
         "2": {"name": "entity.name.filename.specman"},
         "3": {"name": "punctuation.terminator.specman"}
+      }
+    },
+    "method-type-declaration": {
+      "match": "(\\bmethod_type\\b)\\s+\\b({{valid_id}})\\b\\s*(?=\\()",
+      "captures": {
+        "1": {"name": "meta.function.method_type.specman keyword.declaration.specman"},
+        "2": {"name": "meta.function.method_type.specman entity.name.function.specman"}
       }
     },
     "structs": {
@@ -339,6 +347,7 @@
     },
     "code": {
       "patterns": [
+        { "include": "#annotations"},
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition" },
         { "include": "#priority-scopes"},
@@ -351,6 +360,16 @@
         { "include": "#methods"},
         { "include": "#default-scopes" }
       ]
+    },
+    "annotations": {
+      "match": "(@)({{valid_id}})\\s*(\\()([^)]*)(\\))",
+      "captures": {
+        "1": {"name": "punctuation.definition.annotation.specman"},
+        "2": {"name": "storage.type.annotation.specman"},
+        "3": {"name": "punctuation.section.parens.begin.specman"},
+        "4": {"name": "meta.annotation.arguments.specman"},
+        "5": {"name": "punctuation.section.parens.end.specman"}
+      }
     },
     "member-declaration": {
       "patterns": [
@@ -1690,10 +1709,11 @@
         { "include": "#method-declaration-end"},
         { "include": "#method-contents"}
       ],
-      "end": "(\\})\\s*(;)",
+      "end": "(\\})\\s*(;)|(?<=imported|empty|undefined|\\bsv_impl)\\s*(;)",
       "endCaptures": {
         "1": {"name": "punctuation.section.method.end.specman"},
-        "2": {"name": "punctuation.terminator.specman"}
+        "2": {"name": "punctuation.terminator.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
       }
     },
     "method-parameters": {
@@ -1737,20 +1757,27 @@
           }
         },
         {
-          "match": "(is)\\s+(empty|undefined)\\s*(;)",
+          "match": "(is)\\s+(empty|undefined)",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
-            "2": {"name": "keyword.modifier.function.specman"},
-            "3": {"name": "punctuation.terminator.specman"}
+            "2": {"name": "keyword.modifier.function.specman"}
           }
         },
         {
-          "match": "(is)\\s+(only|first|also)?\\s+(imported)\\s*(;)",
+          "match": "(is)\\s+(only|first|also)?\\s+(imported)",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
             "2": {"name": "keyword.modifier.function.specman"},
-            "3": {"name": "keyword.modifier.function.specman"},
-            "4": {"name": "punctuation.terminator.specman"}
+            "3": {"name": "keyword.modifier.function.specman"}
+          }
+        },
+        {
+          "match": "(is)\\s+(import)\\s+(DPI-C)\\s+({{valid_id}})",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.other.function.specman"},
+            "3": {"name": "keyword.declaration.specman"},
+            "4": {"name": "entity.name.function.external.specman"}
           }
         },
         {

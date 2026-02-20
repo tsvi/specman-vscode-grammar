@@ -3,20 +3,32 @@
 <'
 
 export DPI-C verifier.e_impl();
+// <- keyword.other.statement.specman
 export DPI-C verifier.e_impl();
 
 method_type str2uint_method_t (s: string):uint;
+// <- keyword.declaration.specman
+//          ^^^^^^^^^^^^^^^^^ entity.name.function.specman
 method_type str2uint_method_t (s: string):uint @sys.any;
 method_type method_set_sharedlut_entry(u1: uint, u2: uint(bits: 24));
 
 
 type bla: [BLUE, GREEN, YELLOW](bits: 2);
+// <- keyword.declaration.specman
+//   ^^^ storage.type.enum.specman
+//      ^ punctuation.separator.type.specman
 type int_small: uint[0..500](bits: 10);
+// <- keyword.declaration.specman
 
 extend sys {
+// <- keyword.declaration.class.specman
+//     ^^^ entity.name.class.specman
 
     @import_python(module_name="plot_i", python_name="addVal")
+//  ^ punctuation.definition.annotation.specman
+//   ^^^^^^^^^^^^^ storage.type.annotation.specman
     addVal(groupName:string, cycle:int,grade:real) is imported;
+//  ^^^^^^ entity.name.function.specman
 
     !l1[20][3] : list of byte;
     l2 : list of uint;
@@ -24,6 +36,8 @@ extend sys {
     obj: obj_s is instance;
 
     final sync_all(trans: cfg_trans)@sys.any is undefined;
+//        ^^^^^^^^ entity.name.function.specman
+//                                           ^^ keyword.other.function.specman
 
     my_e_import(i:int,s:string):int is import DPI-C sv_impl;
 
@@ -32,6 +46,8 @@ extend sys {
 
 
     run() is also {
+//  ^^^ entity.name.function.specman
+//        ^^ keyword.other.function.specman
         var a: int = 0;
         var e1: [a,b,c];
         var e2: [a,b,c](bits: 0b10);
@@ -92,6 +108,8 @@ extend sys {
     l: list(key: string) of uint;
     ll: list of list(key: it) of uint(bits: 4);
     const member1: uint(bits:23);
+//  ^^^^^ storage.modifier.const.specman
+//        ^^^^^^^ variable.other.member.specman
     member2: list of list of my_struct_s;
 
     final sync_all (trans: cfg_trans, a: uint[0..7], b: bool = TRUE)@sys.any is only {
@@ -138,4 +156,5 @@ extend sys {
 };
 
 extend bla: [BLACK];
+// <- keyword.declaration.specman
 '>
