@@ -1786,26 +1786,38 @@
       "beginCaptures": {
         "0": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
       },
-      "end": "(\\))\\s*(?:(:)\\s*(?:{{valid_list_decl}})*({{valid_id}})\\s*(?:{{scalar_range_modifier}})?\\s*(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?)?",
+      "end": "(\\))",
       "endCaptures": {
-        "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"},
-        "2": {"name": "punctuation.separator.return-type.specman"},
-        "3": {"name": "meta.method.return-type.specman storage.type.specman"},
-        "4": {"name": "meta.method.return-type.specman meta.width-modifier.specman"},
-        "5": {"name": "meta.method.return-type.specman keyword.operator.width-modifier.specman"}
+        "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"}
       },
       "patterns": [
         {
-          "match": "(?:({{valid_id}})\\s*(:)\\s*(?:(\\*)?(?:{{valid_list_decl}})*({{valid_id}})\\s*(?:{{scalar_range_modifier}})?\\s*(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?))",
-          "captures": {
-            "0": {"name": "meta.method.parameters.specman"},
+          "name": "meta.method.parameters.specman",
+          "begin": "({{valid_id}})\\s*(:)\\s*(\\*)?(?=\\s*(?:list\\b|[a-zA-Z_]))",
+          "beginCaptures": {
             "1": {"name": "variable.parameter.specman"},
             "2": {"name": "punctuation.separator.parameter.specman"},
-            "3": {"name": "punctuation.accessor.parameter.specman"},
-            "4": {"name": "storage.type.specman"},
-            "5": {"name": "meta.width-modifier.specman"},
-            "6": {"name": "keyword.operator.width-modifier.specman"}
-          }
+            "3": {"name": "punctuation.accessor.parameter.specman"}
+          },
+          "end": "(?=[,)])",
+          "patterns": [
+            {
+              "match": "\\blist\\b(?:\\s*\\(\\s*key\\s*:\\s*{{valid_id}}\\s*\\))?\\s+\\bof\\b",
+              "name": "storage.modifier.specman"
+            },
+            {
+              "match": "(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))",
+              "captures": {
+                "1": {"name": "meta.width-modifier.specman"},
+                "2": {"name": "keyword.operator.width-modifier.specman"}
+              }
+            },
+            {
+              "match": "\\b({{valid_id}})\\b",
+              "name": "storage.type.specman"
+            },
+            { "include": "#literals" }
+          ]
         },
         {
           "match": ",",
@@ -1818,6 +1830,31 @@
     },
     "method-declaration-end": {
       "patterns": [
+        {
+          "comment": "Method return type after closing paren",
+          "begin": "(:)(?=\\s*(?:list\\b|[a-zA-Z_]))",
+          "beginCaptures": {
+            "1": {"name": "punctuation.separator.return-type.specman"}
+          },
+          "end": "(?=\\s*[;@]|\\s+is\\b)",
+          "patterns": [
+            {
+              "match": "\\blist\\b(?:\\s*\\(\\s*key\\s*:\\s*{{valid_id}}\\s*\\))?\\s+\\bof\\b",
+              "name": "meta.method.return-type.specman storage.modifier.specman"
+            },
+            {
+              "match": "(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))",
+              "captures": {
+                "1": {"name": "meta.method.return-type.specman meta.width-modifier.specman"},
+                "2": {"name": "meta.method.return-type.specman keyword.operator.width-modifier.specman"}
+              }
+            },
+            {
+              "match": "\\b({{valid_id}})\\b",
+              "name": "meta.method.return-type.specman storage.type.specman"
+            }
+          ]
+        },
         {
           "match": "(\\@)({{valid_id}})",
           "captures": {
