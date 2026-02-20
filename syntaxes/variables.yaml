@@ -34,7 +34,7 @@ singletons: sys|global|utils|message_manager|tf_domain_manager|rf_manager
 struct_access: package|protected|private
 concurrency_actions: first\\s+of|all\\s+of
 scalar_range_modifier: '\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\]'
-scalar_width_modifier: '\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\)'
+scalar_width_modifier: '\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\)'
 # Valid name that can also be a hierarchical reference
 valid_name: ([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)
 # Simple valid identifier

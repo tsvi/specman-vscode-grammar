@@ -362,19 +362,36 @@
       ]
     },
     "annotations": {
-      "match": "(@)([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(\\()([^)]*)(\\))",
-      "captures": {
+      "begin": "(@)([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(\\()",
+      "beginCaptures": {
         "1": {"name": "punctuation.definition.annotation.specman"},
         "2": {"name": "storage.type.annotation.specman"},
-        "3": {"name": "punctuation.section.parens.begin.specman"},
-        "4": {"name": "meta.annotation.arguments.specman"},
-        "5": {"name": "punctuation.section.parens.end.specman"}
-      }
+        "3": {"name": "punctuation.section.parens.begin.specman"}
+      },
+      "contentName": "meta.annotation.arguments.specman",
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"}
+      },
+      "patterns": [
+        {
+          "match": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(=)",
+          "captures": {
+            "1": {"name": "variable.parameter.specman"},
+            "2": {"name": "keyword.operator.assignment.specman"}
+          }
+        },
+        { "include": "#literals" },
+        {
+          "match": "(,)",
+          "name": "punctuation.separator.specman"
+        }
+      ]
     },
     "member-declaration": {
       "patterns": [
         {
-          "match": "(?:(package|protected|private)\\s+)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\blist\\s+of\\s+)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(?:\\s+(\\bis\\s+instance\\b))?\\s*(;)",
+          "match": "(?:(package|protected|private)\\s+)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(\\blist\\s+of\\s+)?\\b(in|out|inout)\\b\\s+([a-z]+_port\\s+of)\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?(?:\\s+(\\bis\\s+instance\\b))?\\s*(;)",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "variable.other.member.specman"},
@@ -402,7 +419,7 @@
           }
         },
         {
-          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)\\s*",
+          "match": "(?:(package|protected|private)\\s+)?(?:(static)\\s+)?(?:(const)\\s+)?([!|~]\\s*)?(%)?\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:(?:\\[\\s*[a-zA-Z0-9_]+\\s*\\]\\s*)+)?(:)\\s*((?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?)\\s*",
           "captures": {
             "1": {"name": "storage.modifier.access.specman"},
             "2": {"name": "storage.modifier.static.specman"},
@@ -504,7 +521,7 @@
     "scalar-type-definition": {
       "patterns": [
         {
-          "match": "\\b(type|extend)\\b\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?",
+          "match": "\\b(type|extend)\\b\\s+([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "storage.type.specman"},
@@ -524,7 +541,7 @@
           "patterns": [
             { "include": "#enum-values-declaration"}
           ],
-          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(\\s*;)",
+          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?(\\s*;)",
           "endCaptures": {
             "1": {"name": "punctuation.brackets.end.specman"},
             "2": {"name": "meta.width-modifier.specman"},
@@ -762,7 +779,7 @@
     "scalar-types": {
       "patterns": [
         {
-          "match": "\\s*(\\b(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)\\b",
+          "match": "\\s*(\\b(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*\\b(?:int|uint|longint|longuint|bit|nibble|byte|time|bool|numeric)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?)\\b",
           "captures": {
             "1": {"name": "storage.type.specman"}
           }
@@ -957,7 +974,7 @@
           "patterns": [
             {
               "comment": "type expression : type = expr",
-              "begin": "(:)\\s*((?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)\\s*(=)",
+              "begin": "(:)\\s*((?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?)\\s*(=)",
               "beginCaptures": {
                 "1": {"name": "punctuation.separator.type.specman"},
                 "2": {"name": "storage.type.specman"},
@@ -1280,7 +1297,7 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?",
+          "match": "\\b(var|item)\\b\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
@@ -1289,12 +1306,19 @@
           }
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\[\\s*)",
-          "captures": {
+          "begin": "(\\bvar\\b)\\s*(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*)(:)\\s*(\\[\\s*)",
+          "beginCaptures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
             "3": {"name": "punctuation.separator.type.specman"},
             "4": {"name": "punctuation.brackets.begin.specman"}
+          },
+          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?(\\s*;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.brackets.end.specman"},
+            "2": {"name": "meta.width-modifier.specman"},
+            "3": {"name": "keyword.operator.width-modifier.specman"},
+            "4": {"name": "punctuation.terminator.specman"}
           },
           "patterns": [{"include": "#enum-values-declaration"}]
         },
@@ -1462,23 +1486,33 @@
           ]
         },
         {
-          "match": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe|set_check|set_check_by_name|set_check_by_cover_item|simulator_command|bind|type_is_scalar|type_is_numeric|type_is_longint|type_is_signed|type_is_enum|type_is_bool|type_is_real|type_is_custom_numeric|type_is_struct|type_is_when_subtype|type_is_interface|type_is_list|type_is_keyed_list|type_is_port|type_is_simple_port|type_is_event_port|type_is_buffer_port|type_is_method_port|type_is_method_type|type_is_interface_port|type_is_tlm_socket|type_is_annotation|type_is_sequence|type_is_template_instance|type_is_set|type_is_string|type_list_elem|type_deep_list_elem|type_port_elem|type_bit_size|type_list_dim|element_type|base_list_elem_type|supertype|when_base|typeof|typeof_item)\\s*(\\()",
-          "captures": {
+          "comment": "Built-in function calls: func_name()",
+          "begin": "(assert|warning|error|fatal|hex|dec|bin|quote|str_chop|str_empty|str_exactly|str_insensitive|str_join|str_len|str_lower|str_match|str_pad|str_replace|str_split|str_split_all|str_sub|str_upper|abs|odd|even|ilog2|ilog10|ipow|isqrt|div_round_up|bitwise_or|bitwise_nand|bitwise_xor|bitwise_nor|bitwise_xnor|dist_uniform|dist_normal|rdist_uniform|rdist_normal|messagef|message|appendf|append|dut_errorf|dut_error|out|outf|get_unit|get_all_units|get_enclosing_unit|try_enclosing_unit|set_unit|pack|unpack|all_values|full_set_of_values|set_of_values|to_specman_scale|from_specman_scale|to_specman_scale_trunc|from_specman_scale_trunc|to_real_specman_scale|from_real_specman_scale|double_to_specman_scale|double_from_specman_scale|read_only|value|sn_unique_id_for_struct|deep_copy|deep_compare|deep_compare_physical|bitwise_and|range|unsafe|set_check|set_check_by_name|set_check_by_cover_item|simulator_command|bind|type_is_scalar|type_is_numeric|type_is_longint|type_is_signed|type_is_enum|type_is_bool|type_is_real|type_is_custom_numeric|type_is_struct|type_is_when_subtype|type_is_interface|type_is_list|type_is_keyed_list|type_is_port|type_is_simple_port|type_is_event_port|type_is_buffer_port|type_is_method_port|type_is_method_type|type_is_interface_port|type_is_tlm_socket|type_is_annotation|type_is_sequence|type_is_template_instance|type_is_set|type_is_string|type_list_elem|type_deep_list_elem|type_port_elem|type_bit_size|type_list_dim|element_type|base_list_elem_type|supertype|when_base|typeof|typeof_item)\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman",
-          "patterns": [ { "include": "#function-call-parameters" } ]
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{ "include": "#function-call-innards" }]
         },
         {
-          "match": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
-          "captures": {
+          "comment": "Built-in member function calls: obj.method()",
+          "begin": "([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above|check|copy|get_printed_lines|do_print|extract|finalize|init|quit|run|rerun|agent_code|agent||analog_agent_code|analog_code|e_path|full_external_uvm_path|full_hdl_path|get_children|get_hdl_language|get_native_path_name|get_parent_unit|get_ports|get_ports_recursively|hdl_path|pack_options|per_inst_cover|short_name_path|short_name|short_name_style)\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "variable.other.specman"},
             "2": {"name": "support.function.builtin.specman"},
             "3": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman",
-          "patterns": [ { "include": "#function-call-parameters" } ]
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{ "include": "#function-call-innards" }]
         },
         {
           "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*\\)\\s*)?(in)\\s+(?:([a-zA-Z](?:[a-zA-Z0-9_.:]+)?))(?=\\s*\\{)",
@@ -1551,42 +1585,46 @@
       ]
     },
     "function-calls": {
-      "match": "(?=\\b([a-zA-Z](?:[a-zA-Z0-9_.:]+)?)\\b\\s*\\()",
-      "patterns": [{"include": "#function-consume"}]
-    },
-    "function-consume": {
-      "name": "meta.function-call.specman",
       "patterns": [
         {
-          "match": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above)\\s*(\\()",
-          "captures": {
+          "comment": "Built-in member function calls: obj.method()",
+          "begin": "\\.(add|add0|clear|delete|fast_delete|insert|pop0|pop|push0|push|resize|all_different|apply|copy|count|exists|first|first_index|flatten|get_indices|has|is_a_permutation|is_all_iterations|is_empty|last|last_index|max|max_index|max_value|min|min_index|min_value|reverse|size|sort|sort_by_field|split|top0|top|unique|all|all_indices|and_all|or_all|average|product|sum|crc_8|crc_32|crc_32_flip|key|key_index|key_exists|pack_struct|external_type|hdl_convertor|hdl_expression|reset_soft|e_impl|driver|driver_delay|edge|inverse|pack_options|pli_access|pli_field_access|read_type|to_string|union|intersect|diff|size|uint_size|size_is_uint|min|max|int_min|int_max|min_is_int|max_is_int|uint_min|uint_max|min_is_uint|max_is_uint|get_all_ranges|collect_all_ranges|get_range|get_range_below|get_range_above)\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "patterns": [{"include": "#function-call-parameters"}]
+          "name": "meta.function-call.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{"include": "#function-call-innards"}]
         },
         {
-          "match": "\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(\\()",
-          "captures": {
+          "comment": "User-defined function calls: foo()",
+          "begin": "\\b([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "variable.function.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "patterns": [{"include": "#function-call-parameters"}]
+          "name": "meta.function-call.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{"include": "#function-call-innards"}]
         }
       ]
     },
-    "function-call-parameters": {
-      "end": "(\\))\\s*(?=;)?",
-      "endCaptures": {
-        "1": {"name": "punctuation.section.parens.end.specman"},
-        "2": {"name": "punctuation.terminator.specman"}
-      },
+    "function-call-innards": {
       "patterns": [
         {
           "match": "(,)",
           "name": "punctuation.separator.specman"
         },
-        { "include": "#actions" }
+        { "include": "#function-calls" },
+        { "include": "#priority-scopes" },
+        { "include": "#default-scopes" }
       ]
     },
     "extend-with-when-subtypes": {
@@ -1696,7 +1734,7 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b(?!of\\b)([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*\\(",
+      "begin": "(package|protected|private)?\\s*(static\\s+)?(final\\s+)?\\s*\\b(?!of\\b)([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\b\\s*(?=\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
@@ -1721,7 +1759,7 @@
       "beginCaptures": {
         "0": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
       },
-      "end": "(\\))\\s*(?:(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?)?",
+      "end": "(\\))\\s*(?:(:)\\s*(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?)?",
       "endCaptures": {
         "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"},
         "2": {"name": "punctuation.separator.return-type.specman"},
@@ -1729,7 +1767,7 @@
       },
       "patterns": [
         {
-          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*(?:[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*)(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?))",
+          "match": "(?:([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(:)\\s*(?:(\\*)?(?:(?:list(?:\\s*\\(\\s*key\\s*:\\s*[a-zA-Z](?:[a-zA-Z0-9_]+)?\\s*\\))?\\s+of\\s+))*([a-zA-Z](?:[a-zA-Z0-9_]+)?)\\s*(?:\\[\\s*\\S+\\s*\\.\\.\\s*\\S+\\s*\\])?\\s*(?:\\(\\s*(?:bits|bytes)\\s*:\\s*[^)]+\\))?))",
           "captures": {
             "0": {"name": "meta.method.parameters.specman"},
             "1": {"name": "variable.parameter.specman"},
@@ -1764,7 +1802,7 @@
           }
         },
         {
-          "match": "(is)\\s+(only|first|also)?\\s+(imported)",
+          "match": "(is)\\s+(?:(only|first|also)\\s+)?(imported)",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
             "2": {"name": "keyword.modifier.function.specman"},
