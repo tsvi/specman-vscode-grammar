@@ -24,6 +24,7 @@
             { "include": "#structs" },
             { "include": "#macros" },
             { "include": "#templates"},
+            { "include": "#method-type-declaration"},
             { "include": "#code"}
           ]
         }
@@ -70,6 +71,21 @@
         "2": {"name": "entity.name.filename.specman"},
         "3": {"name": "punctuation.terminator.specman"}
       }
+    },
+    "method-type-declaration": {
+      "begin": "(\\bmethod_type\\b)\\s+\\b({{valid_id}})\\b\\s*(?=\\()",
+      "beginCaptures": {
+        "1": {"name": "meta.function.method_type.specman keyword.declaration.specman"},
+        "2": {"name": "meta.function.method_type.specman entity.name.function.specman"}
+      },
+      "end": "(;)",
+      "endCaptures": {
+        "1": {"name": "punctuation.terminator.specman"}
+      },
+      "patterns": [
+        { "include": "#method-parameters"},
+        { "include": "#method-declaration-end"}
+      ]
     },
     "structs": {
       "patterns": [
@@ -339,6 +355,7 @@
     },
     "code": {
       "patterns": [
+        { "include": "#annotations"},
         { "include": "#member-declaration"},
         { "include": "#scalar-type-definition" },
         { "include": "#priority-scopes"},
@@ -350,6 +367,33 @@
         { "include": "#code-blocks" },
         { "include": "#methods"},
         { "include": "#default-scopes" }
+      ]
+    },
+    "annotations": {
+      "begin": "(@)({{valid_id}})\\s*(\\()",
+      "beginCaptures": {
+        "1": {"name": "punctuation.definition.annotation.specman"},
+        "2": {"name": "storage.type.annotation.specman"},
+        "3": {"name": "punctuation.section.parens.begin.specman"}
+      },
+      "contentName": "meta.annotation.arguments.specman",
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {"name": "punctuation.section.parens.end.specman"}
+      },
+      "patterns": [
+        {
+          "match": "({{valid_id}})\\s*(=)",
+          "captures": {
+            "1": {"name": "variable.parameter.specman"},
+            "2": {"name": "keyword.operator.assignment.specman"}
+          }
+        },
+        { "include": "#literals" },
+        {
+          "match": "(,)",
+          "name": "punctuation.separator.specman"
+        }
       ]
     },
     "member-declaration": {
@@ -485,7 +529,7 @@
     "scalar-type-definition": {
       "patterns": [
         {
-          "match": "\\b(type|extend)\\b\\s+({{valid_id}})\\s*(:)\\s*{{valid_type}}",
+          "match": "\\b(type|extend)\\b\\s+({{valid_id}})\\s*(:)\\s*(?:{{valid_list_decl}})*({{valid_id}})\\s*(?:{{scalar_range_modifier}})?\\s*(?:{{scalar_width_modifier}})?",
           "captures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "storage.type.specman"},
@@ -505,7 +549,7 @@
           "patterns": [
             { "include": "#enum-values-declaration"}
           ],
-          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[\\d\\*]+\\s*\\))?(\\s*;)",
+          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?(\\s*;)",
           "endCaptures": {
             "1": {"name": "punctuation.brackets.end.specman"},
             "2": {"name": "meta.width-modifier.specman"},
@@ -1261,21 +1305,39 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var|item)\\b\\s*(?:({{valid_id}})\\s*)(:)\\s*{{valid_type}}",
-          "captures": {
+          "begin": "\\b(var|item)\\b\\s*(?:({{valid_id}})\\s*)(:)(?=\\s*(?:list\\s|{{valid_id}}))",
+          "beginCaptures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
-            "3": {"name": "punctuation.separator.type.specman"},
-            "4": {"name": "storage.type.specman"}
-          }
+            "3": {"name": "punctuation.separator.type.specman"}
+          },
+          "end": "(?=[;={]|:=)",
+          "patterns": [
+            {
+              "match": "\\blist\\s+of\\b",
+              "name": "storage.modifier.specman"
+            },
+            {
+              "match": "\\b({{valid_id}})\\b",
+              "name": "storage.type.specman"
+            },
+            { "include": "#literals" }
+          ]
         },
         {
-          "match": "(\\bvar\\b)\\s*(?:({{valid_id}})\\s*)(:)\\s*(\\[\\s*)",
-          "captures": {
+          "begin": "(\\bvar\\b)\\s*(?:({{valid_id}})\\s*)(:)\\s*(\\[\\s*)",
+          "beginCaptures": {
             "1": {"name": "keyword.declaration.specman"},
             "2": {"name": "variable.other.specman"},
             "3": {"name": "punctuation.separator.type.specman"},
             "4": {"name": "punctuation.brackets.begin.specman"}
+          },
+          "end": "(\\]\\s*)(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?(\\s*;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.brackets.end.specman"},
+            "2": {"name": "meta.width-modifier.specman"},
+            "3": {"name": "keyword.operator.width-modifier.specman"},
+            "4": {"name": "punctuation.terminator.specman"}
           },
           "patterns": [{"include": "#enum-values-declaration"}]
         },
@@ -1308,11 +1370,19 @@
           ]
         },
         {
-          "match": "(\\bmethod_type\\b)\\s+\\b({{valid_id}})\\b\\s*(?=\\()",
-          "captures": {
+          "begin": "(\\bmethod_type\\b)\\s+\\b({{valid_id}})\\b\\s*(?=\\()",
+          "beginCaptures": {
             "1": {"name": "meta.function.method_type.specman keyword.declaration.specman"},
             "2": {"name": "meta.function.method_type.specman entity.name.function.specman"}
-          }
+          },
+          "end": "(;)",
+          "endCaptures": {
+            "1": {"name": "punctuation.terminator.specman"}
+          },
+          "patterns": [
+            { "include": "#method-parameters"},
+            { "include": "#method-declaration-end"}
+          ]
         },
         {
           "match": "(#\\s*(?:undef))\\s*((?:`)?({{valid_id}}))",
@@ -1443,23 +1513,33 @@
           ]
         },
         {
-          "match": "({{built_in_functions}})\\s*(\\()",
-          "captures": {
+          "comment": "Built-in function calls: func_name()",
+          "begin": "({{built_in_functions}})\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman",
-          "patterns": [ { "include": "#function-call-parameters" } ]
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{ "include": "#function-call-innards" }]
         },
         {
-          "match": "({{valid_id}})\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}}|{{any_struct_member_functions}}|{{any_unit_member_functions}})\\s*(\\()",
-          "captures": {
+          "comment": "Built-in member function calls: obj.method()",
+          "begin": "({{valid_id}})\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}}|{{any_struct_member_functions}}|{{any_unit_member_functions}})\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "variable.other.specman"},
             "2": {"name": "support.function.builtin.specman"},
             "3": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "name": "meta.function-call.builtin.specman",
-          "patterns": [ { "include": "#function-call-parameters" } ]
+          "contentName": "meta.function-call.builtin.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{ "include": "#function-call-innards" }]
         },
         {
           "match": "(\\bfor\\s+each\\b)\\s*(?:\\(\\s*({{valid_id}})\\s*\\)\\s*)?(?:\\busing\\s+index\\s*\\(\\s*({{valid_id}})\\s*\\)\\s*)?(in)\\s+(?:{{valid_name}})(?=\\s*\\{)",
@@ -1532,42 +1612,46 @@
       ]
     },
     "function-calls": {
-      "match": "(?=\\b{{valid_name}}\\b\\s*\\()",
-      "patterns": [{"include": "#function-consume"}]
-    },
-    "function-consume": {
-      "name": "meta.function-call.specman",
       "patterns": [
         {
-          "match": "\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}})\\s*(\\()",
-          "captures": {
+          "comment": "Built-in member function calls: obj.method()",
+          "begin": "\\.({{list_pseudo_methods}}|{{built_in_member_functions}}|{{set_pseudo_methods}})\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "patterns": [{"include": "#function-call-parameters"}]
+          "name": "meta.function-call.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{"include": "#function-call-innards"}]
         },
         {
-          "match": "\\b({{valid_id}})\\b\\s*(\\()",
-          "captures": {
+          "comment": "User-defined function calls: foo()",
+          "begin": "\\b({{valid_id}})\\b\\s*(\\()",
+          "beginCaptures": {
             "1": {"name": "variable.function.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
           },
-          "patterns": [{"include": "#function-call-parameters"}]
+          "name": "meta.function-call.specman",
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {"name": "punctuation.section.parens.end.specman"}
+          },
+          "patterns": [{"include": "#function-call-innards"}]
         }
       ]
     },
-    "function-call-parameters": {
-      "end": "(\\))\\s*(?=;)?",
-      "endCaptures": {
-        "1": {"name": "punctuation.section.parens.end.specman"},
-        "2": {"name": "punctuation.terminator.specman"}
-      },
+    "function-call-innards": {
       "patterns": [
         {
           "match": "(,)",
           "name": "punctuation.separator.specman"
         },
-        { "include": "#actions" }
+        { "include": "#function-calls" },
+        { "include": "#priority-scopes" },
+        { "include": "#default-scopes" }
       ]
     },
     "extend-with-when-subtypes": {
@@ -1677,7 +1761,7 @@
       "patterns": [ { "include": "#code" } ]
     },
     "methods": {
-      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b(?!of\\b)({{valid_id}})\\b\\s*\\(",
+      "begin": "({{struct_access}})?\\s*(static\\s+)?(final\\s+)?\\s*\\b(?!of\\b)({{valid_id}})\\b\\s*(?=\\()",
       "beginCaptures": {
         "1": {"name": "storage.modifier.function.specman"},
         "2": {"name": "storage.modifier.function.specman"},
@@ -1690,10 +1774,11 @@
         { "include": "#method-declaration-end"},
         { "include": "#method-contents"}
       ],
-      "end": "(\\})\\s*(;)",
+      "end": "(\\})\\s*(;)|(?<=imported|empty|undefined|\\bsv_impl)\\s*(;)",
       "endCaptures": {
         "1": {"name": "punctuation.section.method.end.specman"},
-        "2": {"name": "punctuation.terminator.specman"}
+        "2": {"name": "punctuation.terminator.specman"},
+        "3": {"name": "punctuation.terminator.specman"}
       }
     },
     "method-parameters": {
@@ -1701,21 +1786,25 @@
       "beginCaptures": {
         "0": {"name": "meta.method.parameters.specman punctuation.section.parens.begin.specman"}
       },
-      "end": "(\\))\\s*(?:(:)\\s*{{valid_type}})?",
+      "end": "(\\))\\s*(?:(:)\\s*(?:{{valid_list_decl}})*({{valid_id}})\\s*(?:{{scalar_range_modifier}})?\\s*(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?)?",
       "endCaptures": {
         "1": {"name": "meta.method.parameters.specman punctuation.section.parens.end.specman"},
         "2": {"name": "punctuation.separator.return-type.specman"},
-        "3": {"name": "meta.method.return-type.specman storage.type.specman"}
+        "3": {"name": "meta.method.return-type.specman storage.type.specman"},
+        "4": {"name": "meta.method.return-type.specman meta.width-modifier.specman"},
+        "5": {"name": "meta.method.return-type.specman keyword.operator.width-modifier.specman"}
       },
       "patterns": [
         {
-          "match": "(?:({{valid_id}})\\s*(:)\\s*(?:(\\*)?{{valid_type}}))",
+          "match": "(?:({{valid_id}})\\s*(:)\\s*(?:(\\*)?(?:{{valid_list_decl}})*({{valid_id}})\\s*(?:{{scalar_range_modifier}})?\\s*(\\(\\s*(bits|bytes)\\s*:\\s*[^)]+\\))?))",
           "captures": {
             "0": {"name": "meta.method.parameters.specman"},
             "1": {"name": "variable.parameter.specman"},
             "2": {"name": "punctuation.separator.parameter.specman"},
             "3": {"name": "punctuation.accessor.parameter.specman"},
-            "4": {"name": "storage.type.specman"}
+            "4": {"name": "storage.type.specman"},
+            "5": {"name": "meta.width-modifier.specman"},
+            "6": {"name": "keyword.operator.width-modifier.specman"}
           }
         },
         {
@@ -1737,20 +1826,27 @@
           }
         },
         {
-          "match": "(is)\\s+(empty|undefined)\\s*(;)",
+          "match": "(is)\\s+(empty|undefined)",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
-            "2": {"name": "keyword.modifier.function.specman"},
-            "3": {"name": "punctuation.terminator.specman"}
+            "2": {"name": "keyword.modifier.function.specman"}
           }
         },
         {
-          "match": "(is)\\s+(only|first|also)?\\s+(imported)\\s*(;)",
+          "match": "(is)\\s+(?:(only|first|also)\\s+)?(imported)",
           "captures": {
             "1": {"name": "keyword.other.function.specman"},
             "2": {"name": "keyword.modifier.function.specman"},
-            "3": {"name": "keyword.modifier.function.specman"},
-            "4": {"name": "punctuation.terminator.specman"}
+            "3": {"name": "keyword.modifier.function.specman"}
+          }
+        },
+        {
+          "match": "(is)\\s+(import)\\s+(DPI-C)\\s+({{valid_id}})",
+          "captures": {
+            "1": {"name": "keyword.other.function.specman"},
+            "2": {"name": "keyword.other.function.specman"},
+            "3": {"name": "keyword.declaration.specman"},
+            "4": {"name": "entity.name.function.external.specman"}
           }
         },
         {
