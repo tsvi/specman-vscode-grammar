@@ -25,10 +25,10 @@ struct mytrans {
 //            ^^^^^^^ variable.parameter.specman
 //                    ^ punctuation.separator.parameter.specman
 //                      ^^^^^^^^^^^^ storage.type.specman
-//                                   ^ variable.parameter.specman
-//                                     ^ punctuation.separator.parameter.specman
-//                                       ^^^^^^^ storage.modifier.specman
-//                                               ^^^ storage.type.specman
+//                                    ^ variable.parameter.specman
+//                                      ^ punctuation.separator.parameter.specman
+//                                        ^^^^^^^ storage.modifier.specman
+//                                                ^^^ storage.type.specman
 //                                                     ^^^^^ variable.parameter.specman
 //                                                           ^ punctuation.separator.parameter.specman
 //                                                             ^^^ storage.type.specman

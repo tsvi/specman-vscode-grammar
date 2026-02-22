@@ -1514,7 +1514,7 @@
         },
         {
           "comment": "Built-in function calls: func_name()",
-          "begin": "({{built_in_functions}})\\s*(\\()",
+          "begin": "\\b({{built_in_functions}})\\s*(\\()",
           "beginCaptures": {
             "1": {"name": "support.function.builtin.specman"},
             "2": {"name": "punctuation.section.parens.begin.specman"}
