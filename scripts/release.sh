@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: ./scripts/bump-version.sh [-n|--dry-run] <patch|minor|major|prerelease|VERSION>
+# Usage: ./scripts/release.sh [-n|--dry-run] <patch|minor|major|prerelease|VERSION>
 # Examples:
-#   ./scripts/bump-version.sh patch        # 0.2.11 -> 0.2.12
-#   ./scripts/bump-version.sh minor        # 0.2.11 -> 0.3.0
-#   ./scripts/bump-version.sh major        # 0.2.11 -> 1.0.0
-#   ./scripts/bump-version.sh prerelease   # 0.2.11 -> 0.2.12 (published as VS Code pre-release)
-#   ./scripts/bump-version.sh 0.4.0        # explicit version
-#   ./scripts/bump-version.sh -n patch     # dry run — show what would happen
+#   ./scripts/release.sh patch        # 0.2.11 -> 0.2.12
+#   ./scripts/release.sh minor        # 0.2.11 -> 0.3.0
+#   ./scripts/release.sh major        # 0.2.11 -> 1.0.0
+#   ./scripts/release.sh prerelease   # 0.2.11 -> 0.2.12 (published as VS Code pre-release)
+#   ./scripts/release.sh 0.4.0        # explicit version
+#   ./scripts/release.sh -n patch     # dry run — show what would happen
 
 DRY_RUN=false
 if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
@@ -74,6 +74,33 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Save the current branch/ref so we can return to it later
+ORIGINAL_REF=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD)
+
+# Check if working tree is dirty and offer to stash
+DID_STASH=false
+if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+  if [ "$DRY_RUN" = true ]; then
+    echo ""
+    echo "Working tree is dirty — would prompt to stash changes."
+  else
+    echo ""
+    echo "Working tree is not clean."
+    read -rp "Stash changes before proceeding? [Y/n] " answer
+    case "${answer:-Y}" in
+      [Yy]*)
+        git stash push -u -m "release.sh: auto-stash before release v${VERSION}"
+        DID_STASH=true
+        echo "Changes stashed."
+        ;;
+      *)
+        echo "Aborting. Commit or stash your changes manually first."
+        exit 1
+        ;;
+    esac
+  fi
+fi
+
 # Define all release steps (used for both dry-run and error recovery)
 STEPS=(
   "git fetch origin main && git checkout -b '$BRANCH' origin/main"
@@ -82,6 +109,9 @@ STEPS=(
   "git add package.json package-lock.json CHANGELOG.md && git commit -m 'Bump version to $VERSION'"
   "git push -u origin '$BRANCH'"
   "gh pr create --title 'Release v${VERSION}' --body 'Automated version bump to ${VERSION}.' --base main --label 'version-update${PRERELEASE_LABEL}'"
+  "git checkout '$ORIGINAL_REF'"
+  "git branch -D '$BRANCH'"
+  "git push origin --delete '$BRANCH'"
 )
 
 STEP_LABELS=(
@@ -91,6 +121,9 @@ STEP_LABELS=(
   "Commit changes"
   "Push branch '$BRANCH' to origin"
   "Open PR: \"Release v${VERSION}\" with labels: version-update${PRERELEASE_LABEL}"
+  "Switch back to original branch '$ORIGINAL_REF'"
+  "Delete local branch '$BRANCH'"
+  "Delete remote branch '$BRANCH'"
 )
 
 if [ "$DRY_RUN" = true ]; then
@@ -100,13 +133,11 @@ if [ "$DRY_RUN" = true ]; then
     echo "  $((i + 1)). ${STEP_LABELS[$i]}"
     echo "     $ ${STEPS[$i]}"
   done
+  if [ "$DID_STASH" = false ] && (! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]); then
+    echo "  $((${#STEPS[@]} + 1)). Pop stashed changes"
+    echo "     $ git stash pop"
+  fi
   exit 0
-fi
-
-# Ensure working tree is clean
-if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
-  echo "Error: working tree is not clean. Commit or stash changes first."
-  exit 1
 fi
 
 # --- Helper: print remaining steps on failure ---
@@ -120,6 +151,10 @@ fail() {
     echo "  $((i + 1)). ${STEP_LABELS[$i]}"
     echo "     $ ${STEPS[$i]}"
   done
+  if [ "$DID_STASH" = true ]; then
+    echo "  $((${#STEPS[@]} + 1)). Pop stashed changes"
+    echo "     $ git stash pop"
+  fi
   exit 1
 }
 
@@ -128,6 +163,12 @@ for i in "${!STEPS[@]}"; do
   echo "Step $((i + 1)): ${STEP_LABELS[$i]}"
   eval "${STEPS[$i]}" || fail "$i"
 done
+
+# Restore stashed changes
+if [ "$DID_STASH" = true ]; then
+  echo "Restoring stashed changes..."
+  git stash pop
+fi
 
 echo ""
 echo "PR created for v${VERSION}. CI will validate and auto-merge."
