@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.16] - 2026-02-24
+
+- Fix method parameters (#20)
+
 ## [0.2.15] - 2026-02-24
 
 - Various (non-compilable) constructs (#18)
@@ -131,7 +135,8 @@ _No notable changes._
 - Build script with Jinja2 template support
 - Grammar test infrastructure
 
-[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.15...HEAD
+[Unreleased]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.16...HEAD
+[0.2.16]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.15...v0.2.16
 [0.2.15]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.14...v0.2.15
 [0.2.14]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.13...v0.2.14
 [0.2.13]: https://github.com/tsvi/specman-vscode-grammar/compare/v0.2.12-beta.1...v0.2.13
