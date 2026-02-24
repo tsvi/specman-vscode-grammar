@@ -43,7 +43,7 @@
         "build:validate": "./build.py --validate",
         "test": "vscode-tmgrammar-test -c 'tests/test*.e'",
         "package": "./build.py && vsce package",
-        "release": "./scripts/bump-version.sh",
+        "release": "./scripts/release.sh",
         "promote": "gh workflow run release.yml"
     },
     "repository": {
