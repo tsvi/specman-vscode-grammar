@@ -200,7 +200,7 @@ echo "Waiting for PR to be merged..."
 # Poll until the PR is merged (or closed without merge)
 POLL_INTERVAL=10
 while true; do
-  PR_STATE=$(gh pr view "$BRANCH" --json state --jq .state 2>/dev/null || echo "UNKNOWN")
+  PR_STATE=$(gh pr view "$BRANCH" --json state --jq .state || { echo "Warning: failed to fetch PR state for branch '$BRANCH'; falling back to UNKNOWN." >&2; echo "UNKNOWN"; })
   case "$PR_STATE" in
     MERGED)
       echo "PR merged!"
@@ -215,7 +215,7 @@ while true; do
       exit 0
       ;;
     *)
-      printf "  PR state: %s — checking again in %ds...\r" "$PR_STATE" "$POLL_INTERVAL"
+      printf '\r\033[K  PR state: %s — checking again in %ds...' "$PR_STATE" "$POLL_INTERVAL"
       sleep "$POLL_INTERVAL"
       ;;
   esac
@@ -224,7 +224,7 @@ done
 # Cleanup: delete release branch locally and remotely
 for i in "${!CLEANUP_STEPS[@]}"; do
   echo "Cleanup: ${CLEANUP_LABELS[$i]}"
-  eval "${CLEANUP_STEPS[$i]}" || echo "  Warning: cleanup step failed (non-fatal)"
+  eval "${CLEANUP_STEPS[$i]}" || echo "  Warning: ${CLEANUP_LABELS[$i]} failed (non-fatal)"
 done
 
 echo ""
