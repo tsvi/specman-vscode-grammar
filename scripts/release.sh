@@ -101,7 +101,7 @@ if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --
   fi
 fi
 
-# Define all release steps (used for both dry-run and error recovery)
+# Define release steps (used for both dry-run and error recovery)
 STEPS=(
   "git fetch origin main && git checkout -b '$BRANCH' origin/main"
   "npm version '$VERSION' --no-git-tag-version"
@@ -110,8 +110,6 @@ STEPS=(
   "git push -u origin '$BRANCH'"
   "gh pr create --title 'Release v${VERSION}' --body 'Automated version bump to ${VERSION}.' --base main --label 'version-update${PRERELEASE_LABEL}'"
   "git checkout '$ORIGINAL_REF'"
-  "git branch -D '$BRANCH'"
-  "git push origin --delete '$BRANCH'"
 )
 
 STEP_LABELS=(
@@ -122,6 +120,15 @@ STEP_LABELS=(
   "Push branch '$BRANCH' to origin"
   "Open PR: \"Release v${VERSION}\" with labels: version-update${PRERELEASE_LABEL}"
   "Switch back to original branch '$ORIGINAL_REF'"
+)
+
+# Cleanup steps run after the PR is merged
+CLEANUP_STEPS=(
+  "git branch -D '$BRANCH'"
+  "git push origin --delete '$BRANCH'"
+)
+
+CLEANUP_LABELS=(
   "Delete local branch '$BRANCH'"
   "Delete remote branch '$BRANCH'"
 )
@@ -129,12 +136,22 @@ STEP_LABELS=(
 if [ "$DRY_RUN" = true ]; then
   echo ""
   echo "Dry run — the following actions would be performed:"
+  step_num=1
   for i in "${!STEP_LABELS[@]}"; do
-    echo "  $((i + 1)). ${STEP_LABELS[$i]}"
+    echo "  ${step_num}. ${STEP_LABELS[$i]}"
     echo "     $ ${STEPS[$i]}"
+    ((step_num++))
+  done
+  echo "  ${step_num}. Wait for PR to be merged"
+  echo "     $ gh pr view '$BRANCH' --json state --jq .state  (poll every 10s)"
+  ((step_num++))
+  for i in "${!CLEANUP_LABELS[@]}"; do
+    echo "  ${step_num}. ${CLEANUP_LABELS[$i]}"
+    echo "     $ ${CLEANUP_STEPS[$i]}"
+    ((step_num++))
   done
   if [ "$DID_STASH" = false ] && (! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]); then
-    echo "  $((${#STEPS[@]} + 1)). Pop stashed changes"
+    echo "  ${step_num}. Pop stashed changes"
     echo "     $ git stash pop"
   fi
   exit 0
@@ -151,24 +168,64 @@ fail() {
     echo "  $((i + 1)). ${STEP_LABELS[$i]}"
     echo "     $ ${STEPS[$i]}"
   done
+  local next=$(( ${#STEPS[@]} + 1 ))
+  echo "  ${next}. Wait for PR to be merged, then:"
+  for ((i = 0; i < ${#CLEANUP_STEPS[@]}; i++)); do
+    echo "  $((next + 1 + i)). ${CLEANUP_LABELS[$i]}"
+    echo "     $ ${CLEANUP_STEPS[$i]}"
+  done
   if [ "$DID_STASH" = true ]; then
-    echo "  $((${#STEPS[@]} + 1)). Pop stashed changes"
+    echo "  $((next + 1 + ${#CLEANUP_STEPS[@]})). Pop stashed changes"
     echo "     $ git stash pop"
   fi
   exit 1
 }
 
-# Execute each step
+# Execute release steps
 for i in "${!STEPS[@]}"; do
   echo "Step $((i + 1)): ${STEP_LABELS[$i]}"
   eval "${STEPS[$i]}" || fail "$i"
 done
 
-# Restore stashed changes
+# Restore stashed changes (we're back on the original branch now)
 if [ "$DID_STASH" = true ]; then
   echo "Restoring stashed changes..."
   git stash pop
 fi
 
 echo ""
-echo "PR created for v${VERSION}. CI will validate and auto-merge."
+echo "PR created for v${VERSION}."
+echo "Waiting for PR to be merged..."
+
+# Poll until the PR is merged (or closed without merge)
+POLL_INTERVAL=10
+while true; do
+  PR_STATE=$(gh pr view "$BRANCH" --json state --jq .state || { echo "Warning: failed to fetch PR state for branch '$BRANCH'; falling back to UNKNOWN." >&2; echo "UNKNOWN"; })
+  case "$PR_STATE" in
+    MERGED)
+      echo "PR merged!"
+      break
+      ;;
+    CLOSED)
+      echo "PR was closed without merging. Skipping branch cleanup."
+      echo "To delete branches manually:"
+      for i in "${!CLEANUP_STEPS[@]}"; do
+        echo "  $ ${CLEANUP_STEPS[$i]}"
+      done
+      exit 0
+      ;;
+    *)
+      printf '\r\033[K  PR state: %s — checking again in %ds...' "$PR_STATE" "$POLL_INTERVAL"
+      sleep "$POLL_INTERVAL"
+      ;;
+  esac
+done
+
+# Cleanup: delete release branch locally and remotely
+for i in "${!CLEANUP_STEPS[@]}"; do
+  echo "Cleanup: ${CLEANUP_LABELS[$i]}"
+  eval "${CLEANUP_STEPS[$i]}" || echo "  Warning: ${CLEANUP_LABELS[$i]} failed (non-fatal)"
+done
+
+echo ""
+echo "Release v${VERSION} complete. Branch '$BRANCH' cleaned up."
